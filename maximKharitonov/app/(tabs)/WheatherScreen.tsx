@@ -1,3 +1,4 @@
+// WheatherScreen
 import React, { useEffect, useState, useMemo } from 'react';
 import {
     View,
@@ -10,9 +11,9 @@ import {
     FlatList,
 } from 'react-native';
 import axios from 'axios';
+import { useAppContext } from '@/components/AppContext'; 
 
-const API_KEY = '7c6b17f0cd7a80b5b2aaa1ba44838279'; 
-
+const API_KEY = '7c6b17f0cd7a80b5b2aaa1ba44838279';
 
 const CITY_DATA = [
     { name: 'Якутск,ru' },
@@ -26,26 +27,29 @@ const CITY_DATA = [
     { name: 'Омск,ru' },
 ];
 
-const Explore: React.FC = () => {
+const WheatherScreen: React.FC = () => {
+    const { currentCity, setCurrentCity, isDarkTheme } = useAppContext(); 
     const [weatherData, setWeatherData] = useState<any>(null);
     const [loading, setLoading] = useState<boolean>(true);
-    const [currentCity, setCurrentCity] = useState<string>(CITY_DATA[0].name); 
-    const [modalVisible, setModalVisible] = useState<boolean>(false); 
+    const [modalVisible, setModalVisible] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null); 
 
     const fetchWeather = async () => {
-        setLoading(true); 
+        setLoading(true);
+        setError(null); 
         try {
             const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${currentCity}&appid=${API_KEY}&units=metric`);
             setWeatherData(response.data);
         } catch (error) {
             console.error('Error fetching weather data:', error);
+            setError('Не удалось загрузить данные о погоде.'); 
         } finally {
-            setLoading(false); 
+            setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchWeather(); 
+        fetchWeather();
     }, [currentCity]);
 
     const weatherDescription = useMemo(() => {
@@ -55,20 +59,22 @@ const Explore: React.FC = () => {
 
     const handleCityChange = (city: string) => {
         setCurrentCity(city);
-        setModalVisible(false); 
+        setModalVisible(false);
     };
 
     return (
-        <View style={styles.container}>
+        <View style={isDarkTheme ? styles.containerDark : styles.containerLight}>
             {loading ? (
                 <ActivityIndicator size="large" color="#0000ff" />
+            ) : error ? (
+                <Text style={styles.error}>{error}</Text> 
             ) : (
                 <>
-                    <Text style={styles.title}>Погода в {currentCity.split(',')[0]}</Text>
+                    <Text style={styles.title}>{`Погода в ${currentCity.split(',')[0]}`}</Text>
                     <Text style={styles.weather}>{weatherDescription}</Text>
-                    <Button title="Сменить город" onPress={() => setModalVisible(true)} />
-
-                    {/* Модальное окно для выбора города */}
+                    <View style={styles.buttonContainer}>
+                        <Button title="Сменить город" onPress={() => setModalVisible(true)} />
+                    </View>
                     <Modal visible={modalVisible} animationType="slide">
                         <View style={styles.modalContainer}>
                             <Text style={styles.modalTitle}>Выберите город</Text>
@@ -90,44 +96,53 @@ const Explore: React.FC = () => {
     );
 };
 
+
 const styles = StyleSheet.create({
-    container: {
+    containerLight: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 16,
         backgroundColor: '#f0f0f0',
+    },
+    containerDark: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#1e1e1e', 
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 16,
+        marginBottom: 20,
     },
     weather: {
         fontSize: 18,
-        marginBottom: 16,
+        marginBottom: 20,
+    },
+    error: {
+        color: 'red',
+        marginBottom: 20,
     },
     modalContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff',
-        padding: 16,
+        backgroundColor: '#fff', 
     },
     modalTitle: {
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 16,
+        marginBottom: 20,
     },
     cityItem: {
         padding: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
-        width: '100%',
     },
     cityText: {
         fontSize: 18,
     },
+    buttonContainer: {
+        marginTop: 20,
+    },
 });
 
-export default Explore;
+export default WheatherScreen;
