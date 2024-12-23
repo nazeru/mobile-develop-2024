@@ -1,0 +1,1 @@
+Ссылка на Figma: https://www.figma.com/design/b6XRaFgGe6w3veQMBmVtML/Untitled?node-id=0-1&t=Lc9qhcw0jTW3jYc2-1
