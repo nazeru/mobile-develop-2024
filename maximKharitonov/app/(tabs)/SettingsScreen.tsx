@@ -1,6 +1,6 @@
 // SettingsScreen.tsx
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Button, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { useAppContext } from '@/components/AppContext';
 
 const SettingsScreen: React.FC = () => {
@@ -8,8 +8,9 @@ const SettingsScreen: React.FC = () => {
 
     return (
         <View style={isDarkTheme ? styles.containerDark : styles.containerLight}>
-            <Text style={styles.title}>Настройки</Text>
-            <Button title="Сменить тему" onPress={toggleTheme} />
+            <TouchableOpacity style={styles.button} onPress={toggleTheme}>
+                <Text style={styles.buttonText}>Сменить тему</Text>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -27,9 +28,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#1e1e1e',
     },
-    title: {
-        fontSize: 24,
-        marginBottom: 20,
+    button: {
+        backgroundColor: '#6200ee', 
+        borderRadius: 10, 
+        paddingVertical: 15,
+        paddingHorizontal: 30,
+        elevation: 5,
+        shadowColor: '#000', 
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        marginTop: 20, 
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
 });
 

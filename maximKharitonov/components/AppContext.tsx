@@ -18,7 +18,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     const [count, setCount] = useState<number>(0);
     const [currentCity, setCurrentCity] = useState<string>('Якутск,ru');
     const [isActive, setIsActive] = useState<boolean>(false);
-    const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false); // по умолчанию светлая тема
+    const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false); 
 
     const toggleTheme = () => {
         setIsDarkTheme(prev => !prev);
