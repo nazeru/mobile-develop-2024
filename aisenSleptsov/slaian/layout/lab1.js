@@ -6,11 +6,19 @@ import {
   View,
   StyleSheet,
 } from "react-native";
+import { ThemeProvider, useTheme } from "../themeContext";
 
 const colors = ["black", "red", "yellow", "green", "gray", "blue"];
 
 const Lab1 = () => {
   const [backgroundColor, setBackgroundColor] = useState(colors[0]);
+
+  const { isDarkTheme, toggleTheme } = useTheme();
+
+  const themeStyles = isDarkTheme
+    ? styles.darkContainer
+    : styles.lightContainer;
+  const textStyles = isDarkTheme ? styles.darkText : styles.lightText;
 
   const getRandomColor = () => {
     let newColor;
@@ -25,10 +33,13 @@ const Lab1 = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor }]}>
+    <SafeAreaView style={[styles.container, themeStyles]}>
       <View style={styles.innerContainer}>
-        <TouchableOpacity onPress={changeColor} style={styles.button}>
-          <Text style={styles.buttonText}>Нажми!</Text>
+        <TouchableOpacity
+          onPress={changeColor}
+          style={[styles.header, textStyles]}
+        >
+          <Text style={[styles.header, textStyles]}>Нажми!</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -36,8 +47,13 @@ const Lab1 = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  darkContainer: {
     flex: 1,
+    backgroundColor: "#333",
+  },
+  lightContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
   },
   innerContainer: {
     flex: 1,
@@ -50,8 +66,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 10,
   },
-  buttonText: {
-    color: "gray",
+  darkText: {
+    color: "#fff",
+  },
+  lightText: {
+    color: "#000",
   },
 });
 
