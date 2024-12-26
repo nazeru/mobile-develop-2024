@@ -1,79 +1,93 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { Button, SafeAreaView, View, Text, FlatList } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { setSortOrder } from '../store';
+import React, { useState, useMemo } from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
+
+// Функция для вычисления факториала
+const factorial = (num) => {
+  console.log("Выполняется вычисление факториала...");
+  if (num <= 0) return 1;
+  return num * factorial(num - 1);
+};
 
 const Lab3 = () => {
-    const dispatch = useDispatch();
-    const sortOrder = useSelector((state) => state.app.sortOrder);
-    const [items, setItems] = useState([
-        'Яблоко',
-        'Банан',
-        'Апельсин',
-        'Персик',
-        'Ананас',
-        'Клубника',
-    ]);
+  const [number, setNumber] = useState(1000); // Начальное значение
+  const [timeWithMemo, setTimeWithMemo] = useState(null);
+  const [timeWithoutMemo, setTimeWithoutMemo] = useState(null);
 
-    const [key, setKey] = useState(0);
-    const [sortTime, setSortTime] = useState(null);
-    const [timeWithoutMemo, setTimeWithoutMemo] = useState(null);
+  // Вычисление с useMemo
+  const memoizedFactorial = useMemo(() => {
+    console.log("Кешированное вычисление факториала...");
+    return factorial(number);
+  }, [number]);
 
-    const sortedItems = useMemo(() => {
-        const start = Date.now();  // Начало замера времени
-        const sorted = [...items].sort((a, b) => {
-            if (sortOrder === 'asc') {
-                return a.localeCompare(b);
-            } else {
-                return b.localeCompare(a);
-            }
-        });
-        const end = Date.now();  // Конец замера времени
-        setSortTime(end - start);
-        return sorted;
-    }, [sortOrder, items]);
+  const calculateWithoutMemo = () => {
+    const start = Date.now();
+    const result = factorial(number);
+    const end = Date.now();
+    setTimeWithoutMemo(end - start); // Сохраняем время выполнения
+    return result;
+  };
 
-    const sortedItemsWithoutMemo = () => {
-        const start = Date.now();
-        const sorted = [...items].sort((a, b) => {
-            if (sortOrder === 'asc') {
-                return a.localeCompare(b);
-            } else {
-                return b.localeCompare(a);
-            }
-        });
-        const end = Date.now();
-        setTimeWithoutMemo(end - start);
-        return sorted;
-    };
+  const calculateWithMemo = () => {
+    const start = Date.now();
+    memoizedFactorial; // Просто обращаемся к значению
+    const end = Date.now();
+    setTimeWithMemo(end - start); // Сохраняем время выполнения
+  };
 
-    useEffect(() => {
-        setKey((prevKey) => prevKey + 1);
-        
-        sortedItemsWithoutMemo();
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Факториал</Text>
+      <Text style={styles.label}>Число: {number}</Text>
+      <Text style={styles.label}>Факториал (с useMemo): {memoizedFactorial}</Text>
 
-    }, [sortOrder]);
+      <View style={styles.buttonGroup}>
+        <Button title="Увеличить на 1" onPress={() => setNumber(number + 1)} />
+        <Button title="Увеличить на 10" onPress={() => setNumber(number + 10)} />
+      </View>
 
-    return (
-        <SafeAreaView style={{ flex: 1, padding: 20 }} key={key}>
-            <View>
-                <Text>Сортировка:</Text>
-                <View style={{ flexDirection: 'row', marginBottom: 10 }}>
-                    <Button title="По возрастанию" onPress={() => dispatch(setSortOrder('asc'))} />
-                    <Button title="По убыванию" onPress={() => dispatch(setSortOrder('desc'))} />
-                </View>
-                
-                <Text>Время сортировки с useMemo: {sortTime} мс</Text>
-                <Text>Время сортировки без useMemo: {timeWithoutMemo} мс</Text>
+      <Button title="Измерить время без useMemo" onPress={calculateWithoutMemo} />
+      <Button title="Измерить время с useMemo" onPress={calculateWithMemo} />
 
-                <FlatList
-                    data={sortedItems}
-                    keyExtractor={(item, index) => `${item}-${index}`}
-                    renderItem={({ item }) => <Text>{item}</Text>}
-                />
-            </View>
-        </SafeAreaView>
-    );
+      {/* Время выполнения */}
+      <Text style={styles.timeLabel}>
+        Время выполнения без useMemo: {timeWithoutMemo !== null ? `${timeWithoutMemo} мс` : 0}
+      </Text>
+      <Text style={styles.timeLabel}>
+        Время выполнения с useMemo: {timeWithMemo !== null ? `${timeWithMemo} мс` : 0}
+      </Text>
+    </View>
+  );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#f8f9fa',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#6200EE',
+  },
+  label: {
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  buttonGroup: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: 10,
+    width: '100%',
+  },
+  timeLabel: {
+    fontSize: 16,
+    marginTop: 10,
+    color: '#555',
+  },
+});
 
 export default Lab3;
