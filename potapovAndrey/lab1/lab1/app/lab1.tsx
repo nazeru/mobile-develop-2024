@@ -28,7 +28,7 @@ const Lab1 = () => {
 
   return (
     <SafeAreaView style={[styles.container, themeStyles]}>
-      <Text style={[styles.header, textStyles]}>FRUIT KOMBAT</Text>
+      <Text style={[styles.header, textStyles]}>FRUIT COMBAT</Text>
       <TouchableOpacity onPress={changeEmo} style={styles.emojiContainer}>
         <Text style={[styles.emoji, textStyles]}>{emoji[current]}</Text>
       </TouchableOpacity>
@@ -56,7 +56,8 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 40,
-    marginBottom: 30,
+    marginBottom: 50,
+    marginTop: 50,
   },
   emojiContainer: {
     flex: 1,
@@ -72,8 +73,10 @@ const styles = StyleSheet.create({
   },
   darkText: {
     color: "#fff",
+    fontWeight: "bold",
   },
   lightText: {
     color: "#000",
+    fontWeight: "bold",
   },
 });
