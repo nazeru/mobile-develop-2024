@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "react-native";
+import { Button, Image } from "react-native";
 import {
   createBottomTabNavigator,
   TransitionPresets,
@@ -25,10 +25,17 @@ function AppContent() {
     <NavigationContainer theme={navigationTheme}>
       <Tab.Navigator
         screenOptions={() => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            iconName = focused ? "terminal" : "terminal-outline";
-            return <Ionicons name={iconName} size={size} color={color} />;
+          tabBarIcon: ({ focused, size }) => {
+            const icon = isDarkTheme
+              ? focused
+                ? require("./assets/folderF.png")
+                : require("./assets/folderD.png")
+              : focused
+              ? require("./assets/folderF.png")
+              : require("./assets/folderL.png");
+            return (
+              <Image source={icon} style={{ width: size, height: size }} />
+            );
           },
           tabBarActiveTintColor: "tomato",
           tabBarInactiveTintColor: inactiveTintColor,
