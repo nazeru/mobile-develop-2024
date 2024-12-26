@@ -1,16 +1,40 @@
-import React, { useState, useMemo } from 'react';
-import { View, Text, TextInput, FlatList, Button, StyleSheet } from 'react-native';
+import React, { useState, useMemo, useCallback } from 'react';
+import { View, Text, TextInput, FlatList, Button, StyleSheet, Switch, } from 'react-native';
 
 const Lab3 = () => {
+  const [onMemo, setOnMemo] = useState(true);
   const [filter, setFilter] = useState('');
   const [newFruit, setNewFruit] = useState('');
   const [fruits, setFruits] = useState(['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry', 'Fig', 'Grape']);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   // Используем useMemo для фильтрации данных
-  const filteredData = useMemo(() => {
-    return fruits.filter(item => item.toLowerCase().includes(filter.toLowerCase()));
+  const leng = 10000000;
+
+  const bigFunc = () => {
+    for (let i = 0; i < leng; i++){}
+  };
+  const bigFuncMemo = useCallback(() => {
+    for (let i = 0; i < leng; i++) {}
+    return 0;
+  }, []);
+
+  const filteredData = useMemo ( ()=> {
+    bigFuncMemo();
+    return fruits.filter((fruit)=>
+      fruit.toLowerCase().includes(filter.toLowerCase()),
+    );
   }, [filter, fruits]);
+
+  const filteredDataWithoutMemo = ()=>{
+    bigFunc();
+    return fruits.filter((fruit)=>
+      fruit.toLowerCase().includes(filter.toLowerCase()),
+  );
+  };
+  // const filteredData = useMemo(() => {
+  //   return fruits.filter(item => item.toLowerCase().includes(filter.toLowerCase()));
+  // }, [filter, fruits]);
 
   // Функция для добавления нового фрукта
   const addFruit = () => {
@@ -29,6 +53,7 @@ const Lab3 = () => {
         title={`Переключить на ${isDarkTheme ? 'светлую' : 'темную'} тему`} 
         onPress={() => setIsDarkTheme(prev => !prev)} 
       />
+       <Switch value={onMemo} onChange={() => setOnMemo(!onMemo)} />
       <TextInput
         style={styles.input}
         placeholder="Введите текст для фильтрации"
@@ -42,10 +67,15 @@ const Lab3 = () => {
         onChangeText={setNewFruit}
       />
       <Button title="Добавить фрукт" onPress={addFruit} />
+
       <FlatList
-        data={filteredData}
+        data={onMemo ? filteredData : filteredDataWithoutMemo()}
         keyExtractor={(item) => item}
-        renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
+        renderItem={({ item }) => (
+          <View style={styles.itemContainer}>
+            <Text style={styles.item}>{item}</Text>
+          </View>
+        )}
       />
     </View>
   );
