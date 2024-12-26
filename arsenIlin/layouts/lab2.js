@@ -1,11 +1,14 @@
 import { SafeAreaView, Text, TextInput, StyleSheet } from "react-native";
 import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
+import { useTheme } from "../ThemeContext.js";
 
 const Lab2 = () => {
   const [city, setCity] = useState("");
   const [weatherData, setWeatherData] = useState(null);
   const [textMessage, setTextMessage] = useState("");
+
+  const { isDarkTheme } = useTheme();
 
   const getWeatherData = async () => {
     const apiKey = "b93df7f5926c4d62b8a103312241912"; // Замените на ваш ключ API
@@ -54,16 +57,35 @@ const Lab2 = () => {
   }, [weatherMessage]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Погода</Text>
-      <Text style={styles.label}>Введите название вашего города:</Text>
+    <SafeAreaView
+      style={[
+        styles.container,
+        { backgroundColor: isDarkTheme ? "#121212" : "#FFFFFF" },
+      ]}
+    >
+      <Text style={[styles.title, { color: isDarkTheme ? "#FFFFFF" : "#000000" }]}>
+        Погода
+      </Text>
+      <Text style={[styles.label, { color: isDarkTheme ? "#B0B0B0" : "#333333" }]}>
+        Введите название вашего города:
+      </Text>
       <TextInput
-        style={styles.input}
+        style={[
+          styles.input,
+          {
+            backgroundColor: isDarkTheme ? "#1E1E1E" : "#F5F5F5",
+            color: isDarkTheme ? "#FFFFFF" : "#000000",
+            borderColor: isDarkTheme ? "#333333" : "#CCCCCC",
+          },
+        ]}
         placeholder="Введите город"
+        placeholderTextColor={isDarkTheme ? "#888888" : "#AAAAAA"}
         value={city}
         onChangeText={setCity}
       />
-      <Text style={styles.result}>{textMessage}</Text>
+      <Text style={[styles.result, { color: isDarkTheme ? "#FFFFFF" : "#000000" }]}>
+        {textMessage}
+      </Text>
     </SafeAreaView>
   );
 };
@@ -76,6 +98,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
+    fontWeight: "bold",
   },
   label: {
     marginTop: 30,
