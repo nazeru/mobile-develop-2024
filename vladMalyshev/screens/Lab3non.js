@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -25,31 +25,30 @@ const Lab3Non = () => {
   ]);
   const [filteredNames, setFilteredNames] = useState(names);
 
- //add Function
-  const mediumFunction = () => {
+  const mediumFunction = useCallback(() => {
     let total = 0;
-    for (let i = 0; i < 10000000; i++) {  
-        total += Math.sqrt(i);  
+    for (let i = 0; i < 10000000; i++) {
+      total += Math.sqrt(i);
     }
     return total;
-};
+  }, []); 
+
 
   useEffect(() => {
-
-    mediumFunction();
+    mediumFunction(); 
     setFilteredNames(
       names.filter((name) =>
         name.toLowerCase().includes(filterText.toLowerCase())
       )
     );
-  }, [filterText, names]);
+  }, [filterText, names, mediumFunction]); 
 
-  const addName = () => {
+  const addName = useCallback(() => {
     if (newName.trim()) {
-      setNames([...names, newName.trim()]);
+      setNames((prevNames) => [...prevNames, newName.trim()]);
       setNewName("");
     }
-  };
+  }, [newName]); 
 
   return (
     <View style={styles.container}>

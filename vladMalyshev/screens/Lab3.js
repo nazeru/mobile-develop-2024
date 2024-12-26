@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import {
   View,
   Text,
@@ -7,10 +7,6 @@ import {
   Button,
   StyleSheet,
 } from "react-native";
-
-
-
-
 
 const Lab3 = () => {
   const [filterText, setFilterText] = useState("");
@@ -27,29 +23,29 @@ const Lab3 = () => {
     "Ivy",
     "Jack",
   ]);
-  //add Function
-  const mediumFunction = () => {
+
+  const mediumFunction = useCallback(() => {
     let total = 0;
-    for (let i = 0; i < 10000000; i++) {  
-        total += Math.sqrt(i);  
+    for (let i = 0; i < 10000000; i++) {
+      total += Math.sqrt(i);
     }
     return total;
-};
+  }, []); 
 
-
+  
   const filteredNames = useMemo(() => {
     mediumFunction();
     return names.filter((name) =>
       name.toLowerCase().includes(filterText.toLowerCase())
     );
-  }, [filterText, names]);
+  }, [filterText, names, mediumFunction]); 
 
-  const addName = () => {
+  const addName = useCallback(() => {
     if (newName.trim()) {
-      setNames([...names, newName.trim()]);
+      setNames((prevNames) => [...prevNames, newName.trim()]);
       setNewName("");
     }
-  };
+  }, [newName]); 
 
   return (
     <View style={styles.container}>
