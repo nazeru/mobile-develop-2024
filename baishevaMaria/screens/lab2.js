@@ -15,7 +15,6 @@ export default function Lab2() {
       const data = await response.json();
       const randomIndex = Math.floor(Math.random() * data.length);
       const countryName = data[randomIndex].name.common;
-      console.log("Fetched Country: ", countryName);
       dispatch(setRandomCountry(countryName));
     } catch (error) {
       console.error('Ошибка при загрузке данных:', error);
@@ -23,8 +22,6 @@ export default function Lab2() {
       setLoading(false);
     }
   };
-
-  console.log("Random Country from Redux: ", randomCountry);
 
   return (
     <View style={styles.container}>
