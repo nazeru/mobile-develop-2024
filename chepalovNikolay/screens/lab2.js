@@ -29,7 +29,6 @@ const Lab2 = () => {
     fetchData();
   }, []);
 
-  
   const processedData = useMemo(() => {
     if (!data) return null; 
     return {
@@ -83,14 +82,23 @@ const Lab2 = () => {
         renderItem={({ item }) => {
           const [currency, info] = item;
           return (
-            <Text
+            <View
               style={[
-                styles.item,
-                { color: isDarkTheme ? "#fff" : "#000" },
+                styles.rateContainer,
+                {
+                  backgroundColor: isDarkTheme ? "#555" : "#e0e0e0",
+                },
               ]}
             >
-              {info.code}: {info.rate}
-            </Text>
+              <Text
+                style={[
+                  styles.rateText,
+                  { color: isDarkTheme ? "#fff" : "#000" },
+                ]}
+              >
+                {info.code}: {info.rate}
+              </Text>
+            </View>
           );
         }}
       />
@@ -133,9 +141,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 20,
   },
-  item: {
-    fontSize: 18,
+  rateContainer: {
+    padding: 15,
+    borderRadius: 10,
     marginVertical: 5,
+    alignSelf: "stretch",
+  },
+  rateText: {
+    fontSize: 18,
+    textAlign: "center",
   },
 });
 
