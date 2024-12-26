@@ -1,1 +1,2 @@
 ссылка на фигму: https://www.figma.com/design/kl9ywHFwNBtPqffE4UvU3p/LabRMP?node-id=0-1&t=8DzAokav0EIxR541-1
+ссылка на видеозапись: https://drive.google.com/file/d/1Y3ndqVPO2YdxZTNF2DkRwz_KxyI3ZO-f/view?usp=sharing
