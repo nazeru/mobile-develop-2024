@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { setMessage, setBgColor } from '../store/store';
 
 export default function Lab1() {
-  const [message, setMessage] = useState('Нажмите кнопку');
-  const [bgColor, setBgColor] = useState('#fff');
+  const dispatch = useDispatch();
+  const message = useSelector(state => state.global.message);
+  const bgColor = useSelector(state => state.global.bgColor);
 
   const changeBackgroundColor = () => {
-    setMessage('Нажми на кнопку!');
+    dispatch(setMessage('Нажми на кнопку!'));
     const colors = ['#FF5733', '#33FF57', '#3357FF', '#FFFF33', '#FF33FF'];
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
-    setBgColor(randomColor);
-  };
+    dispatch(setBgColor(randomColor));
+  };  
 
   return (
     <View style={[styles.container, { backgroundColor: bgColor }]}>

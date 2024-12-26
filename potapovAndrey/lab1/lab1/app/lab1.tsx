@@ -1,30 +1,53 @@
-import { useState } from "react";
-import { Text } from "react-native";
-import { SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { Text, View } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  Button,
+} from "react-native";
+import { ThemeProvider, useTheme } from "../ThemeContext";
 
-export default function Lab1() {
-  const emoji = ["🍉", "🍌", "🍓", "🍏", "🍊", "🍑"];
+const emoji = ["🍉", "🍌", "🍓", "🍏", "🍊", "🍑"];
 
+const Lab1 = () => {
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
+
+  const { isDarkTheme, toggleTheme } = useTheme();
 
   const changeEmo = () => {
     setCurrent((prevIndex) => (prevIndex + 1) % emoji.length);
     setCount((prev) => prev + 1);
   };
 
+  const themeStyles = isDarkTheme
+    ? styles.darkContainer
+    : styles.lightContainer;
+  const textStyles = isDarkTheme ? styles.darkText : styles.lightText;
+
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>FRUIT KOMBAT</Text>
+    <SafeAreaView style={[styles.container, themeStyles]}>
+      <Text style={[styles.header, textStyles]}>FRUIT KOMBAT</Text>
       <TouchableOpacity onPress={changeEmo} style={styles.emojiContainer}>
-        <Text style={styles.emoji}>{emoji[current]}</Text>
+        <Text style={[styles.emoji, textStyles]}>{emoji[current]}</Text>
       </TouchableOpacity>
-      <Text style={styles.counter}>FruitCoin: {count} $$</Text>
+      <Text style={[styles.counter, textStyles]}>FruitCoin: {count} $</Text>
     </SafeAreaView>
   );
-}
+};
+
+export default Lab1;
 
 const styles = StyleSheet.create({
+  darkContainer: {
+    flex: 1,
+    backgroundColor: "#333",
+  },
+  lightContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
   container: {
     flex: 1,
     padding: 20,
@@ -46,5 +69,11 @@ const styles = StyleSheet.create({
   counter: {
     fontSize: 30,
     marginTop: 20,
+  },
+  darkText: {
+    color: "#fff",
+  },
+  lightText: {
+    color: "#000",
   },
 });

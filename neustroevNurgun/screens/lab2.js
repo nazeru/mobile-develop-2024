@@ -1,10 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { useEffect, useState } from 'react';
 
 export default function Lab2() {
   const [randomFact, setRandomFact] = useState();
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [todayFact, setTodayFact] = useState();
 
   const getRandomFact = async () => {
@@ -39,7 +38,6 @@ export default function Lab2() {
       <Text style={styles.text}>{randomFact}</Text>
       <Button title="Случайный бесполезный факт" disabled={isLoading} onPress={getRandomFact} />
       <Text style={styles.text}>{todayFact}</Text>
-      <StatusBar style="auto" />
     </View>
   );
 }

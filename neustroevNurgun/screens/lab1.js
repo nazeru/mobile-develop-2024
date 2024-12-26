@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { useState } from 'react';
 
@@ -15,7 +14,6 @@ export default function Lab1() {
         placeholder="Введите текст"
       />
       <Text>{number}</Text>
-      <StatusBar style="auto" />
     </View>
   );
 }

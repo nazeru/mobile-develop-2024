@@ -1,4 +1,4 @@
-import { Text, TextInput, StyleSheet } from "react-native";
+import { Text, TextInput, StyleSheet, View } from "react-native";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ThemedSafeAreaView from "../components/ThemedSafeAreaView";
@@ -6,23 +6,20 @@ import useTheme from "../hooks/useTheme";
 
 const Lab2 = () => {
   const [city, setCity] = useState("");
-  const [weatherData, setWeatherData] = useState({});
-  const [textMessage, setTextMessage] = useState("");
+  const [weatherData, setWeatherData] = useState(null);
   const { backgroundColor, textColor } = useTheme();
 
   const getWeatherData = () => {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=ru&appid=fb55c434b593d7e53d17f9a7911897f4`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=fb55c434b593d7e53d17f9a7911897f4`;
     axios
       .get(url)
       .then((dataWeather) => {
         if (dataWeather.data.name.length > 0) {
           setWeatherData(dataWeather);
-        } else {
-          setTextMessage("Город не найден");
         }
       })
       .catch((err) => {
-        setTextMessage("Ошибка при получении данных");
+        setWeatherData(null);
       });
   };
 
@@ -32,48 +29,101 @@ const Lab2 = () => {
     }
   }, [city]);
 
-  useEffect(() => {
-    if (Object.keys(weatherData).length > 0) {
-      setTextMessage(
-        `Погода в: ${weatherData.data.name}\nТемпература воздуха: ${weatherData.data.main.temp}\nОщущается как: ${weatherData.data.main.feels_like}\nПогода: ${weatherData.data.weather[0].main}\nОписание: ${weatherData.data.weather[0].description}\nСкорость ветра: ${weatherData.data.wind.speed}\nВлажность воздуха: ${weatherData.data.main.humidity}`
-      );
-    }
-  }, [weatherData]);
-
   return (
     <ThemedSafeAreaView>
-      <Text style={[styles.title, { color: textColor }]}>Погода</Text>
-      <Text style={[styles.text, { color: textColor }]}>
-        Введите название вашего города:
-      </Text>
-      <TextInput
-        style={[styles.input, { color: textColor, borderColor: textColor }]}
-        value={city}
-        onChangeText={setCity}
-      />
-      <Text style={[styles.message, { color: textColor }]}>{textMessage}</Text>
+      <Text style={[styles.title, { color: textColor }]}>Weather</Text>
+      <View>
+        <Text style={[styles.text, { color: textColor }]}>
+          Enter the city name
+        </Text>
+        <TextInput
+          style={[
+            styles.input,
+            {
+              color: backgroundColor,
+              borderColor: backgroundColor,
+              backgroundColor: textColor,
+            },
+          ]}
+          value={city}
+          onChangeText={setCity}
+        />
+        {weatherData ? (
+          <>
+            <Text style={[styles.message, { color: textColor }]}>City:</Text>
+            <Text style={[styles.info, { color: textColor }]}>
+              {weatherData.data.name}
+            </Text>
+            <Text style={[styles.message, { color: textColor }]}>
+              Temperature:
+            </Text>
+            <Text style={[styles.info, { color: textColor }]}>
+              {weatherData.data.main.temp}
+            </Text>
+            <Text style={[styles.message, { color: textColor }]}>
+              Precipitation:
+            </Text>
+            <Text style={[styles.info, { color: textColor }]}>
+              {weatherData.data.weather[0].main}
+            </Text>
+            <Text style={[styles.message, { color: textColor }]}>
+              Description:
+            </Text>
+            <Text style={[styles.info, { color: textColor }]}>
+              {weatherData.data.weather[0].description}
+            </Text>
+            <Text style={[styles.message, { color: textColor }]}>
+              Wind speed:
+            </Text>
+            <Text style={[styles.info, { color: textColor }]}>
+              {weatherData.data.wind.speed}
+            </Text>
+            <Text style={[styles.message, { color: textColor }]}>
+              Humidity:
+            </Text>
+            <Text style={[styles.info, { color: textColor }]}>
+              {weatherData.data.main.humidity}
+            </Text>
+          </>
+        ) : (
+          <Text style={[styles.message, { color: textColor }]}>
+            Loading or no data available
+          </Text>
+        )}
+      </View>
     </ThemedSafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 30,
+    marginTop: 148,
+    fontFamily: "Roboto-Medium",
+    fontSize: 24,
   },
   text: {
-    fontSize: 20,
-    marginTop: 30,
+    marginTop: 44,
+    fontFamily: "Roboto-Medium",
+    fontSize: 16,
   },
   input: {
-    height: 40,
-    borderWidth: 1,
-    marginTop: 20,
-    width: "80%",
+    marginTop: 4,
+    marginBottom: 24,
+    height: 32,
+    width: 196,
+    borderRadius: 4,
+    fontFamily: "Roboto-Regular",
+    fontSize: 14,
+    paddingLeft: 8,
   },
   message: {
-    marginTop: 30,
-    fontSize: 18,
-    textAlign: "center",
+    fontSize: 16,
+    fontFamily: "Roboto-Medium",
+    marginTop: 20,
+  },
+  info: {
+    fontSize: 16,
+    fontFamily: "Roboto-Regular",
   },
 });
 

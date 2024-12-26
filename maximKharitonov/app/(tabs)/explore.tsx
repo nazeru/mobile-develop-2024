@@ -1,109 +1,133 @@
-import { StyleSheet, Image, Platform } from 'react-native';
+import React, { useEffect, useState, useMemo } from 'react';
+import {
+    View,
+    Text,
+    StyleSheet,
+    ActivityIndicator,
+    Button,
+    Modal,
+    TouchableOpacity,
+    FlatList,
+} from 'react-native';
+import axios from 'axios';
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
+const API_KEY = '7c6b17f0cd7a80b5b2aaa1ba44838279'; 
 
-export default function TabTwoScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user's current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
-  );
-}
+
+const CITY_DATA = [
+    { name: 'Якутск,ru' },
+    { name: 'Москва,ru' },
+    { name: 'Санкт-Петербург,ru' },
+    { name: 'Новосибирск,ru' },
+    { name: 'Екатеринбург,ru' },
+    { name: 'Казань,ru' },
+    { name: 'Нижний Новгород,ru' },
+    { name: 'Челябинск,ru' },
+    { name: 'Омск,ru' },
+];
+
+const Explore: React.FC = () => {
+    const [weatherData, setWeatherData] = useState<any>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [currentCity, setCurrentCity] = useState<string>(CITY_DATA[0].name); 
+    const [modalVisible, setModalVisible] = useState<boolean>(false); 
+
+    const fetchWeather = async () => {
+        setLoading(true); 
+        try {
+            const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${currentCity}&appid=${API_KEY}&units=metric`);
+            setWeatherData(response.data);
+        } catch (error) {
+            console.error('Error fetching weather data:', error);
+        } finally {
+            setLoading(false); 
+        }
+    };
+
+    useEffect(() => {
+        fetchWeather(); 
+    }, [currentCity]);
+
+    const weatherDescription = useMemo(() => {
+        if (!weatherData) return '';
+        return `Температура: ${weatherData.main.temp}°C, ${weatherData.weather[0].description}`;
+    }, [weatherData]);
+
+    const handleCityChange = (city: string) => {
+        setCurrentCity(city);
+        setModalVisible(false); 
+    };
+
+    return (
+        <View style={styles.container}>
+            {loading ? (
+                <ActivityIndicator size="large" color="#0000ff" />
+            ) : (
+                <>
+                    <Text style={styles.title}>Погода в {currentCity.split(',')[0]}</Text>
+                    <Text style={styles.weather}>{weatherDescription}</Text>
+                    <Button title="Сменить город" onPress={() => setModalVisible(true)} />
+
+                    {/* Модальное окно для выбора города */}
+                    <Modal visible={modalVisible} animationType="slide">
+                        <View style={styles.modalContainer}>
+                            <Text style={styles.modalTitle}>Выберите город</Text>
+                            <FlatList
+                                data={CITY_DATA}
+                                keyExtractor={(item) => item.name}
+                                renderItem={({ item }) => (
+                                    <TouchableOpacity onPress={() => handleCityChange(item.name)} style={styles.cityItem}>
+                                        <Text style={styles.cityText}>{item.name.split(',')[0]}</Text>
+                                    </TouchableOpacity>
+                                )}
+                            />
+                            <Button title="Закрыть" onPress={() => setModalVisible(false)} />
+                        </View>
+                    </Modal>
+                </>
+            )}
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 16,
+        backgroundColor: '#f0f0f0',
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 16,
+    },
+    weather: {
+        fontSize: 18,
+        marginBottom: 16,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        padding: 16,
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 16,
+    },
+    cityItem: {
+        padding: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+        width: '100%',
+    },
+    cityText: {
+        fontSize: 18,
+    },
 });
+
+export default Explore;

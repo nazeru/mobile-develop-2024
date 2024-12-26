@@ -1,24 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   Text,
   View,
   FlatList,
-  Button,
   TextInput,
   Image,
+  TouchableOpacity,
 } from "react-native";
-
+import { useDispatch, useSelector } from "react-redux";
+import { addUser, deleteUser } from "../redux/actions";
+import { MaterialIcons } from "@expo/vector-icons";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 const Lab2 = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [newUserName, setNewUserName] = useState("");
-  const [newUserEmail, setNewUserEmail] = useState("");
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.users);
+  const [loading, setLoading] = React.useState(true);
+  const [newUserName, setNewUserName] = React.useState("");
+  const [newUserEmail, setNewUserEmail] = React.useState("");
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch("https://randomuser.me/api/?results=20");
+        const response = await fetch("https://randomuser.me/api/?results=1");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -29,9 +33,12 @@ const Lab2 = () => {
           name: `${user.name.first} ${user.name.last}`,
           email: user.email,
           picture: user.picture.large,
+          age: user.dob.age,
+          city: user.location.city,
         }));
 
-        setUsers(usersWithId);
+        // Добавляем пользователей в Redux store
+        usersWithId.forEach((user) => dispatch(addUser(user)));
       } catch (error) {
         console.error("Ошибка при загрузке пользователей:", error);
       } finally {
@@ -40,14 +47,10 @@ const Lab2 = () => {
     };
 
     fetchUsers();
-  }, []);
-
-  const deleteUser = (id) => {
-    setUsers(users.filter((user) => user.id !== id));
-  };
+  }, [dispatch]);
 
   // Функция для добавления нового пользователя
-  const addUser = () => {
+  const handleAddUser = () => {
     if (newUserName && newUserEmail) {
       const lastUserId =
         users.length > 0
@@ -57,8 +60,11 @@ const Lab2 = () => {
         id: `${lastUserId + 1}-custom`,
         name: newUserName,
         email: newUserEmail,
+        picture: "https://via.placeholder.com/50", // Заглушка для аватара
+        age: Math.floor(Math.random() * (60 - 18 + 1)) + 18,
+        city: "Новый Город",
       };
-      setUsers([...users, newUser]);
+      dispatch(addUser(newUser));
       setNewUserName("");
       setNewUserEmail("");
     }
@@ -78,13 +84,13 @@ const Lab2 = () => {
             <Image source={{ uri: item.picture }} style={styles.userImage} />
             <View style={styles.userInfo}>
               <Text style={styles.userName}>{item.name}</Text>
-              <Text>{item.email}</Text>
+              <Text style={styles.userEmail}>{item.email}</Text>
+              <Text style={styles.userAge}>Возраст: {item.age}</Text>
+              <Text style={styles.userCity}>Город: {item.city}</Text>
             </View>
-            <Button
-              title="Удалить"
-              onPress={() => deleteUser(item.id)}
-              color="#ff4d4d"
-            />
+            <TouchableOpacity onPress={() => dispatch(deleteUser(item.id))}>
+              <Icon name="close-circle" size={30} color="#ff4d4d" />
+            </TouchableOpacity>
           </View>
         )}
       />
@@ -102,11 +108,9 @@ const Lab2 = () => {
           value={newUserEmail}
           onChangeText={setNewUserEmail}
         />
-        <Button
-          title="Добавить пользователя"
-          onPress={addUser}
-          color="#4CAF50"
-        />
+        <TouchableOpacity style={styles.addButton} onPress={handleAddUser}>
+          <Text style={styles.addButtonText}>ДОБАВИТЬ ПОЛЬЗОВАТЕЛЯ</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -114,18 +118,17 @@ const Lab2 = () => {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 30,
     flex: 1,
     padding: 20,
     backgroundColor: "#fff",
   },
   userContainer: {
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    marginBottom: 10,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
   },
   userImage: {
     width: 50,
@@ -135,11 +138,22 @@ const styles = StyleSheet.create({
   },
   userInfo: {
     flex: 1,
-    marginRight: 10,
   },
   userName: {
     fontSize: 16,
     fontWeight: "bold",
+  },
+  userEmail: {
+    fontSize: 14,
+    color: "#555",
+  },
+  userAge: {
+    fontSize: 12,
+    color: "#333",
+  },
+  userCity: {
+    fontSize: 12,
+    color: "#888",
   },
   loadingText: {
     textAlign: "center",
@@ -159,6 +173,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 10,
     borderRadius: 5,
+  },
+  addButton: {
+    backgroundColor: "#007BFF",
+    paddingVertical: 10,
+    alignItems: "center",
+    borderRadius: 5,
+  },
+  addButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
   },
 });
 

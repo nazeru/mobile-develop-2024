@@ -1,163 +1,115 @@
-// Home.js
-import React, { useContext } from 'react';
-import { View, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
-import { ThemeContext } from '../ThemeContext';
-import ThemedBackground from '../components/ThemedBackground';
-import ThemedText from '../components/ThemedText';
-
-const { width } = Dimensions.get('window');
-
-const // App.js
+// screens/Home.js
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Provider } from 'react-redux';
-import { ThemeProvider } from './ThemeContext';
-import store from './store/store';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import useTheme from '../hooks/useTheme';
+import ThemedText from '../components/ThemedText'; // Импорт нового компонента
 
-import Home from './screens/Home';
-import Lab1 from './screens/Lab1';
-import Lab2 from './screens/Lab2';
-import Lab3 from './screens/Lab3';
-import Lab4 from './screens/Lab4';
+const menuItems = [
+  { id: 1, title: 'Lab1' },
+  { id: 2, title: 'Lab2' },
+  { id: 3, title: 'Lab3' },
+  { id: 4, title: 'Lab4' },
+];
 
-const Stack = createNativeStackNavigator();
-
-const App = () => {
+function LabHeader({ colors }) {
   return (
-    <Provider store={store}>
-      <ThemeProvider>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="Lab1" component={Lab1} />
-            <Stack.Screen name="Lab2" component={Lab2} />
-            <Stack.Screen name="Lab3" component={Lab3} />
-            <Stack.Screen name="Lab4" component={Lab4} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </ThemeProvider>
-    </Provider>
+    <View style={styles.headerContainer}>
+      <ThemedText style={styles.headerText}>
+        Laboratory Work{'\n'}
+        Nikiforov Arsen{'\n'}
+        FIIT-21
+      </ThemedText>
+    </View>
   );
-};
+}
 
-export default App;Home = ({ navigation }) => {
-  const { colors } = useContext(ThemeContext);
 
-  const handleNavigation = (screen) => {
-    navigation.navigate(screen);
+
+function LabButton({ title, onPress, colors }) {
+  return (
+    <TouchableOpacity
+      style={[
+        styles.buttonContainer,
+        {
+          borderColor: colors.border,
+          backgroundColor: colors.buttonBackground,
+          shadowColor: colors.shadow,
+        },
+      ]}
+      onPress={onPress}
+    >
+      <ThemedText style={[styles.buttonText, { color: colors.buttonText }]}>
+        {title}
+      </ThemedText>
+    </TouchableOpacity>
+  );
+}
+
+
+function Home({ navigation }) {
+  const colors = useTheme();
+
+  const handleNavigation = (path) => {
+    navigation.navigate(path);
   };
 
-  const menuItems = [
-    { screen: 'Lab1', text: 'Bubble Game', icon: '🎮' },
-    { screen: 'Lab2', text: 'NASA API', icon: '🚀' },
-    { screen: 'Lab3', text: 'Space Calculator', icon: '🧮' },
-    { screen: 'Lab4', text: 'Redux Theme', icon: '⚙️' },
-  ];
-
   return (
-    <ThemedBackground>
-      <View style={styles.container}>
-        <View style={[styles.card, { backgroundColor: colors.card, shadowColor: colors.shadow }]}>
-          <ThemedText style={styles.title}>CyberLabs 2077</ThemedText>
-          <ThemedText style={styles.subtitle}>Лабораторные работы</ThemedText>
-          <View style={styles.studentInfo}>
-            <ThemedText style={styles.studentText}>Студент: Никифоров Арсен</ThemedText>
-            <ThemedText style={styles.studentText}>Группа: ФИИТ-21</ThemedText>
-          </View>
-          <ThemedText style={styles.selectionText}>Выберите экран:</ThemedText>
-          <View style={styles.menuContainer}>
-            {menuItems.map(({ screen, text, icon }) => (
-              <TouchableOpacity
-                key={screen}
-                onPress={() => handleNavigation(screen)}
-                style={[
-                  styles.menuItem,
-                  {
-                    backgroundColor: colors.secondary,
-                    borderColor: colors.border,
-                    shadowColor: colors.shadow,
-                  },
-                ]}
-              >
-                <View style={styles.menuItemContent}>
-                  <ThemedText style={styles.icon}>{icon}</ThemedText>
-                  <ThemedText style={styles.menuText}>{text}</ThemedText>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-      </View>
-    </ThemedBackground>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <LabHeader colors={colors} />
+      {menuItems.map((lab) => (
+        <LabButton
+          key={lab.id}
+          title={lab.title}
+          onPress={() => handleNavigation(lab.title.replace(' ', ''))}
+          colors={colors}
+        />
+      ))}
+    </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    paddingTop: 60,
-  },
-  card: {
-    width: width * 0.9,
-    padding: 20,
-    borderRadius: 15,
-    alignItems: 'center',
-    elevation: 5,
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-  },
-  title: {
-    fontSize: 34,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#7289DA',
-  },
-  subtitle: {
-    fontSize: 22,
-    marginBottom: 15,
-  },
-  studentInfo: {
-    marginBottom: 15,
-    alignItems: 'center',
-  },
-  studentText: {
-    fontSize: 18,
-    marginBottom: 2,
-  },
-  selectionText: {
-    fontSize: 18,
-    marginBottom: 15,
-  },
-  menuContainer: {
-    width: '100%',
-  },
-  menuItem: {
-    width: '100%',
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderRadius: 12,
-    marginBottom: 10,
-    borderWidth: 1,
-    elevation: 3,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-  },
-  menuItemContent: {
-    flexDirection: 'row',
+    paddingHorizontal: 65,
+    paddingVertical: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  icon: {
-    fontSize: 24,
-    marginRight: 12,
+  headerContainer: {
+    marginBottom: 30,
+    width: '100%', // Устанавливаем ширину контейнера
+    alignItems: 'center', // Центруем текст внутри
   },
-  menuText: {
-    fontSize: 18,
+  headerText: {
+    fontSize: 14, // Размер шрифта
+    textAlign: 'center', // Выравнивание текста по центру
+    fontFamily: 'PixelFont', // Шрифт
+    // letterSpacing: -0.2, // Уменьшаем расстояние между буквами
+    lineHeight: 30, // Увеличиваем расстояние между строками
+    transform: [{ scaleY: 1.4 }], // Вытягиваем текст по высоте
+  },
+  buttonContainer: {
+    borderWidth: 1,
+    borderRadius: 8,
+    marginTop: 20,
+    width: '77%',
+    paddingVertical: 12,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  buttonText: {
+    fontSize: 12, // Размер шрифта
+    textAlign: 'center', // Выравнивание текста по центру
+    fontFamily: 'PixelFont', // Шрифт
+    // letterSpacing: -0.2, // Уменьшаем расстояние между буквами
+    lineHeight: 30, // Увеличиваем расстояние между строками
+    transform: [{ scaleY: 1.4 }], // Вытягиваем текст по высоте
   },
 });
+
+
 
 export default Home;

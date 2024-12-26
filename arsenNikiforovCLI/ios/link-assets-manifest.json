@@ -1,0 +1,13 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/PixelFont.ttf",
+      "sha1": "59caa00e6aac4573f51943e0bdd20c758eddbf4a"
+    },
+    {
+      "path": "assets/fonts/PixelifySans-Regular.ttf",
+      "sha1": "4a2d76e87c9d3754109a9400800dace60b85aa42"
+    }
+  ]
+}

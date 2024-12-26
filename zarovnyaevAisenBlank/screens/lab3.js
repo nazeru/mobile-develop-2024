@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import {
   SafeAreaView,
   TextInput,
-  Button,
+  TouchableOpacity,
   View,
   Text,
   FlatList,
@@ -53,7 +53,7 @@ export default function MovieSearchScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, padding: 20 }}>
+    <SafeAreaView style={styles.container}>
       <TextInput
         placeholder="Введите название фильма"
         value={query}
@@ -74,12 +74,15 @@ export default function MovieSearchScreen() {
         keyboardType="numeric"
         style={styles.input}
       />
-      <Button title="Поиск" onPress={handleSearch} />
+      <TouchableOpacity style={styles.button} onPress={handleSearch}>
+        <Text style={styles.buttonText}>Поиск</Text>
+      </TouchableOpacity>
 
       {loading ? (
         <Text>Загрузка...</Text>
       ) : (
         <FlatList
+          style={styles.movieList}
           data={getFilteredMovies}
           keyExtractor={(item) => item["#IMDB_ID"]}
           renderItem={({ item }) => (
@@ -91,8 +94,8 @@ export default function MovieSearchScreen() {
               />
               <View style={styles.movieDetails}>
                 <Text style={styles.title}>{item["#TITLE"]}</Text>
-                <Text>Год: {item["#YEAR"]}</Text>
-                <Text>Актеры: {item["#ACTORS"]}</Text>
+                <Text style={styles.detailText}>Год: {item["#YEAR"]}</Text>
+                <Text style={styles.detailText}>Актеры: {item["#ACTORS"]}</Text>
               </View>
             </View>
           )}
@@ -104,18 +107,28 @@ export default function MovieSearchScreen() {
 
 const styles = StyleSheet.create({
   input: {
+    height: 54, // Высота поля
     borderWidth: 1,
     borderColor: "gray",
     borderRadius: 5,
-    padding: 10,
-    marginBottom: 20,
+    paddingHorizontal: 10, // Внутренний отступ текста
+    marginBottom: 14, // Расстояние между инпутами
+    alignSelf: "stretch", // Автоматическое растягивание по ширине
+  },
+  container: {
+    flex: 1,
+    paddingHorizontal: 20, // Отступы по краям
+    paddingTop: 14, // Отступ от верхнего таба
+  },
+  movieList: {
+    flex: 1, // Занимает всё оставшееся место
+    marginTop: 14, // Расстояние от кнопки
   },
   movieItem: {
     flexDirection: "row",
-    marginVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "lightgray",
-    paddingBottom: 10,
+    borderWidth: 1,
+    borderColor: "black", // Цвет границы
+    padding: 10,
   },
   poster: {
     width: 100,
@@ -124,9 +137,33 @@ const styles = StyleSheet.create({
   },
   movieDetails: {
     flex: 1,
+    justifyContent: "top",
   },
   title: {
     fontSize: 16,
     fontWeight: "bold",
+    color: "#2673D0",
+    fontFamily: "Roboto-Bold",
+  },
+  detailText: {
+    fontSize: 14,
+    color: "#2673D0",
+    fontFamily: "Roboto-Medium",
+  },
+
+  button: {
+    alignSelf: "flex-end", // Выравнивание кнопки справа
+    backgroundColor: "#CFE2F9",
+    width: 150,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#2673D0",
+    fontSize: 18,
+    fontWeight: "bold",
+    fontFamily: "Roboto-Bold", // Тот же стиль шрифта
+    textAlign: "center", // Центровка текста
   },
 });

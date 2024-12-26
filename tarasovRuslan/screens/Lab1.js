@@ -1,12 +1,15 @@
+import React from 'react';
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
-import { useState } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { changeColor, changeShape } from '../store';
 
 const colors = ["black", "red", "yellow"];
 const shapes = ["square", "circle", "triangle"];
 
-const Lab1 = () => {
-  const [colorIndex, setColorIndex] = useState(0);
-  const [shapeIndex, setShapeIndex] = useState(0);
+const Lab1 = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const colorIndex = useSelector((state) => state.app.colorIndex);
+  const shapeIndex = useSelector((state) => state.app.shapeIndex);
 
   const shapeStyle = {
     backgroundColor: colors[colorIndex],
@@ -35,8 +38,8 @@ const Lab1 = () => {
         <View style={shapeStyle} />
         <TouchableOpacity
           onPress={() => {
-            setColorIndex((colorIndex + 1) % colors.length);
-            setShapeIndex((shapeIndex + 1) % shapes.length);
+            dispatch(changeColor());
+            dispatch(changeShape());
           }}
           style={{
             backgroundColor: "green",
@@ -46,6 +49,18 @@ const Lab1 = () => {
           }}
         >
           <Text style={{ color: "white" }}>Измени мой цвет и фигуру!</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Settings')}
+          style={{
+            backgroundColor: "blue",
+            padding: 10,
+            borderRadius: 10,
+            marginTop: 20,
+          }}
+        >
+          <Text style={{ color: "white" }}>Поменять самостоятельно</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

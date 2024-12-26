@@ -1,47 +1,71 @@
-import React from 'react';
-import { View, Button, Text, StyleSheet } from 'react-native';
+import React from "react";
+import {
+  View,
+  Button,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+} from "react-native";
+import * as Font from "expo-font";
+import AppLoading from "expo-app-loading";
 
 export default function HomeScreen({ navigation }) {
+  const [fontsLoaded] = Font.useFonts({
+    "JetBrainsMono-Regular": require("../fonts/JetBrainsMono-Regular.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
   return (
-    <View style={styles.container}>
-      <Button
-        title="Перейти к Заданию 1"
-        onPress={() => navigation.navigate('lab1')}
-        style={styles.button}
-      />
-      <Button
-        title="Перейти к Заданию 2"
-        onPress={() => navigation.navigate('lab2')}
-        style={styles.button}
-      />
-      <Button
-        title="Перейти к Заданию 3"
-        onPress={() => navigation.navigate('lab3')}
-        style={styles.button}
-      />
-      <Button
-        title="Перейти к Заданию 4"
-        onPress={() => navigation.navigate('lab4')}
-        style={styles.button}
-      />
-    </View>
+    <SafeAreaView>
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("lab1")}
+        >
+          <Text style={styles.buttonText}>ПЕРЕЙТИ К ЗАДАНИЮ 1</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("lab2")}
+        >
+          <Text style={styles.buttonText}>ПЕРЕЙТИ К ЗАДАНИЮ 2</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("lab3")}
+        >
+          <Text style={styles.buttonText}>ПЕРЕЙТИ К ЗАДАНИЮ 3</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 24,
-    marginBottom: 20,
+    backgroundColor: "#FFFFFF",
+    alignItems: "center",
+    paddingBottom: 156,
+    marginBottom: 12,
+    paddingTop: 366,
   },
   button: {
-    width: '80%',
+    backgroundColor: "#529471",
+    borderRadius: 30,
+    width: 250,
+    height: 84,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 12,
   },
-  spacing: {
-    height: 10,
+  buttonText: {
+    fontSize: 20,
+    color: "#000000",
+    fontFamily: "JetBrainsMono-Regular",
   },
 });

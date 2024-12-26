@@ -4,6 +4,9 @@
 ЗАПУСК.cmd
 copy.sh
 
+#VS Code
+.vscode/
+
 
 # OSX
 #

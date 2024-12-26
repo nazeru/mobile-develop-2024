@@ -1,14 +1,22 @@
 import React from "react";
-import { SafeAreaView, View, Button, StyleSheet } from "react-native";
+import { SafeAreaView, View, StyleSheet, Text, Switch } from "react-native";
 import useTheme from "../hooks/useTheme";
 
 const ThemedSafeAreaView = ({ children }) => {
-  const { toggleTheme, backgroundColor } = useTheme();
+  const { isDarkTheme, textColor, toggleTheme, backgroundColor } = useTheme();
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor }]}>
       <View style={styles.buttonContainer}>
-        <Button title="Тема" onPress={toggleTheme} />
+        <Text style={[styles.text, { color: textColor }]}>
+          {isDarkTheme ? "Dark" : "Light"}
+        </Text>
+        <Switch
+          value={isDarkTheme}
+          onValueChange={toggleTheme}
+          trackColor={{ false: "#777777", true: "#777777" }}
+          thumbColor={isDarkTheme ? "#f5f5f5" : "#252525"}
+        />
       </View>
       {children}
     </SafeAreaView>
@@ -19,12 +27,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
   },
   buttonContainer: {
     position: "absolute",
-    top: 10,
-    right: 10,
+    top: 16,
+    right: 16,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  text: {
+    fontFamily: "Roboto-Medium",
+    fontSize: 10,
   },
 });
 

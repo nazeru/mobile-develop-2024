@@ -1,18 +1,19 @@
 import React, { useState, useMemo } from "react";
-import { StyleSheet, Text, TextInput, View, FlatList } from "react-native";
+import { StyleSheet, Text, TextInput, View, FlatList, Button } from "react-native";
 
 export default function Lab3() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [key, setKey] = useState(0);
 
   const names = [
-    "Alice",
-    "Bob",
-    "Charlie",
-    "David",
-    "Edward",
-    "Frank",
-    "Grace",
-    "Hannah",
+    "Sardaana",
+    "Aytal",
+    "Nurgun",
+    "Bergen",
+    "Sandal",
+    "Erchim",
+    "Keskil",
+    "Tuskun",
   ];
 
   const filteredNames = useMemo(() => {
@@ -22,8 +23,13 @@ export default function Lab3() {
     );
   }, [searchTerm]);
 
+  const forceRerender = () => {
+    setKey((prevKey) => prevKey + 1);
+    setSearchTerm("");
+  };
+
   return (
-    <View style={styles.container}>
+    <View style={styles.container} key={key}>
       <Text style={styles.title}>Фильтрация списка имен</Text>
       <TextInput
         style={styles.input}
@@ -31,6 +37,7 @@ export default function Lab3() {
         value={searchTerm}
         onChangeText={(text) => setSearchTerm(text)}
       />
+      <Button title="Очистить экран" onPress={forceRerender} />
       <FlatList
         data={filteredNames}
         keyExtractor={(item, index) => index.toString()}

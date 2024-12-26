@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, View, Text, Button, ScrollView } from "react-native";
+import {
+  SafeAreaView,
+  View,
+  Text,
+  Button,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 
 const countries = [
   { code: "AT", name: "Австрия" },
@@ -21,7 +29,6 @@ export default function AdministrativeDivisionsScreen() {
         `https://rawcdn.githack.com/kamikazechaser/administrative-divisions-db/master/api/${countryCode}.json`
       );
       const data = await response.json();
-      console.log("Fetched Data:", data);
       setDivisions(data); // Устанавливаем данные административных единиц
     } catch (error) {
       console.error("Error fetching divisions:", error);
@@ -38,34 +45,76 @@ export default function AdministrativeDivisionsScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <View
-          style={{
-            margin: 20,
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ marginBottom: 10 }}>
-            Административные единицы в {countries[countryIndex].name}:
-          </Text>
-          {divisions.map((division, index) => (
-            <Text key={index}>{division}</Text> // Отображаем каждую административную единицу
-          ))}
+      <View style={styles.container}>
+        <Text style={[styles.countryName, { marginTop: 120 }]}>
+          {countries[countryIndex].name}:
+        </Text>
+        <View style={styles.divisionsContainer}>
+          <ScrollView
+            contentContainerStyle={styles.scrollViewContent}
+            style={styles.scrollView}
+          >
+            {divisions.map((division, index) => (
+              <Text key={index} style={styles.divisionText}>
+                {division}
+              </Text>
+            ))}
+          </ScrollView>
         </View>
-      </ScrollView>
-      <Button
-        title={"Сменить страну"}
-        onPress={handleChangeCountry} // Меняем страну при нажатии кнопки
-        style={{ margin: 20 }}
-      />
+      </View>
+      <TouchableOpacity style={styles.button} onPress={handleChangeCountry}>
+        <Text style={styles.buttonText}>Сменить страну</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+  },
+  countryName: {
+    fontSize: 24,
+    color: "#2673D0",
+    fontFamily: "Roboto-Bold",
+    marginBottom: 80,
+    textAlign: "center",
+  },
+  divisionsContainer: {
+    width: 300,
+    height: 324,
+  },
+  scrollView: {
+    width: "100%",
+    height: "100%",
+  },
+  divisionText: {
+    fontSize: 16,
+    color: "#2673D0",
+    fontFamily: "Roboto-Bold",
+    textAlign: "center",
+    marginVertical: 5,
+  },
+  button: {
+    position: "absolute",
+    bottom: 35,
+    alignSelf: "center",
+    backgroundColor: "#CFE2F9",
+    width: 200,
+    height: 60,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#2673D0",
+    fontSize: 18,
+    fontWeight: "bold",
+    fontFamily: "Roboto-Bold",
+    textAlign: "center",
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

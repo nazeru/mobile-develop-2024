@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import ThemedSafeAreaView from "../components/ThemedSafeAreaView";
 import useTheme from "../hooks/useTheme";
@@ -31,52 +31,86 @@ const Lab1 = () => {
       <Text style={[styles.title, { color: textColor }]}>
         Click per second test
       </Text>
-      <Text style={[styles.text, { color: textColor }]}>
-        Best result: {result} clicks
-      </Text>
-      <Text style={[styles.text, { color: textColor }]}>
-        Remaining time: {seconds} seconds
-      </Text>
-      <TouchableOpacity
-        onPress={() => {
-          setSeconds(5);
-        }}
-        style={[styles.button, { backgroundColor: textColor }]}
-      >
-        <Text style={[styles.text, { color: backgroundColor }]}>
-          Restart timer
+      <View style={styles.container}>
+        <Text style={[styles.textDesc, { color: textColor, marginRight: 48 }]}>
+          {seconds}
+          {"\n"}Timer
         </Text>
-      </TouchableOpacity>
+        <Text style={[styles.textDesc, { color: textColor }]}>
+          {clicks}
+          {"\n"}Score
+        </Text>
+        <Text style={[styles.textDesc, { color: textColor, marginLeft: 48 }]}>
+          {result}
+          {"\n"}Best
+        </Text>
+      </View>
       <TouchableOpacity
         onPress={() => {
           setClicks(clicks + 1);
         }}
         style={[styles.clickButton, { backgroundColor: textColor }]}
       >
-        <Text style={[styles.text, { color: backgroundColor }]}>Click!</Text>
+        <Text
+          style={{
+            color: backgroundColor,
+            fontFamily: "Roboto-Medium",
+            fontSize: 20,
+          }}
+        >
+          Click!
+        </Text>
       </TouchableOpacity>
-      <Text style={[styles.text, { color: textColor }]}>Clicks: {clicks}</Text>
+      <TouchableOpacity
+        onPress={() => {
+          setSeconds(5);
+        }}
+        style={[styles.button, { backgroundColor: textColor }]}
+      >
+        <Text
+          style={{
+            color: backgroundColor,
+            fontFamily: "Roboto-Medium",
+            fontSize: 14,
+          }}
+        >
+          Restart
+        </Text>
+      </TouchableOpacity>
     </ThemedSafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 20,
+    fontSize: 24,
+    fontFamily: "Roboto-Medium",
+    marginTop: 148,
   },
-  text: {
-    fontSize: 15,
-    marginTop: 20,
+  textDesc: {
+    fontSize: 16,
+    fontFamily: "Roboto-Medium",
+    textAlign: "center",
   },
   button: {
-    padding: 10,
-    borderRadius: 10,
-    marginTop: 20,
+    width: 92,
+    height: 28,
+    borderRadius: 18,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 44,
   },
   clickButton: {
-    padding: 100,
-    borderRadius: 120,
-    marginTop: 20,
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 44,
+  },
+  container: {
+    flexDirection: "row",
+    marginTop: 22,
   },
 });
 

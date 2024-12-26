@@ -22,10 +22,8 @@ export default function HomeScreen() {
   const [displayText, setDisplayText] = useState(colorsText[0]); // Говорит какого цвета квадрат
   return (
     <SafeAreaView style={{ flex: 1, display: "flex" }}>
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Привет мир</Text>
-
-        <Text style={{ marginTop: 20 }}>{displayText}</Text>
+      <View style={styles.container}>
+        <Text style={styles.displayText}>{displayText}</Text>
         <View
           style={{
             backgroundColor: colors[colorIndex],
@@ -40,16 +38,11 @@ export default function HomeScreen() {
             //setDisplayText((displayText + 1) % 3);
             setDisplayText(colorsText[(colorIndex + 1) % colors.length]); // Текст цвета
           }}
-          style={{
-            backgroundColor: "green",
-            padding: 10,
-            borderRadius: 10,
-            marginTop: 10,
-          }}
+          style={styles.button}
         >
-          <Text style={{ color: "white" }}>Нажимай!</Text>
+          <Text style={styles.buttonText}>Нажимай!</Text>
         </TouchableOpacity>
-        <Text style={{ marginTop: 20 }}>
+        <Text style={styles.counterText}>
           {" "}
           Цвет поменялся: {colorChangeCount} раз{" "}
         </Text>
@@ -57,3 +50,42 @@ export default function HomeScreen() {
     </SafeAreaView>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  displayText: {
+    fontSize: 18,
+    fontFamily: "Roboto-Bold",
+    color: "#2673D0",
+    marginBottom: 20,
+  },
+  square: {
+    width: 100,
+    height: 100,
+    marginBottom: 20,
+  },
+  button: {
+    position: "absolute",
+    top: 610, // Позиция кнопки ниже верхней точки
+    width: 150,
+    height: 150,
+    borderRadius: 90, // Круглая кнопка
+    backgroundColor: "#CFE2F9", // Цвет, как у таба
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    fontSize: 18,
+    fontFamily: "Roboto-Bold",
+    color: "#2673D0",
+  },
+  counterText: {
+    fontSize: 18,
+    fontFamily: "Roboto-Bold",
+    color: "#2673D0",
+    marginTop: 20,
+  },
+});

@@ -1,5 +1,5 @@
 import { Text, TextInput, FlatList, View, StyleSheet } from "react-native";
-import { Picker } from "@react-native-picker/picker";
+import { RadioButton } from "react-native-paper";
 import { useEffect, useState, useMemo } from "react";
 import axios from "axios";
 import ThemedSafeAreaView from "../components/ThemedSafeAreaView";
@@ -39,49 +39,119 @@ const Lab3 = () => {
 
   return (
     <ThemedSafeAreaView>
-      <Text style={[styles.title, { color: textColor }]}>Список товаров</Text>
-      <TextInput
-        placeholder="Минимальная цена"
-        value={minPrice}
-        onChangeText={setMinPrice}
-        keyboardType="numeric"
-        style={[styles.input, { color: textColor, borderColor: textColor }]}
-      />
-      <TextInput
-        placeholder="Максимальная цена"
-        value={maxPrice}
-        onChangeText={setMaxPrice}
-        keyboardType="numeric"
-        style={[styles.input, { color: textColor, borderColor: textColor }]}
-      />
-      <Text style={{ color: textColor }}>Сортировка по цене:</Text>
-      <Picker
-        selectedValue={sortOrder}
-        onValueChange={(sortValue) => setSortOrder(sortValue)}
-        style={[styles.picker, { color: textColor }]}
-      >
-        <Picker.Item label="По возрастанию" value="asc" />
-        <Picker.Item label="По убыванию" value="desc" />
-      </Picker>
+      <Text style={[styles.title, { color: textColor }]}>Products</Text>
+      <View>
+        <Text style={[styles.propertities, { color: textColor }]}>
+          Minimum price
+        </Text>
+        <TextInput
+          value={minPrice}
+          onChangeText={setMinPrice}
+          keyboardType="numeric"
+          style={[
+            styles.input,
+            {
+              color: backgroundColor,
+              borderColor: backgroundColor,
+              backgroundColor: textColor,
+            },
+          ]}
+        />
+        <Text style={[styles.propertities, { color: textColor }]}>
+          Maximum price
+        </Text>
+        <TextInput
+          value={maxPrice}
+          onChangeText={setMaxPrice}
+          keyboardType="numeric"
+          style={[
+            styles.input,
+            {
+              color: backgroundColor,
+              borderColor: backgroundColor,
+              backgroundColor: textColor,
+            },
+          ]}
+        />
+        <Text style={[styles.propertities, { color: textColor }]}>Sorting</Text>
+        <View style={styles.radioButtons}>
+          <View style={styles.radioButton}>
+            <RadioButton
+              value="asc"
+              status={sortOrder == "asc" ? "checked" : "unchecked"}
+              onPress={() => setSortOrder("asc")}
+              color={textColor}
+              uncheckedColor={textColor}
+            />
+            <Text style={[styles.sortText, { color: textColor }]}>Asc</Text>
+          </View>
+          <View style={styles.radioButton}>
+            <RadioButton
+              value="desc"
+              status={sortOrder == "desc" ? "checked" : "unchecked"}
+              onPress={() => setSortOrder("desc")}
+              color={textColor}
+              uncheckedColor={textColor}
+            />
+            <Text style={[styles.sortText, { color: textColor }]}>Desc</Text>
+          </View>
+        </View>
+      </View>
       <FlatList
         data={getFilteredItems}
         keyExtractor={(item) => item.id.toString()}
+        style={{ borderColor: textColor, borderWidth: 0.5, marginTop: 40 }}
         renderItem={({ item }) => {
           return (
-            <View style={[styles.item, { backgroundColor: backgroundColor }]}>
-              <Text
-                style={[
-                  styles.itemText,
-                  { color: textColor, fontWeight: "bold" },
-                ]}
-              >
+            <View
+              style={[
+                styles.item,
+                {
+                  color: textColor,
+                  borderColor: textColor,
+                  backgroundColor: backgroundColor,
+                },
+              ]}
+            >
+              <Text style={[styles.itemTitle, { color: textColor }]}>
                 {item.title}
               </Text>
-              <Text style={[styles.itemText, { color: textColor }]}>
-                Цена: ${item.price}
+              <Text
+                style={{
+                  color: textColor,
+                  fontSize: 12,
+                  fontFamily: "Roboto-Regular",
+                }}
+              >
+                Цена:{" "}
+                <Text
+                  style={{
+                    color: textColor,
+                    fontSize: 12,
+                    fontFamily: "Roboto-Medium",
+                  }}
+                >
+                  ${item.price}
+                </Text>
               </Text>
-              <Text style={[styles.itemText, { color: textColor }]}>
-                Rating: ${item.rating?.rate}
+              <Text
+                style={{
+                  color: textColor,
+                  fontSize: 12,
+                  fontFamily: "Roboto-Regular",
+                }}
+              >
+                Rating:{" "}
+                <Text
+                  style={{
+                    color: textColor,
+                    fontSize: 12,
+                    fontFamily: "Roboto-Medium",
+                    marginBottom: 8,
+                  }}
+                >
+                  ${item.rating?.rate}
+                </Text>
               </Text>
             </View>
           );
@@ -93,26 +163,46 @@ const Lab3 = () => {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 18,
-    marginBottom: 10,
+    fontSize: 24,
+    fontFamily: "Roboto-Medium",
+    marginTop: 80,
+    marginBottom: 20,
+  },
+  propertities: {
+    fontsize: 16,
+    fontFamily: "Roboto-Medium",
+    marginTop: 20,
   },
   input: {
-    height: 40,
-    borderWidth: 1,
-    marginBottom: 10,
-    padding: 8,
+    height: 28,
+    width: 196,
+    marginTop: 4,
+    borderRadius: 4,
+    fontFamily: "Roboto-Regular",
+    fontSize: 12,
+    paddingLeft: 8,
   },
-  picker: {
-    height: 40,
-    width: 150,
+  radioButtons: {
+    flexDirection: "row",
+    marginTop: 4,
+  },
+  radioButton: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   item: {
-    padding: 10,
-    marginVertical: 5,
-    borderRadius: 5,
+    marginTop: 16,
+    marginLeft: 28,
   },
-  itemText: {
+  itemTitle: {
     fontSize: 14,
+    fontFamily: "Roboto-Medium",
+    marginBottom: 4,
+  },
+  sortText: {
+    fontFamily: "Roboto-Medium",
+    fontSize: 12,
+    marginRight: 16,
   },
 });
 

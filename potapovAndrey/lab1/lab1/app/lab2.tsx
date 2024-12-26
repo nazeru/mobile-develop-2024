@@ -6,19 +6,20 @@ import {
   ActivityIndicator,
   Button,
 } from "react-native";
-
+import { useTheme } from "../ThemeContext";
 const CurrencyRates = () => {
   const [rates, setRates] = useState<{ [key: string]: number }>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const chosenCurrency = ["USD", "EUR", "CNY"];
+  const { isDarkTheme } = useTheme();
 
   const fetchCurrencyRates = async () => {
     try {
       const response = await fetch(
         `https://v6.exchangerate-api.com/v6/c8eeda21e63430fa00336497/latest/RUB`
-      ); // Получаем курсы относительно рубля
+      );
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -60,11 +61,16 @@ const CurrencyRates = () => {
     return <Text style={styles.error}>{error}</Text>;
   }
 
+  const themeStyles = isDarkTheme
+    ? styles.darkContainer
+    : styles.lightContainer;
+  const textStyles = isDarkTheme ? styles.darkText : styles.lightText;
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>КУРСЫ ВАЛЮТ:</Text>
+    <View style={[styles.container, themeStyles]}>
+      <Text style={[styles.title, textStyles]}>КУРСЫ ВАЛЮТ:</Text>
       {Object.entries(rates).map(([currency, rate]) => (
-        <Text key={currency} style={styles.rate}>
+        <Text key={currency} style={[styles.rate, textStyles]}>
           1 {currency} = {rate.toFixed(2)} RUB
         </Text>
       ))}
@@ -80,6 +86,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
   },
+  darkContainer: {
+    backgroundColor: "#333",
+  },
+  lightContainer: {
+    backgroundColor: "#fff",
+  },
   title: {
     fontSize: 24,
     fontWeight: "bold",
@@ -90,6 +102,12 @@ const styles = StyleSheet.create({
   error: {
     color: "red",
     fontSize: 18,
+  },
+  darkText: {
+    color: "#fff",
+  },
+  lightText: {
+    color: "#000",
   },
   updateMessage: {
     marginTop: 10,

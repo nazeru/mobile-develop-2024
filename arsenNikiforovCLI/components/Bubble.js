@@ -1,8 +1,7 @@
-
-// Bubble.js
-import React, { useEffect, useState, useContext } from 'react';
+// components/Bubble.js
+import React, { useEffect, useState } from 'react';
 import { Animated, StyleSheet, Dimensions, PanResponder } from 'react-native';
-import { ThemeContext } from '../ThemeContext';
+import useTheme from '../hooks/useTheme';
 
 const { width, height } = Dimensions.get('window');
 
@@ -11,9 +10,9 @@ const Bubble = ({ id, removeBubble, onDrag, gameOver }) => {
     new Animated.ValueXY({ x: Math.random() * (width - 80), y: height })
   );
   const [opacity] = useState(new Animated.Value(1));
-  const { colors } = useContext(ThemeContext);
+  const colors = useTheme();
 
-  const color = colors.accent;
+  const bubbleColor = colors.accent;
 
   useEffect(() => {
     if (!gameOver) {
@@ -57,7 +56,7 @@ const Bubble = ({ id, removeBubble, onDrag, gameOver }) => {
       style={[
         styles.bubble,
         {
-          backgroundColor: color,
+          backgroundColor: bubbleColor,
           transform: position.getTranslateTransform(),
           opacity,
         },
