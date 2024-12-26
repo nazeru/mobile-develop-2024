@@ -31,15 +31,14 @@ const Lab3 = () => {
         { backgroundColor: isDarkMode ? '#333' : '#fff' },
         ]}
         >
-        <Text style={styles.title}>Факториал</Text>
+        <Text style={[styles.title, { color: isDarkMode ? '#fff' : '#333' }]}>Факториал</Text>
         <TextInput
-            style={styles.input}
+            style={[styles.input, { color: isDarkMode ? '#fff' : '#333' }]}
             keyboardType="numeric"
-            placeholder="Введите число"
             value={input}
             onChangeText={handleChange}
         />
-        <Text style={styles.result}>
+        <Text style={[styles.result, { color: isDarkMode ? '#fff' : '#333' }]}>
             {input === ''
             ? 'Введите число'
             : `Факториал числа ${number}: ${factorial}`}

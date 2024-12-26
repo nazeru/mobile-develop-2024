@@ -1,0 +1,1 @@
+ссылка на фигму: https://www.figma.com/design/kl9ywHFwNBtPqffE4UvU3p/LabRMP?node-id=0-1&t=8DzAokav0EIxR541-1
