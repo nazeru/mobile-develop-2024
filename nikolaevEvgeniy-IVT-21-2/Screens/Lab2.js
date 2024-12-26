@@ -7,7 +7,6 @@ const Lab2 = () => {
   const [num2, setNum2] = useState("");
   const [num3, setNum3] = useState("");
 
-  // Вычисляем сумму чисел от num1 до num2
   const sumBetween = useMemo(() => {
     const n1 = parseInt(num1) || 0;
     const n2 = parseInt(num2) || 0;
@@ -15,7 +14,6 @@ const Lab2 = () => {
     return ((end - start + 1) * (start + end)) / 2;
   }, [num1, num2]);
 
-  // Сравниваем num1 и num2
   const comparison = useMemo(() => {
     const n1 = parseInt(num1) || 0;
     const n2 = parseInt(num2) || 0;
@@ -23,10 +21,13 @@ const Lab2 = () => {
     return n1 > n2 ? "Первое число больше" : "Второе число больше";
   }, [num1, num2]);
 
-  // Вычисляем удвоенное значение num3
   const doubleNum3 = useMemo(() => {
     const n3 = parseInt(num3) || 0;
-    return n3 * 2;
+    var result = 1;
+    for (var i = 2; i <= n3; i++) {
+        result *= i;
+    }
+    return result;
   }, [num3]);
 
   return (
@@ -55,7 +56,7 @@ const Lab2 = () => {
       />
       <Text style={styles.result}>Сравнение: {comparison}</Text>
       <Text style={styles.result}>Сумма чисел от {num1} до {num2}: {sumBetween}</Text>
-      <Text style={styles.result}>Удвоенное третье число: {doubleNum3}</Text>
+      <Text style={styles.result}>Факториал третьего числа: {doubleNum3}</Text>
     </View>
   );
 };
