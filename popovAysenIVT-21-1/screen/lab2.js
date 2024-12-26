@@ -1,58 +1,55 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, Button, Image, ActivityIndicator, StyleSheet } from 'react-native';
 
 export default function App() {
-  const [data, setData] = useState([]); // Хранение данных из API
-  const [loading, setLoading] = useState(true); 
+  const [image, setImage] = useState(null); 
+  const [loading, setLoading] = useState(false); 
   const [error, setError] = useState(null); 
 
-  useEffect(() => {
-    // Функция для получения данных
-    const fetchData = async () => {
-      try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts'); // API-запрос
-        const result = await response.json(); 
-        setData(result); 
-      } catch (err) {
-        setError('Ошибка загрузки данных'); 
-      } finally {
-        setLoading(false); 
+ 
+  const fetchDogImage = async () => {
+    setLoading(true); 
+    setError(null); 
+
+    try {
+      const response = await fetch('https://dog.ceo/api/breeds/image/random');
+      const result = await response.json();
+      if (response.ok) {
+        setImage(result.message); 
+      } else {
+        throw new Error('Не удалось получить изображение');
       }
-    };
+    } catch (err) {
+      setError('Ошибка загрузки изображения'); 
+    } finally {
+      setLoading(false); 
+    }
+  };
 
-    fetchData(); 
-  }, []); 
-
-  if (loading) {
-    return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Text>Загрузка данных...</Text>
-      </View>
-    );
-  }
-
-  if (error) {
-    return (
-      <View style={styles.center}>
-        <Text style={styles.error}>{error}</Text>
-      </View>
-    );
-  }
+  useEffect(() => {
+    fetchDogImage();
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Список постов</Text>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Text style={styles.itemTitle}>{item.title}</Text>
-            <Text style={styles.itemBody}>{item.body}</Text>
-          </View>
-        )}
-      />
+      <Text style={styles.title}>Случайная фотография собаки</Text>
+      
+      {loading ? (
+        <View style={styles.center}>
+          <ActivityIndicator size="large" color="#0000ff" />
+          <Text>Загрузка...</Text>
+        </View>
+      ) : error ? (
+        <View style={styles.center}>
+          <Text style={styles.error}>{error}</Text>
+        </View>
+      ) : (
+        <View style={styles.imageContainer}>
+          <Image source={{ uri: image }} style={styles.image} />
+        </View>
+      )}
+
+      <Button title="Обновить" onPress={fetchDogImage} />
     </View>
   );
 }
@@ -62,9 +59,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#f5f5f5',
-  },
-  center: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -74,24 +68,17 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
   },
-  item: {
-    padding: 15,
-    marginBottom: 10,
-    backgroundColor: '#fff',
+  imageContainer: {
+    marginBottom: 20,
     borderRadius: 8,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#ddd',
   },
-  itemTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  itemBody: {
-    marginTop: 5,
-    fontSize: 14,
-    color: '#555',
+  image: {
+    width: 300,
+    height: 300,
+    resizeMode: 'cover',
   },
   error: {
     color: 'red',
