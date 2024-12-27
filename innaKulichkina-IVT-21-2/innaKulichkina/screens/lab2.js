@@ -30,13 +30,15 @@ const CatFactApp = () => {
         { backgroundColor: isDarkMode ? '#333' : '#fff' },
       ]}
     >
-      <Text style={styles.title}>Cat Fact</Text>
+      <Text style={[styles.title, { color: isDarkMode ? '#fff' : '#333' }]}>Cat Fact</Text>
       {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#dedad7" />
       ) : (
-        <Text style={styles.factText}>{fact}</Text>
+        <Text style={[styles.factText, { color: isDarkMode ? '#fff' : '#333' }]}>{fact}</Text>
       )}
-      <Button title="Get Another Fact" onPress={fetchCatFact} />
+      <TouchableOpacity style={[styles.ovalButton, { backgroundColor: isDarkMode ? '#fff' : '#333' }]} onPress={fetchCatFact}>
+        <Text style={{color: isDarkMode ? '#333' : '#fff' , fontWeight: 'bold'}}>Get Another Fact</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.themeButton} onPress={toggleTheme}>
         <Text style={styles.emojiText}>
           {isDarkMode ? '🌞' : '🌙'}
@@ -75,6 +77,13 @@ const styles = StyleSheet.create({
   emojiText: {
     fontSize: 30,
   },
+  ovalButton: {
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 50,
+    marginVertical: 10,
+  }
+  
 });
 
 export default CatFactApp;

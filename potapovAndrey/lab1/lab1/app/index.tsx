@@ -13,10 +13,31 @@ const ThemedIndex = () => {
 
   return (
     <View style={isDarkTheme ? styles.darkContainer : styles.lightContainer}>
-      <Tab.Navigator>
-        <Tab.Screen name="Лаба 1" component={Lab1} />
-        <Tab.Screen name="Лаба 2" component={Lab2} />
-        <Tab.Screen name="Лаба 3" component={Lab3} />
+      <Tab.Navigator
+        screenOptions={{
+          tabBarStyle: {
+            backgroundColor: "#008B8B",
+          },
+          headerShown: false,
+          tabBarLabelStyle: {
+            color: "#FFFFFF", // Цвет текста вкладок
+            fontSize: 20, // Размер шрифта
+            fontWeight: "bold",
+            marginBottom: 12,
+          },
+          headerTintColor: "#fff",
+          tabBarItemStyle: {
+            borderRightWidth: 1, // Добавляем правую границу
+            borderLeftWidth: 1,
+            borderRightColor: "#FFFFFF", // Цвет границы
+            borderLeftColor: "#FFFFFF",
+          },
+          tabBarIcon: () => null,
+        }}
+      >
+        <Tab.Screen name="Лаб 1" component={Lab1} />
+        <Tab.Screen name="Лаб 2" component={Lab2} />
+        <Tab.Screen name="Лаб 3" component={Lab3} />
       </Tab.Navigator>
     </View>
   );

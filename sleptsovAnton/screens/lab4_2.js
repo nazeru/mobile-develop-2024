@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     fontFamily: "Roboto-Bold",
-    color: "#2673D0",
+    color: "#252525",
   },
   taskContainer: {
     flexDirection: "row", // Расположим текст и кнопку по горизонтали
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   },
   taskText: {
     fontSize: 16,
-    color: "#2673D0", // Цвет текста
+    color: "#252525", // Цвет текста
     fontWeight: "bold",
     marginLeft: 10,
     fontFamily: "Roboto-Bold",
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "gray",
     marginLeft: 10,
-    color: "#2673D0",
+    color: "#252525",
     fontFamily: "Roboto-Medium",
   },
   statusButton: {
@@ -86,11 +86,11 @@ const styles = StyleSheet.create({
     height: 40, // Высота кнопки
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#CFE2F9", // Цвет фона кнопки
+    backgroundColor: "#000000", // Цвет фона кнопки
     marginRight: 10, // Отступ от правой границы
   },
   buttonText: {
-    color: "#2673D0",
+    color: "#FFFFFF",
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",

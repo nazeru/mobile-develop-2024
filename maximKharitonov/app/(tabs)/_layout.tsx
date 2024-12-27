@@ -1,53 +1,73 @@
 // _layout.tsx
-
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform } from 'react-native';
+import { AppProvider, useAppContext } from '@/components/AppContext';
+import { MaterialIcons } from '@expo/vector-icons'; 
+import { View } from 'react-native';
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-export default function TabLayout() {
-    const colorScheme = useColorScheme();
+const TabLayout: React.FC = () => {
+    const { isDarkTheme } = useAppContext(); 
 
     return (
-        <Tabs
-            screenOptions={{
-                tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-                headerShown: false,
-                tabBarButton: HapticTab,
-                tabBarBackground: TabBarBackground,
-                tabBarStyle: Platform.select({
-                    ios: {
-                        position: 'absolute',
+        <View style={{ flex: 1, backgroundColor: isDarkTheme ? '#1e1e1e' : '#f0f0f0' }}> 
+            <Tabs
+                screenOptions={{
+                    tabBarStyle: {
+                        backgroundColor: isDarkTheme ? '#1e1e1e' : '#f0f0f0', 
                     },
-                    default: {},
-                }),
-            }}>
-            <Tabs.Screen
-                name="index"
-                options={{
-                    title: 'Home',
-                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+                    tabBarActiveTintColor: 'tomato', 
+                    tabBarInactiveTintColor: isDarkTheme ? '#fff' : 'grey', 
                 }}
-            />
-            <Tabs.Screen
-                name="explore"
-                options={{
-                    title: 'Explore',
-                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-                }}
-            />
-            <Tabs.Screen
-                name="timer"  // Имя нового экрана
-                options={{
-                    title: 'Секундомер',
-                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="clock.fill" color={color} />,
-                }}
-            />
-        </Tabs>
+            >
+                <Tabs.Screen 
+                    name="index" 
+                    options={{ 
+                        title: 'Секундомер',
+                        headerShown: false, 
+                        tabBarIcon: ({ color, size, focused }) => (
+                            <MaterialIcons name="access-alarm" size={size} color={focused ? 'orange' : color} />  
+                        ),
+                    }} 
+                />
+                <Tabs.Screen 
+                    name="TimerScreen" 
+                    options={{ 
+                        title: 'Таймер',
+                        headerShown: false, 
+                        tabBarIcon: ({ color, size, focused }) => (
+                            <MaterialIcons name="timer" size={size} color={focused ? 'orange' : color} />  
+                        ),
+                    }} 
+                />
+                <Tabs.Screen 
+                    name="WheatherScreen" 
+                    options={{ 
+                        title: 'Фильмы',
+                        headerShown: false, 
+                        tabBarIcon: ({ color, size, focused }) => (
+                            <MaterialIcons name="wb-sunny" size={size} color={focused ? 'orange' : color} />  
+                        ),
+                    }} 
+                />
+                <Tabs.Screen 
+                    name="SettingsScreen" 
+                    options={{ 
+                        title: 'Настройки',
+                        headerShown: false, 
+                        tabBarIcon: ({ color, size, focused }) => (
+                            <MaterialIcons name="settings" size={size} color={focused ? 'orange' : color} />  
+                        ),
+                    }} 
+                />
+            </Tabs>
+        </View>
+    );
+};
+
+export default function MainLayout() {
+    return (
+        <AppProvider>
+            <TabLayout />
+        </AppProvider>
     );
 }

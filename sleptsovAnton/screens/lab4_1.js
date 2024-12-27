@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   },
   button: {
     alignSelf: "flex-end", // Выравнивание кнопки справа
-    backgroundColor: "#CFE2F9",
+    backgroundColor: "#252525",
     height: 50,
     width: 150,
     justifyContent: "center",
@@ -115,14 +115,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonText: {
-    color: "#2673D0",
+    color: "#FFFFFF",
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
     fontFamily: "Roboto-Bold",
   },
   buttonEdit: {
-    color: "#2673D0",
+    color: "#FFFFFF",
     fontSize: 12,
     fontWeight: "bold",
     textAlign: "center",
@@ -140,12 +140,12 @@ const styles = StyleSheet.create({
   taskTitle: {
     fontSize: 18,
     fontFamily: "Roboto-Bold",
-    color: "#2673D0",
+    color: "#252525",
   },
   taskStatus: {
     fontSize: 18,
     fontFamily: "Roboto-Medium",
-    color: "#2673D0",
+    color: "#252525",
   },
   buttonGroup: {
     flexDirection: "row",
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     borderColor: "black",
     height: "100%", // Высота кнопки равна высоте контейнера
     width: 93,
-    backgroundColor: "#CFE2F9",
+    backgroundColor: "#252525",
   },
   taskButtonEdit: {
     flex: 1,
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: "100%", // Высота кнопки равна высоте контейнера
     width: 93,
-    backgroundColor: "#CFE2F9",
+    backgroundColor: "#252525",
   },
   editContainer: { marginTop: 20 },
 });

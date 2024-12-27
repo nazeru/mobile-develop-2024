@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Button, Text, View } from "react-native";
-import styles from "./styles";
+import { useTheme } from "../ContextAPI/themeContext";
+import { getStyles } from "./styles";
 
 const Lab2 = () => {
+  const { isDarkTheme } = useTheme();
+  const styles = getStyles(isDarkTheme);
+
   const [fact, setFact] = useState("");
   const [loadT, setLoadT] = useState(false);
 
@@ -29,7 +33,7 @@ const Lab2 = () => {
           "YOU USED ALL AVAILABLE FREE TRANSLATIONS"
         )
       ) {
-        return "Перевод временно недоступен.";
+        return text;
       }
       return data.responseData.translatedText;
     } catch (error) {

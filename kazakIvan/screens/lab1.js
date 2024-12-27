@@ -1,32 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import BackArrow from "../components/BackArrow";
 import { useTheme } from "../components/ThemeContext";
+import { useTasksStore } from "../components/zustand"; // Импорт Zustand
 
-// Компонент для отображения точки
-const Dot = ({ position, visible, dotColor }) => {
-  return (
-    <View
-      style={[
-        styles.dot,
-        position,
-        { opacity: visible ? 1 : 0, backgroundColor: dotColor }, // Управление цветом точки
-      ]}
-    />
-  );
-};
+const Dot = ({ position, visible, dotColor }) => (
+  <View
+    style={[
+      styles.dot,
+      position,
+      { opacity: visible ? 1 : 0, backgroundColor: dotColor },
+    ]}
+  />
+);
 
 export default function Lab1({ navigation }) {
-  const [randomNumber, setRandomNumber] = useState(1);
-
-  const { darkTheme } = useTheme(); // Получаем тему из контекста
+  const { darkTheme } = useTheme();
+  const { randomNumber, setRandomNumber } = useTasksStore(); // Zustand-хранилище
 
   const generateRandomNumber = () => {
     const number = Math.floor(Math.random() * 6) + 1;
-    setRandomNumber(number);
+    setRandomNumber(number); // Сохраняем число
   };
 
-  // Карта позиций точек
   const dotPositions = [
     { top: "25%", left: "25%", transform: [{ translateX: -20 }, { translateY: -20 }] },
     { top: "50%", left: "25%", transform: [{ translateX: -20 }, { translateY: -20 }] },
@@ -37,7 +33,6 @@ export default function Lab1({ navigation }) {
     { bottom: "25%", right: "25%", transform: [{ translateX: 20 }, { translateY: 20 }] },
   ];
 
-  // Карта видимости точек для каждого числа
   const dotVisibilityMap = {
     1: [0, 0, 0, 1, 0, 0, 0],
     2: [1, 0, 0, 0, 0, 0, 1],
@@ -49,7 +44,7 @@ export default function Lab1({ navigation }) {
 
   const themeStyles = darkTheme
     ? styles.darkTheme
-    : styles.lightTheme; // Выбор стиля в зависимости от темы
+    : styles.lightTheme;
 
   return (
     <View style={[styles.container, themeStyles.container]}>
@@ -62,7 +57,7 @@ export default function Lab1({ navigation }) {
               key={index}
               position={position}
               visible={dotVisibilityMap[randomNumber][index]}
-              dotColor={darkTheme ? "#E1E1E1" : "#8C6F53"} // Цвет точек зависит от темы
+              dotColor={darkTheme ? "#E1E1E1" : "#8C6F53"}
             />
           ))}
         </View>
@@ -70,7 +65,6 @@ export default function Lab1({ navigation }) {
           onPress={generateRandomNumber}
           style={[styles.rollButton, themeStyles.rollButton]}
         >
-          {/* Текст обязательно обёрнут в <Text> */}
           <Text style={styles.buttonText}>Roll</Text>
         </TouchableOpacity>
       </View>

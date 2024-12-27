@@ -13,7 +13,7 @@ export default function Lab1() {
     const colors = ['#FF5733', '#33FF57', '#3357FF', '#FFFF33', '#FF33FF'];
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
     dispatch(setBgColor(randomColor));
-  };  
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: bgColor }]}>

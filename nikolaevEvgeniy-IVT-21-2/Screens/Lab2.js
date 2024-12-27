@@ -1,55 +1,32 @@
-import React, { useState, useMemo } from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { commonStyles } from "../styles";
 
 const Lab2 = () => {
-  const [num1, setNum1] = useState("");
-  const [num2, setNum2] = useState("");
+  const [catImage, setCatImage] = useState("");
 
-  const sumBetween = useMemo(() => {
-    const n1 = parseInt(num1) || 0;
-    const n2 = parseInt(num2) || 0;
-    const [start, end] = n1 < n2 ? [n1, n2] : [n2, n1];
-    return ((end - start + 1) * (start + end)) / 2;
-  }, [num1, num2]);
+  const fetchRandomCat = () => {
+    const randomCatUrl = `https://cataas.com/cat?timestamp=${new Date().getTime()}`;
+    setCatImage(randomCatUrl);
+  };
 
-  const comparison = useMemo(() => {
-    const n1 = parseInt(num1) || 0;
-    const n2 = parseInt(num2) || 0;
-    if (n1 === n2) return "Числа равны";
-    return n1 > n2 ? "Первое число больше" : "Второе число больше";
-  }, [num1, num2]);
+  useEffect(() => {
+    fetchRandomCat();
+  }, []);
 
   return (
     <View style={commonStyles.container}>
-      <Text style={commonStyles.title}>Lab2: useMemo</Text>
-      <TextInput
-        style={commonStyles.input}
-        keyboardType="numeric"
-        placeholder="Введите первое число"
-        value={num1}
-        onChangeText={setNum1}
-      />
-      <TextInput
-        style={commonStyles.input}
-        keyboardType="numeric"
-        placeholder="Введите второе число"
-        value={num2}
-        onChangeText={setNum2}
-      />
-      <Text style={styles.result}>Сравнение: {comparison}</Text>
-      <Text style={styles.result}>Сумма чисел от {num1} до {num2}: {sumBetween}</Text>
+      <Text style={commonStyles.title}>Lab2: useEffect</Text>
+      <Text style={commonStyles.title1}>Random Cat</Text>
+      {catImage ? (
+        <Image source={{ uri: catImage }} style={commonStyles.image} />
+      ) : (
+        <Text>Loading...</Text>
+      )}
+      <TouchableOpacity style={commonStyles.button} onPress={fetchRandomCat}>
+        <Text style={commonStyles.buttonText}>Нового кота!</Text>
+      </TouchableOpacity>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  result: {
-    fontSize: 18,
-    marginVertical: 10,
-    color: "#007BFF",
-    fontWeight: "bold",
-  },
-});
-
 export default Lab2;

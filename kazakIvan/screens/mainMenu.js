@@ -1,53 +1,79 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useTheme } from "../components/ThemeContext";
+import { useTasksStore } from "../components/zustand"; // Импорт Zustand
 
 export default function MainMenu({ navigation }) {
-  const { darkTheme, setDarkTheme } = useTheme(); // Используем тему из контекста
+  const { darkTheme, setDarkTheme } = useTheme();
+  const { randomNumber } = useTasksStore(); // Доступ к сохраненному числу
 
-  return (
-    <View
+return (
+  <View
+    style={[
+      styles.container,
+      darkTheme ? styles.darkBackground : styles.lightBackground,
+    ]}
+  >
+    <Text
+        style={[
+          styles.savedNumber,
+          darkTheme ? styles.darkText : styles.lightText,
+        ]}
+      >
+        {randomNumber}
+      </Text>
+    <TouchableOpacity
       style={[
-        styles.container,
-        darkTheme ? styles.darkBackground : styles.lightBackground,
+        styles.switchButton,
+        darkTheme ? styles.darkSwitchButton : styles.lightSwitchButton,
       ]}
+      onPress={() => setDarkTheme((prev) => !prev)}
     >
-      <TouchableOpacity
-        style={[
-          styles.switchButton,
-          darkTheme ? styles.darkSwitchButton : styles.lightSwitchButton,
-        ]}
-        onPress={() => setDarkTheme((prev) => !prev)}
-      >
-        <Text style={styles.labButtonText}>
-          Switch Theme
-        </Text>
-      </TouchableOpacity>
+      <Text style={styles.labButtonText}>
+        Switch Theme
+      </Text>
+    </TouchableOpacity>
 
-      <TouchableOpacity
-        style={[
-          styles.button,
-          darkTheme ? styles.darkLabButton : styles.lightLabButton,
-        ]}
-        onPress={() => navigation.navigate("Lab1")}
-      >
-        <Text style={styles.labButtonText}>Lab 1</Text>
-      </TouchableOpacity>
+    <TouchableOpacity
+      style={[
+        styles.button,
+        darkTheme ? styles.darkLabButton : styles.lightLabButton,
+      ]}
+      onPress={() => navigation.navigate("Lab1")}
+    >
+      <Text style={styles.labButtonText}>Lab 1</Text>
+    </TouchableOpacity>
 
-      <TouchableOpacity
-        style={[
-          styles.button,
-          darkTheme ? styles.darkLabButton : styles.lightLabButton,
-        ]}
-        onPress={() => navigation.navigate("Lab2_3")}
-      >
-        <Text style={styles.labButtonText}>Lab 2_3</Text>
-      </TouchableOpacity>
-    </View>
-  );
+    <TouchableOpacity
+      style={[
+        styles.button,
+        darkTheme ? styles.darkLabButton : styles.lightLabButton,
+      ]}
+      onPress={() => navigation.navigate("Lab2_3")}
+    >
+      <Text style={styles.labButtonText}>Lab 2_3</Text>
+    </TouchableOpacity>
+  </View>
+);
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+  savedNumber: {
+    fontSize: 48,
+    fontWeight: "bold",
+    marginTop: 156,
+  },
+  lightText: {
+    color: "#333333",
+  },
+  darkText: {
+    color: "#FFFFFF",
+  },
   container: {
     flex: 1,
     alignItems: "center",
@@ -67,7 +93,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 36,
-    marginTop: 227,
+    marginTop: 23,
   },
   lightSwitchButton: {
     backgroundColor: "#B28451",
