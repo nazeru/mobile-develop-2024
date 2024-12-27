@@ -2,14 +2,10 @@ import React, {useState} from 'react'
 import {StyleSheet, TouchableOpacity, View} from 'react-native'
 import BoldText from '../components/customs/text/BoldText'
 import Tooltip from '../components/customs/Tooltip'
+import Title from '../components/customs/Title'
+import Container from '../components/customs/Container'
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
-  },
   button: {
     borderRadius: 50,
     width: '50%',
@@ -30,11 +26,12 @@ const Lab2: React.FC = () => {
   }
 
   return (
-    <View
-      style={[
-        styles.container,
-        {backgroundColor: isDarkThemeOn ? darkTheme : lightTheme},
-      ]}>
+    <Container
+      style={[{backgroundColor: isDarkThemeOn ? darkTheme : lightTheme}]}>
+      <Title
+        text="useState"
+        style={[{color: isDarkThemeOn ? lightTheme : darkTheme}]}
+      />
       <Tooltip />
       <TouchableOpacity
         style={[
@@ -49,7 +46,7 @@ const Lab2: React.FC = () => {
           Click on me
         </BoldText>
       </TouchableOpacity>
-    </View>
+    </Container>
   )
 }
 

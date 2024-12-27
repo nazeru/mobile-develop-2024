@@ -1,51 +1,66 @@
 import React, { useState } from "react";
-import { SafeAreaView, Text, TouchableOpacity, View, StyleSheet } from "react-native";
-
-const colors = ["black", "red", "yellow", "green", "gray", "blue"];
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  ActivityIndicator,
+} from "react-native";
+import { useTheme } from "../themeContext";
 
 const Lab2 = () => {
-  const [backgroundColor, setBackgroundColor] = useState(colors[0]);
-
-  const getRandomColor = () => {
-    let newColor;
-    do {
-      newColor = colors[Math.floor(Math.random() * colors.length)];
-    } while (newColor === backgroundColor);
-    return newColor;
-  };
-
-  const changeColor = () => {
-    setBackgroundColor(getRandomColor());
+  const [country, setCountry] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { isDarkTheme } = useTheme();
+  const themeStyles = isDarkTheme
+    ? styles.darkContainer
+    : styles.lightContainer;
+  const textStyles = isDarkTheme ? styles.darkText : styles.lightText;
+  const getCountry = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("https://restcountries.com/v3.1/all");
+      const data = await response.json();
+      const randomCountry =
+        data[Math.floor(Math.random() * data.length)].name.common;
+      setCountry(randomCountry);
+    } catch (error) {
+      console.error("Error fetching country:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor }]}>
-      <View style={styles.innerContainer}>
-        <TouchableOpacity onPress={changeColor} style={styles.button}>
-          <Text style={styles.buttonText}>Нажми!</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+    <View style={[styles.container, themeStyles]}>
+      <Text style={[styles.title, textStyles]}>Random Country:</Text>
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <Text style={[styles.title, textStyles]}>{country}</Text>
+      )}
+      <Button title="Get Country" onPress={getCountry} />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  darkContainer: {
+    backgroundColor: "#333",
   },
-  innerContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+  lightContainer: {
+    backgroundColor: "#fff",
   },
-  button: {
-    backgroundColor: "white",
-    padding: 20,
-    borderRadius: 10,
-    marginTop: 10,
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 20,
   },
-  buttonText: {
-    color: "gray",
+  darkText: {
+    color: "#fff",
+  },
+  lightText: {
+    color: "#000",
   },
 });
 

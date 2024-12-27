@@ -50,20 +50,30 @@ const Lab2 = () => {
   }, []);
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
   }
 
   if (error) {
     return (
       <View style={styles.errorContainer}>
         <Text>Error: {error}</Text>
-        <Button title="Try Again" onPress={fetchUsers} />
+        <Button title="Попробовать снова" onPress={fetchUsers} />
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
+      {/* Верхняя полоса с текстом */}
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Лабораторная 2</Text>
+      </View>
+
+      {/* Основное содержимое */}
       <Button title="Обновить" onPress={fetchUsers} />
 
       {/* Поля для добавления нового пользователя */}
@@ -98,7 +108,23 @@ const Lab2 = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    backgroundColor: "#ffffff",
+  },
+  header: {
+    backgroundColor: "#007AFF",
+    height: 60,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   item: {
     padding: 20,
@@ -119,6 +145,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 10,
+    borderRadius: 5,
   },
 });
 

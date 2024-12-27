@@ -19,14 +19,14 @@ export default function Lab4() {
   const dispatch = useDispatch();
 
   const handleAddTask = () => {
-    if (title) {
+    if (title.trim()) {
       dispatch(addTask(title));
       setTitle("");
     }
   };
 
   const handleEditTask = () => {
-    if (newTitle && editId !== null) {
+    if (newTitle.trim() && editId !== null) {
       dispatch(editTask({ id: editId, name: newTitle }));
       setEditId(null);
       setNewTitle("");
@@ -35,6 +35,12 @@ export default function Lab4() {
 
   return (
     <View style={styles.container}>
+      {/* Верхняя полоса с текстом */}
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Лабораторная 4</Text>
+      </View>
+
+      {/* Основное содержимое */}
       <TextInput
         style={styles.input}
         placeholder="Введите название задачи"
@@ -58,6 +64,7 @@ export default function Lab4() {
               <Button
                 title="Удалить"
                 onPress={() => dispatch(deleteTask(item.id))}
+                color="#FF3B30"
               />
               <Button
                 title="Редактировать"
@@ -65,10 +72,12 @@ export default function Lab4() {
                   setEditId(item.id);
                   setNewTitle(item.name);
                 }}
+                color="#FF9500"
               />
               <Button
                 title="Завершить"
                 onPress={() => dispatch(toggleTask(item.id))}
+                color="#4CD964"
               />
             </View>
           </View>
@@ -84,6 +93,14 @@ export default function Lab4() {
             onChangeText={setNewTitle}
           />
           <Button title="Сохранить изменения" onPress={handleEditTask} />
+          <Button
+            title="Отмена"
+            onPress={() => {
+              setEditId(null);
+              setNewTitle("");
+            }}
+            color="#8E8E93"
+          />
         </View>
       )}
     </View>
@@ -91,8 +108,30 @@ export default function Lab4() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  input: { borderWidth: 1, padding: 10, marginBottom: 10, borderRadius: 5 },
+  container: {
+    flex: 1,
+    backgroundColor: "#ffffff",
+  },
+  header: {
+    backgroundColor: "#007AFF",
+    height: 60,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  input: {
+    borderWidth: 1,
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 5,
+    borderColor: "#ccc",
+    backgroundColor: "#f9f9f9",
+    marginHorizontal: 20,
+  },
   taskContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -103,6 +142,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: "#ccc",
     backgroundColor: "#f9f9f9",
+    marginHorizontal: 20,
   },
   taskTextContainer: {
     flex: 2,
@@ -112,7 +152,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-around",
   },
-  taskTitle: { fontSize: 16, fontWeight: "bold" },
-  taskStatus: { fontSize: 14, color: "gray" },
-  editContainer: { marginTop: 20 },
+  taskTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  taskStatus: {
+    fontSize: 14,
+    color: "gray",
+  },
+  editContainer: {
+    marginTop: 20,
+    backgroundColor: "#ffffff",
+    padding: 10,
+    borderRadius: 5,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    marginHorizontal: 20,
+  },
 });

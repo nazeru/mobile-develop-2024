@@ -1,8 +1,15 @@
-import React, { useMemo, useState } from 'react';
-import { View, FlatList, Text, StyleSheet, TextInput } from 'react-native';
+import {
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+  TextInput,
+  FlatList,
+} from "react-native";
+import { useState, useMemo } from "react";
+import useThemeStore from "../store/themeStore";
 
 const generateLargeData = () => {
-  // Генерируем массив из 10,000 элементов
   return Array.from({ length: 10000 }, (_, index) => ({
     id: index.toString(),
     value: `Элемент #${index + 1}`,
@@ -10,12 +17,11 @@ const generateLargeData = () => {
 };
 
 const Lab3 = () => {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
+  const { isDarkTheme, toggleTheme } = useThemeStore();
 
-  // Генерируем данные и мемоизируем их, чтобы не пересоздавать массив при каждом рендере
   const largeData = useMemo(() => generateLargeData(), []);
 
-  // Фильтруем данные на основе поиска (также мемоизируем)
   const filteredData = useMemo(() => {
     if (!search.trim()) return largeData;
     return largeData.filter((item) =>
@@ -23,17 +29,68 @@ const Lab3 = () => {
     );
   }, [search, largeData]);
 
+  const themeStyles = {
+    container: {
+      flex: 1,
+      backgroundColor: isDarkTheme ? "#121212" : "#ffffff",
+      paddingTop: 40,
+    },
+    input: {
+      height: 40,
+      width: "90%",
+      borderColor: isDarkTheme ? "#444" : "#ccc",
+      borderWidth: 1,
+      borderRadius: 8,
+      marginHorizontal: 10,
+      marginBottom: 10,
+      paddingHorizontal: 10,
+      backgroundColor: isDarkTheme ? "#1e1e1e" : "#fff",
+      color: isDarkTheme ? "#ffffff" : "#000000",
+      alignSelf: "center",
+      marginTop: 18,
+    },
+    item: {
+      padding: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: isDarkTheme ? "#333" : "#eee",
+    },
+    text: {
+      fontSize: 16,
+      color: isDarkTheme ? "#ffffff" : "#000000",
+    },
+    themeSwitchButton: {
+      position: "absolute",
+      top: 10,
+      right: 10,
+      backgroundColor: isDarkTheme ? "#121212" : "#ffffff",
+      padding: 10,
+      borderRadius: 5,
+      borderWidth: 1,
+      borderColor: isDarkTheme ? "#ffffff" : "#121212",
+    },
+    themeSwitchButtonText: {
+      color: isDarkTheme ? "#ffffff" : "#121212",
+    },
+  };
+
   const renderItem = ({ item }) => (
-    <View style={styles.item}>
-      <Text style={styles.text}>{item.value}</Text>
+    <View style={themeStyles.item}>
+      <Text style={themeStyles.text}>{item.value}</Text>
     </View>
   );
 
   return (
-    <View style={styles.container}>
+    <View style={themeStyles.container}>
+      <TouchableOpacity
+        onPress={toggleTheme}
+        style={themeStyles.themeSwitchButton}
+      >
+        <Text style={themeStyles.themeSwitchButtonText}>Сменить тему</Text>
+      </TouchableOpacity>
       <TextInput
-        style={styles.input}
+        style={themeStyles.input}
         placeholder="Введите текст для поиска..."
+        placeholderTextColor={isDarkTheme ? "#777" : "#aaa"}
         value={search}
         onChangeText={setSearch}
       />
@@ -41,38 +98,12 @@ const Lab3 = () => {
         data={filteredData}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
-        initialNumToRender={20} // Оптимизация рендера
-        maxToRenderPerBatch={50} // Ограничиваем рендер за один проход
-        removeClippedSubviews // Удаляем элементы вне экрана
+        initialNumToRender={20}
+        maxToRenderPerBatch={50}
+        removeClippedSubviews
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f8f8f8',
-    paddingTop: 10,
-  },
-  input: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginHorizontal: 10,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    backgroundColor: '#fff',
-  },
-  item: {
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  text: {
-    fontSize: 16,
-  },
-});
 
 export default Lab3;

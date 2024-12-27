@@ -12,6 +12,13 @@ export const commonStyles = StyleSheet.create({
     color: "#333",
     marginBottom: 16,
   },
+  title1: {
+      fontSize: 20,
+      fontWeight: "bold",
+      color: "#333",
+      marginBottom: 16,
+      marginHorizontal: 134,
+    },
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
@@ -46,4 +53,11 @@ export const commonStyles = StyleSheet.create({
     textAlign: "center",
     marginTop: 20,
   },
+  image: {
+    width: 300,
+    height: 300,
+    marginBottom: 20,
+    marginHorizontal: 40,
+    borderRadius: 30,
+    },
 });
