@@ -1,73 +1,84 @@
 import React, { useState, useMemo } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
-import { commonStyles } from "../styles";
 
 const Lab3 = () => {
   const [num1, setNum1] = useState("");
   const [num2, setNum2] = useState("");
-  const [num3, setNum3] = useState("");
 
-  const sumBetween = useMemo(() => {
-    const n1 = parseInt(num1) || 0;
-    const n2 = parseInt(num2) || 0;
-    const [start, end] = n1 < n2 ? [n1, n2] : [n2, n1];
-    return ((end - start + 1) * (start + end)) / 2;
-  }, [num1, num2]);
+  const memoizedValue1 = useMemo(() => {
+    const n = parseInt(num1) || 0;
+    return slowfunc(n);
+  }, [num1]);
 
-  const comparison = useMemo(() => {
-    const n1 = parseInt(num1) || 0;
-    const n2 = parseInt(num2) || 0;
-    if (n1 === n2) return "Числа равны";
-    return n1 > n2 ? "Первое число больше" : "Второе число больше";
-  }, [num1, num2]);
-
-  const doubleNum3 = useMemo(() => {
-    const n3 = parseInt(num3) || 0;
-    var result = 1;
-    for (var i = 2; i <= n3; i++) {
-        result *= i;
-    }
-    return result;
-  }, [num3]);
+  const memoizedValue2 = useMemo(() => {
+    const n = parseInt(num2) || 0;
+    return num1 === num2 ? memoizedValue1 : slowfunc(n);
+  }, [num1, num2, memoizedValue1]);
 
   return (
-    <View style={commonStyles.container}>
-      <Text style={commonStyles.title}>Lab3: useMemo</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Lab3: UseMemo</Text>
+
       <TextInput
-        style={commonStyles.input}
+        style={styles.input}
         keyboardType="numeric"
         placeholder="Введите первое число"
         value={num1}
         onChangeText={setNum1}
       />
+      <Text style={styles.result}>
+        квадрат для первого числа: {memoizedValue1}
+      </Text>
+
       <TextInput
-        style={commonStyles.input}
+        style={styles.input}
         keyboardType="numeric"
         placeholder="Введите второе число"
         value={num2}
         onChangeText={setNum2}
       />
-      <TextInput
-        style={commonStyles.input}
-        keyboardType="numeric"
-        placeholder="Введите третье число"
-        value={num3}
-        onChangeText={setNum3}
-      />
-      <Text style={styles.result}>Сравнение: {comparison}</Text>
-      <Text style={styles.result}>Сумма чисел от {num1} до {num2}: {sumBetween}</Text>
-      <Text style={styles.result}>Факториал третьего числа: {doubleNum3}</Text>
+      <Text style={styles.result}>
+         квадрат второго числа: {memoizedValue2}
+      </Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 16,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  input: {
+    width: "80%",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 8,
+    marginBottom: 16,
+    borderRadius: 4,
+  },
   result: {
     fontSize: 18,
-    marginVertical: 10,
     color: "#007BFF",
     fontWeight: "bold",
   },
 });
+
+const slowfunc = (n) => {
+  console.log(`Выполняются ресурсоёмкие вычисления для ${n}...`);
+  if(n==0) return 0
+  const result = n || 0;
+  for (let i = 0; i < 1e8; i++) {
+    Math.sqrt(result);
+  }
+  return result ** 2;
+};
 
 export default Lab3;
