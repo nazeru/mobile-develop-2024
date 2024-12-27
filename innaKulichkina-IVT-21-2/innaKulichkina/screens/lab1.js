@@ -13,7 +13,7 @@ export default function ColorAndMoveScreen() {
     setColor(newColor);
 
     Animated.timing(position, {
-      toValue: position._value === 0 ? 100 : 0,
+      toValue: position._value === 0 ? 170 : 0,
       duration: 500,
       useNativeDriver: true,
     }).start();
@@ -29,10 +29,12 @@ export default function ColorAndMoveScreen() {
       <Animated.View
         style={[
         styles.rectangle,
-        { backgroundColor: isDarkMode ? '#fff' : '#000', transform: [{ translateY: position }] },
+        { backgroundColor: color, transform: [{ translateY: position }] },
         ]}
       />
-      <Button title="Change Color and Move" onPress={handlePress} />
+      <TouchableOpacity style={[styles.ovalButton, { backgroundColor: isDarkMode ? '#fff' : '#333' }]} onPress={handlePress}>
+              <Text style={{color: isDarkMode ? '#333' : '#fff' , fontWeight: 'bold'}}>Change Color and Move</Text>
+      </TouchableOpacity>\
       <TouchableOpacity style={styles.themeButton} onPress={toggleTheme}>
         <Text style={styles.emojiText}>
           {isDarkMode ? '🌞' : '🌙'}
@@ -64,4 +66,10 @@ const styles = StyleSheet.create({
   emojiText: {
     fontSize: 30,
   },
+  ovalButton: {
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 50,
+    marginVertical: 10,
+  }
 });
