@@ -1,21 +1,30 @@
+import React, { useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Lab1 from "./screen/lab1";
+import Lab2 from "./screen/lab2";
+import Lab3 from "./screen/lab3";
 
 const Tab = createBottomTabNavigator();
 
-import lab1 from "./screen/lab1";
-import lab2 from "./screen/lab2";
-import lab3 from "./screen/lab3";
-
-import { NavigationContainer } from "@react-navigation/native";
-const colors = ["black", "red", "yellow"];
-
 export default function App() {
+  const [isDarkTheme, setIsDarkTheme] = useState(false); // State for the theme
+
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="lab1" component={lab1} />
-        <Tab.Screen name="lab2" component={lab2} />
-        <Tab.Screen name="lab3" component={lab3} />
+        <Tab.Screen
+          name="Lab1"
+          children={() => <Lab1 isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme} />}
+        />
+        <Tab.Screen
+          name="Lab2"
+          children={() => <Lab2 isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme} />}
+        />
+        <Tab.Screen
+          name="Lab3"
+          children={() => <Lab3 isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme} />}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
