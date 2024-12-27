@@ -21,7 +21,7 @@ export const getStyles = (isDarkTheme) => {
     },
     title: {
       fontSize: 24,
-      color:"#000",
+      color: "#000",
       textAlign: "center",
       marginBottom: 10,
     },

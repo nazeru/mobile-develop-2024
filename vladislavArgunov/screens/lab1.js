@@ -15,16 +15,10 @@ const Lab1 = () => {
         <Text style={styles.title}>{number}</Text>
         <Text style={styles.title}>Нажимай</Text>
         <View style={styles.subContent}>
-          <Button
-            title="на меня"
-            onPress={() => setNumber(number + 1)}
-          />
+          <Button title="на меня" onPress={() => setNumber(number + 1)} />
         </View>
         <View style={styles.subContent}>
-          <Button
-            title="не сюда"
-            onPress={() => setNumber(-9999)}
-          />
+          <Button title="не сюда" onPress={() => setNumber(-9999)} />
         </View>
       </View>
     </View>

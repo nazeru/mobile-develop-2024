@@ -21,7 +21,7 @@ const Lab3 = () => {
         value={link ? link : "https://www.google.com/"}
         size={228}
         color={"black"}
-        backgroundColor={isDarkTheme? "#c0c0c0":"white"}
+        backgroundColor={isDarkTheme ? "#c0c0c0" : "white"}
       />
     );
   }, [link, isDarkTheme]);
