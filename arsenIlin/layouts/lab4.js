@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { SafeAreaView, Text, Image, Button, StyleSheet, View } from "react-native";
-
+import { useTheme } from "../ThemeContext.js";
 const Lab3 = () => {
   const imagesArray = [
     "https://static-cse.canva.com/blob/847132/paulskorupskas7KLaxLbSXAunsplash2.jpg",
@@ -11,11 +11,10 @@ const Lab3 = () => {
 
   const [indexWithoutMemo, setIndexWithoutMemo] = useState(0);
   const [indexWithMemo, setIndexWithMemo] = useState(0);
-
-  // Для картинки с useMemo (кэшируем изображение)
+  const { isDarkTheme } = useTheme();
   const imageWithMemo = useMemo(() => {
     return imagesArray[indexWithMemo];
-  }, [indexWithMemo]); // Изображение будет пересчитываться только при изменении индекса
+  }, [indexWithMemo]); 
 
   // Функции для изменения картинок
   const handleChangeImageWithoutMemo = () => {
@@ -27,19 +26,17 @@ const Lab3 = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: isDarkTheme ? "#404040" : "#D9D9D9" }]}>
       <Text style={styles.title}>Загрузка картинок</Text>
 
-      {/* Блок без useMemo */}
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Без useMemo:</Text>
+      <View style={[styles.card,{backgroundColor: isDarkTheme ? "#1C1B1B" : "#8C8C8C"}]}>
+        <Text style={[styles.label, {color: isDarkTheme ? "#ffffff" : "#000000"}]}>Без useMemo:</Text>
         <Button title="Следующая картинка" onPress={handleChangeImageWithoutMemo} />
         <Image source={{ uri: imagesArray[indexWithoutMemo] }} style={styles.image} />
       </View>
 
-      {/* Блок с использованием useMemo */}
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>С useMemo:</Text>
+      <View style={[styles.card,{backgroundColor: isDarkTheme ? "#1C1B1B" : "#8C8C8C"}]}>
+        <Text style={[styles.label, {color: isDarkTheme ? "#ffffff" : "#000000"}]}>С useMemo:</Text>
         <Button title="Следующая картинка" onPress={handleChangeImageWithMemo} />
         <Image source={{ uri: imageWithMemo }} style={styles.image} />
       </View>
@@ -52,27 +49,33 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: "center",
-    backgroundColor: "#F5F5F5",
+    alignItems: "center",
   },
   title: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 20,
     color: "#000000",
   },
-  inputContainer: {
-    marginBottom: 30,
+  card: {
+    width: 364,
+    height: 200,
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 20,
+    padding: 10,
+    flexDirection: "column", 
   },
   label: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#333333",
     marginBottom: 10,
   },
   image: {
     width: 300,
-    height: 200,
+    height: 100,
     marginTop: 10,
     borderRadius: 10,
   },
