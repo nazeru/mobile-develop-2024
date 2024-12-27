@@ -1,60 +1,62 @@
 import React, { useState, useMemo } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
-// Функция для вычисления факториала
-const factorial = (num) => {
-  console.log("Выполняется вычисление факториала...");
-  if (num <= 0) return 1;
-  return num * factorial(num - 1);
-};
-
 const Lab3 = () => {
-  const [number, setNumber] = useState(1000); // Начальное значение
-  const [timeWithMemo, setTimeWithMemo] = useState(null);
-  const [timeWithoutMemo, setTimeWithoutMemo] = useState(null);
+  const [number, setNumber] = useState(1);
+  const [result, setResult] = useState(null);
+  const [timeWithoutMemo, setTimeWithoutMemo] = useState(null); // Время без useMemo
+  const [timeWithMemo, setTimeWithMemo] = useState(null); // Время с useMemo
 
-  // Вычисление с useMemo
-  const memoizedFactorial = useMemo(() => {
-    console.log("Кешированное вычисление факториала...");
-    return factorial(number);
-  }, [number]);
-
-  const calculateWithoutMemo = () => {
-    const start = Date.now();
-    const result = factorial(number);
-    const end = Date.now();
-    setTimeWithoutMemo(end - start); // Сохраняем время выполнения
-    return result;
+  const calculateFactorial = (n) => {
+    let fact = 1;
+    for (let i = 1; i <= n; i++) {
+      fact *= i;
+    }
+    return fact;
   };
 
-  const calculateWithMemo = () => {
-    const start = Date.now();
-    memoizedFactorial; // Просто обращаемся к значению
-    const end = Date.now();
-    setTimeWithMemo(end - start); // Сохраняем время выполнения
+  const computeFactorialWithoutMemo = () => {
+    const startTime = performance.now();
+    const fact = calculateFactorial(number);
+    const endTime = performance.now();
+    const elapsedTime = (endTime - startTime).toFixed(3); // Время в миллисекундах
+    setTimeWithoutMemo(elapsedTime);
+    setResult(fact);
   };
+
+  const computeFactorialWithMemo = () => {
+    const startTime = performance.now();
+    const fact = memoizedFactorial;
+    const endTime = performance.now();
+    const elapsedTime = (endTime - startTime).toFixed(3); // Время в миллисекундах
+    setTimeWithMemo(elapsedTime);
+    setResult(fact);
+  };
+
+  const memoizedFactorial = useMemo(() => calculateFactorial(number), [number]);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Факториал</Text>
-      <Text style={styles.label}>Число: {number}</Text>
-      <Text style={styles.label}>Факториал (с useMemo): {memoizedFactorial}</Text>
+      <Text style={styles.title}>Факториал числа: {number}</Text>
+      <Text style={styles.result}>Результат: {result}</Text>
 
-      <View style={styles.buttonGroup}>
-        <Button title="Увеличить на 1" onPress={() => setNumber(number + 1)} />
-        <Button title="Увеличить на 10" onPress={() => setNumber(number + 10)} />
-      </View>
-
-      <Button title="Измерить время без useMemo" onPress={calculateWithoutMemo} />
-      <Button title="Измерить время с useMemo" onPress={calculateWithMemo} />
-
-      {/* Время выполнения */}
-      <Text style={styles.timeLabel}>
-        Время выполнения без useMemo: {timeWithoutMemo !== null ? `${timeWithoutMemo} мс` : 0}
-      </Text>
       <Text style={styles.timeLabel}>
         Время выполнения с useMemo: {timeWithMemo !== null ? `${timeWithMemo} мс` : 0}
       </Text>
+
+      <Text style={styles.timeLabel}>
+        Время выполнения без useMemo: {timeWithoutMemo !== null ? `${timeWithoutMemo} мс` : 0}
+      </Text>
+
+      <View style={styles.buttonsContainer}>
+        <Button title="Увеличить на 1" onPress={() => setNumber(number + 1)} />
+        <Button title="Увеличить на 100" onPress={() => setNumber(number + 100)} />
+      </View>
+
+      <View style={styles.buttonsContainer}>
+        <Button title="Решить без useMemo" onPress={computeFactorialWithoutMemo} />
+        <Button title="Решить с useMemo" onPress={computeFactorialWithMemo} />
+      </View>
     </View>
   );
 };
@@ -65,28 +67,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#f8f9fa',
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
     marginBottom: 20,
-    color: '#6200EE',
   },
-  label: {
-    fontSize: 18,
-    marginBottom: 10,
-  },
-  buttonGroup: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginVertical: 10,
-    width: '100%',
+  result: {
+    fontSize: 20,
+    marginBottom: 20,
   },
   timeLabel: {
-    fontSize: 16,
-    marginTop: 10,
-    color: '#555',
+    fontSize: 18,
+    marginBottom: 10,
+    color: 'gray',
+  },
+  buttonsContainer: {
+    marginBottom: 20,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 
