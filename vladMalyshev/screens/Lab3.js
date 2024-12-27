@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import {
   View,
   Text,
@@ -6,13 +6,11 @@ import {
   FlatList,
   Button,
   StyleSheet,
+  Switch,
 } from "react-native";
 
-
-
-
-
 const Lab3 = () => {
+  const [onMemo, setOnMemo] = useState(true);
   const [filterText, setFilterText] = useState("");
   const [newName, setNewName] = useState("");
   const [names, setNames] = useState([
@@ -27,22 +25,27 @@ const Lab3 = () => {
     "Ivy",
     "Jack",
   ]);
-  //add Function
-  const mediumFunction = () => {
-    let total = 0;
-    for (let i = 0; i < 10000000; i++) {  
-        total += Math.sqrt(i);  
-    }
-    return total;
-};
-
+  const leng = 100000000;
+  const bigFunc = () => {
+    for (let i = 0; i < leng; i++) {}
+  };
+  const bigFuncMemo = useCallback(() => {
+    for (let i = 0; i < leng; i++) {}
+    return 0;
+  }, []);
 
   const filteredNames = useMemo(() => {
-    mediumFunction();
+    bigFuncMemo();
     return names.filter((name) =>
-      name.toLowerCase().includes(filterText.toLowerCase())
+      name.toLowerCase().includes(filterText.toLowerCase()),
     );
   }, [filterText, names]);
+  const filteredNamesWithoutMemo = () => {
+    bigFunc();
+    return names.filter((name) =>
+      name.toLowerCase().includes(filterText.toLowerCase()),
+    );
+  };
 
   const addName = () => {
     if (newName.trim()) {
@@ -53,25 +56,19 @@ const Lab3 = () => {
 
   return (
     <View style={styles.container}>
+      {/* Верхняя полоса с текстом */}
       <View style={styles.header}>
-        <Text style={styles.headerText}>Лабораторная 3 (useMemo)</Text>
+        <Text style={styles.headerText}>Лабораторная 3</Text>
       </View>
+      <Switch value={onMemo} onChange={() => setOnMemo(!onMemo)} />
 
-      <Text style={styles.title}>Фильтр имен (быстрый поиск)</Text>
+      {/* Основное содержимое */}
+      <Text style={styles.title}>Фильтр имен</Text>
       <TextInput
         style={styles.input}
         placeholder="Введите имя для фильтрации"
         onChangeText={setFilterText}
         value={filterText}
-      />
-      <FlatList
-        data={filteredNames}
-        keyExtractor={(item) => item}
-        renderItem={({ item }) => (
-          <View style={styles.itemContainer}>
-            <Text style={styles.item}>{item}</Text>
-          </View>
-        )}
       />
       <TextInput
         style={styles.input}
@@ -80,6 +77,15 @@ const Lab3 = () => {
         onChangeText={setNewName}
       />
       <Button title="Добавить имя" onPress={addName} />
+      <FlatList
+        data={onMemo ? filteredNames : filteredNamesWithoutMemo()}
+        keyExtractor={(item) => item}
+        renderItem={({ item }) => (
+          <View style={styles.itemContainer}>
+            <Text style={styles.item}>{item}</Text>
+          </View>
+        )}
+      />
     </View>
   );
 };
@@ -87,6 +93,7 @@ const Lab3 = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    gap: 4,
     backgroundColor: "#f5f5f5",
   },
   header: {
@@ -105,7 +112,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontWeight: "bold",
     textAlign: "center",
-    marginTop: 10,
+    marginTop: 10, // Чтобы заголовок не был слишком близко к верхней полосе
   },
   input: {
     height: 40,
