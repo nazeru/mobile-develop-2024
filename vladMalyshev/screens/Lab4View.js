@@ -7,7 +7,12 @@ export default function Lab4View() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Список задач</Text>
+      {/* Верхняя синяя полоса */}
+      <View style={styles.headerContainer}>
+        <Text style={styles.headerText}>Список задач</Text>
+      </View>
+
+      {/* Основной контент */}
       <FlatList
         data={tasks}
         keyExtractor={(item) => item.id.toString()}
@@ -25,16 +30,35 @@ export default function Lab4View() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  header: { fontSize: 20, fontWeight: "bold", marginBottom: 10 },
+  container: {
+    flex: 1,
+    backgroundColor: "#ffffff",
+  },
+  headerContainer: {
+    backgroundColor: "#007AFF",
+    height: 60,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
   taskContainer: {
     padding: 10,
-    marginBottom: 10,
+    margin: 10,
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "#ccc",
     backgroundColor: "#f9f9f9",
   },
-  taskTitle: { fontSize: 16, fontWeight: "bold" },
-  taskStatus: { fontSize: 14, color: "gray" },
+  taskTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  taskStatus: {
+    fontSize: 14,
+    color: "gray",
+  },
 });

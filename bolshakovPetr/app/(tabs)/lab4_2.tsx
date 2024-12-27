@@ -1,10 +1,8 @@
-// lab4_2.js
 import React from "react";
 import {
   View,
   Text,
   FlatList,
-  Button,
   StyleSheet,
   Pressable,
 } from "react-native";
@@ -16,17 +14,17 @@ export default function Lab4_2() {
 
   const renderProductItem = ({ item }) => (
     <View style={styles.productContainer}>
-      <Text>{item.name}</Text>
-      <Text style={styles.statusText}>
-        Status: {item.completed ? "Bought" : "In progress"}
+      <Text style={styles.text}>{item.name}</Text>
+      <Text style={styles.textDesc}>
+        Статус: {item.completed ? "Куплен" : "В прогрессе"}
       </Text>
 
       <Pressable
         style={styles.button}
         onPress={() => toggleProductStatus(item.id)}
       >
-        <Text style={styles.buttonText}>
-          {item.completed ? "In progress" : "Buy"}
+        <Text style={styles.btnText}>
+          {item.completed ? "В процессе" : "Купить"}
         </Text>
       </Pressable>
     </View>
@@ -34,7 +32,7 @@ export default function Lab4_2() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Goods</Text>
+      <Text style={styles.title}>Товары</Text>
       <FlatList
         data={goods}
         keyExtractor={(item) => item.id.toString()}
@@ -50,28 +48,50 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 20,
+    fontSize: 18,
+    marginBottom: 36,
+    color: "#2A4758",
+    fontWeight: "600",
   },
   productContainer: {
-    marginBottom: 15,
-    padding: 15,
+    marginBottom: 28,
     borderWidth: 1,
-    borderColor: "lightgray",
+    borderColor: "#2A4758",
     borderRadius: 8,
+    height: 102,
+    width: 345,
   },
-  statusText: {
-    marginVertical: 10,
-    fontSize: 14,
-    color: "gray",
+  text: {
+    fontFamily: "Inter",
+    fontSize: 12,
+    marginLeft: 17,
+    marginBottom: 8,
+    color: "#2A4758",
+    marginTop: 15,
+    fontWeight: "400",
+  },
+  textDesc: {
+    fontFamily: "Inter",
+    fontSize: 10,
+    marginLeft: 17,
+    color: "#2A4758",
+    fontWeight: "400",
   },
   button: {
     backgroundColor: "#2A4758",
-    borderWidth: 1,
-    width: 150,
-    height: 50,
-    padding: 10,
-    borderRadius: 20,
+    borderRadius: 15,
+    width: 85,
+    height: 26,
+    marginLeft: 17,
+    marginTop: 15,
+  },
+  btnText: {
+    color: "#DCEEFA",
+    fontFamily: "Inter",
+    fontSize: 11,
+    textAlign: "center",
+    verticalAlign: "middle",
+    lineHeight: 26,
+    fontWeight: "300",
   },
 });

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, Button, StyleSheet, ActivityIndicator, TouchableOpacity  } from 'react-native';
+import { useTheme } from '../ThemeContext';
 
 const CatFactApp = () => {
+  const { isDarkMode, toggleTheme } = useTheme();
   const [fact, setFact] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -22,14 +24,26 @@ const CatFactApp = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Cat Fact</Text>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: isDarkMode ? '#333' : '#fff' },
+      ]}
+    >
+      <Text style={[styles.title, { color: isDarkMode ? '#fff' : '#333' }]}>Cat Fact</Text>
       {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#dedad7" />
       ) : (
-        <Text style={styles.factText}>{fact}</Text>
+        <Text style={[styles.factText, { color: isDarkMode ? '#fff' : '#333' }]}>{fact}</Text>
       )}
-      <Button title="Get Another Fact" onPress={fetchCatFact} />
+      <TouchableOpacity style={[styles.ovalButton, { backgroundColor: isDarkMode ? '#fff' : '#333' }]} onPress={fetchCatFact}>
+        <Text style={{color: isDarkMode ? '#333' : '#fff' , fontWeight: 'bold'}}>Get Another Fact</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.themeButton} onPress={toggleTheme}>
+        <Text style={styles.emojiText}>
+          {isDarkMode ? '🌞' : '🌙'}
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -41,6 +55,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
     padding: 20,
+    position: 'relative',
   },
   title: {
     fontSize: 24,
@@ -52,6 +67,23 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
   },
+  themeButton: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    backgroundColor: 'transparent',
+    padding: 10,
+  },
+  emojiText: {
+    fontSize: 30,
+  },
+  ovalButton: {
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 50,
+    marginVertical: 10,
+  }
+  
 });
 
 export default CatFactApp;

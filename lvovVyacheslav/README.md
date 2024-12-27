@@ -1,0 +1,1 @@
+https://www.figma.com/design/PjmscJl0Jn5jAPbqqWsP35/lvovVyacheslav?node-id=1-1546&t=RqLsUdf0dDMRwCsF-1

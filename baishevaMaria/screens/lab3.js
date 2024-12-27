@@ -1,11 +1,23 @@
-import React, { useState, useMemo } from "react";
-import { StyleSheet, Text, TextInput, View, FlatList, Button } from "react-native";
+import React, { useState, useMemo, useCallback } from 'react';
+import { StyleSheet, Text, TextInput, View, FlatList, Button } from 'react-native';
 
 export default function Lab3() {
   const [searchTerm, setSearchTerm] = useState("");
   const [key, setKey] = useState(0);
+  const [useMemoFilter, setUseMemoFilter] = useState(true);
 
-  const names = [
+  const leng = 100000000;
+
+  const bigFunc = () => {
+    for (let i = 0; i < leng; i++) {}
+  };
+
+  const bigFuncMemo = useCallback(() => {
+    for (let i = 0; i < leng; i++) {}
+    return 0;
+  }, []);
+
+  const names = useMemo(() => [
     "Sardaana",
     "Aytal",
     "Nurgun",
@@ -14,17 +26,30 @@ export default function Lab3() {
     "Erchim",
     "Keskil",
     "Tuskun",
-  ];
+  ], []);
+
+  const lowerCaseSearchTerm = useMemo(() => searchTerm.toLowerCase(), [searchTerm]);
+
+  const filteredNamesWithMemo = useMemo(() => {
+    bigFuncMemo();
+    return names.filter((name) =>
+      name.toLowerCase().includes(lowerCaseSearchTerm)
+    );
+  }, [lowerCaseSearchTerm, names, bigFuncMemo]);
+
+  const filteredNamesWithoutMemo = () => {
+    bigFunc();
+    return names.filter((name) =>
+      name.toLowerCase().includes(lowerCaseSearchTerm)
+    );
+  };
 
   const filteredNames = useMemo(() => {
-    console.log("Фильтруем список...");
-    return names.filter((name) =>
-      name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [searchTerm]);
+    return useMemoFilter ? filteredNamesWithMemo : filteredNamesWithoutMemo();
+  }, [useMemoFilter, filteredNamesWithMemo, filteredNamesWithoutMemo]);
 
   const forceRerender = () => {
-    setKey((prevKey) => prevKey + 1);
+    setKey(prevKey => prevKey + 1);
     setSearchTerm("");
   };
 
@@ -37,7 +62,15 @@ export default function Lab3() {
         value={searchTerm}
         onChangeText={(text) => setSearchTerm(text)}
       />
+
+      <Button 
+        title={useMemoFilter ? "Использовать без useMemo" : "Использовать с useMemo"}
+        onPress={() => setUseMemoFilter(!useMemoFilter)} 
+      />
+
       <Button title="Очистить экран" onPress={forceRerender} />
+
+      <Text>Отфильтрованные имена:</Text>
       <FlatList
         data={filteredNames}
         keyExtractor={(item, index) => index.toString()}
@@ -50,8 +83,8 @@ export default function Lab3() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: 20,
   },
   title: {
@@ -60,11 +93,11 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: '#ccc',
     borderRadius: 5,
     padding: 10,
     marginBottom: 20,
-    width: "100%",
+    width: '100%',
   },
   name: {
     fontSize: 18,

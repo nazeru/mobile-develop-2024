@@ -62,21 +62,6 @@ const App = () => {
         })}
       >
         <Tab.Screen
-          name="Lab 3_1"
-          component={Lab3Screen_1}
-          options={{
-            title: "Lab 3_1",
-          }}
-        />
-        <Tab.Screen
-          name="Корзина"
-          component={Lab3Screen_2}
-          options={{
-            title: "Корзина",
-            tabBarBadge: cart.length
-          }}
-        />
-        <Tab.Screen
           name="Lab 2"
           component={Lab2Screen}
           options={{

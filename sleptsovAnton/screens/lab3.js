@@ -1,208 +1,169 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  Button,
+  SafeAreaView,
   TextInput,
-  Image,
   TouchableOpacity,
+  View,
+  Text,
+  FlatList,
+  Image,
+  StyleSheet,
 } from "react-native";
 
-const Lab3 = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [newUserName, setNewUserName] = useState("");
-  const [newUserEmail, setNewUserEmail] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+export default function MovieSearchScreen() {
+  const [query, setQuery] = useState("");
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [minYear, setMinYear] = useState("1800");
+  const [maxYear, setMaxYear] = useState("3000");
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch("https://randomuser.me/api/?results=100");
-        if (!response.ok) {
-          throw new Error("Проблемы с сетью");
-        }
-        const data = await response.json();
-        const usersWithId = data.results.map((user) => ({
-          id: user.login.uuid,
-          name: `${user.name.first} ${user.name.last}`,
-          email: user.email,
-          picture: user.picture.large,
-          age: user.dob.age,
-          city: user.location.city,
-        }));
-        setUsers(usersWithId);
-      } catch (error) {
-        console.error("Ошибка при загрузке", error);
-      } finally {
-        setLoading(false);
+  const fetchMovies = async (searchQuery) => {
+    if (!searchQuery) return;
+
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `https://imdb.iamidiotareyoutoo.com/search?q=${encodeURIComponent(
+          searchQuery
+        )}`
+      );
+      const data = await response.json();
+      if (data.ok && data.description) {
+        setMovies(data.description);
+      } else {
+        setMovies([]);
       }
-    };
-
-    const addUser = () => {
-        if (newUserName && newUserEmail) {
-          const lastUserId = users.length > 0 ? users[users.length - 1].id : "0";
-          const newUser = {
-            id: `${parseInt(lastUserId.split("-")[0]) + 1}-custom`,
-            name: newUserName,
-            email: newUserEmail,
-            age: Math.floor(Math.random() * (60 - 18 + 1)) + 18,
-            city: "Новый Город",
-          };
-          setUsers([...users, newUser]);
-          setNewUserName("");
-          setNewUserEmail("");
-        }
-      };
-
-
-         fetchUsers();
-         }, []);
-
-  const deleteUser = (id) => {
-    setUsers(users.filter((user) => user.id !== id));
+    } catch (error) {
+      console.error("Ошибка при получении данных о фильмах:", error);
+      setMovies([]);
+    } finally {
+      setLoading(false);
+    }
   };
+  //позволяет избежать повторной фильтрации списка фильмов каждый раз, когда происходит ререндер компонента (например, из-за ввода текста или изменения состояния), если сами фильмы или диапазон годов не менялись.
+  const getFilteredMovies = useMemo(() => {
+    return movies.filter((movie) => {
+      const year = parseInt(movie["#YEAR"]);
+      return year >= parseInt(minYear) && year <= parseInt(maxYear);
+    });
+  }, [movies, minYear, maxYear]);
 
-  const filteredUsers = useMemo(() => {
-    return users.filter(
-      (user) =>
-        user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [users, searchQuery]);
-
-  const toggleTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
+  const handleSearch = () => {
+    fetchMovies(query);
   };
-
-  if (loading) {
-    return <Text style={styles.loadingText}>Загрузка...</Text>;
-  }
 
   return (
-    <View style={[styles.container, isDarkTheme && styles.darkContainer]}>
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Поиск сотрудника"
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-        />
-      </View>
-      <FlatList
-        data={filteredUsers}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.userContainer}>
-            <Image source={{ uri: item.picture }} style={styles.userImage} />
-            <View style={styles.userInfo}>
-              <Text style={styles.userName}>{item.name}</Text>
-              <Text>{item.email}</Text>
-              <Text>Возраст: {item.age}</Text>
-              <Text>Город: {item.city}</Text>
-            </View>
-            <Button
-              title="Удалить"
-              onPress={() => deleteUser(item.id)}
-              color="#ff4d4d"
-            />
-          </View>
-        )}
+    <SafeAreaView style={styles.container}>
+      <TextInput
+        placeholder="Введите название фильма"
+        value={query}
+        onChangeText={setQuery}
+        style={styles.input}
       />
+      <TextInput
+        placeholder="Минимальный год"
+        value={minYear}
+        onChangeText={setMinYear}
+        keyboardType="numeric"
+        style={styles.input}
+      />
+      <TextInput
+        placeholder="Максимальный год"
+        value={maxYear}
+        onChangeText={setMaxYear}
+        keyboardType="numeric"
+        style={styles.input}
+      />
+      <TouchableOpacity style={styles.button} onPress={handleSearch}>
+        <Text style={styles.buttonText}>Поиск</Text>
+      </TouchableOpacity>
 
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Имя сотрудника"
-          value={newUserName}
-          onChangeText={setNewUserName}
+      {loading ? (
+        <Text>Загрузка...</Text>
+      ) : (
+        <FlatList
+          style={styles.movieList}
+          data={getFilteredMovies}
+          keyExtractor={(item) => item["#IMDB_ID"]}
+          renderItem={({ item }) => (
+            <View style={styles.movieItem}>
+              <Image
+                source={{ uri: item["#IMG_POSTER"] }}
+                style={styles.poster}
+                resizeMode="cover"
+              />
+              <View style={styles.movieDetails}>
+                <Text style={styles.title}>{item["#TITLE"]}</Text>
+                <Text style={styles.detailText}>Год: {item["#YEAR"]}</Text>
+                <Text style={styles.detailText}>Актеры: {item["#ACTORS"]}</Text>
+              </View>
+            </View>
+          )}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Email сотрудника"
-          value={newUserEmail}
-          onChangeText={setNewUserEmail}
-        />
-        <Button
-          title="Добавить сотрудника"
-          onPress={addUser}
-          color="#4CAF50"
-        />
-      </View>
-    </View>
+      )}
+    </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
+  input: {
+    height: 54, // Высота поля
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 5,
+    paddingHorizontal: 10, // Внутренний отступ текста
+    marginBottom: 14, // Расстояние между инпутами
+    alignSelf: "stretch", // Автоматическое растягивание по ширине
+  },
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: "#fff",
+    paddingHorizontal: 20, // Отступы по краям
+    paddingTop: 14, // Отступ от верхнего таба
   },
-  darkContainer: {
-    backgroundColor: "#333",
+  movieList: {
+    flex: 1, // Занимает всё оставшееся место
+    marginTop: 14, // Расстояние от кнопки
   },
-  searchContainer: {
+  movieItem: {
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: "black", // Цвет границы
+    padding: 10,
   },
-  themeButton: {
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 5,
-    backgroundColor: "#4CAF50",
-  },
-  themeButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
-  userContainer: {
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    marginBottom: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  userImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+  poster: {
+    width: 100,
+    height: 150,
     marginRight: 10,
   },
-  userInfo: {
+  movieDetails: {
     flex: 1,
-    marginRight: 10,
+    justifyContent: "top",
   },
-  userName: {
+  title: {
     fontSize: 16,
     fontWeight: "bold",
+    color: "#2673D0",
+    fontFamily: "Roboto-Bold",
   },
-  loadingText: {
-    textAlign: "center",
-    marginTop: 20,
+  detailText: {
+    fontSize: 14,
+    color: "#2673D0",
+    fontFamily: "Roboto-Medium",
+  },
+
+  button: {
+    alignSelf: "flex-end", // Выравнивание кнопки справа
+    backgroundColor: "#CFE2F9",
+    width: 150,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#2673D0",
     fontSize: 18,
-  },
-  inputContainer: {
-    marginTop: 20,
-    borderTopWidth: 1,
-    borderTopColor: "#ccc",
-    paddingTop: 20,
-  },
-  input: {
-    height: 40,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    borderRadius: 5,
+    fontWeight: "bold",
+    fontFamily: "Roboto-Bold", // Тот же стиль шрифта
+    textAlign: "center", // Центровка текста
   },
 });
-
-export default Lab3;
