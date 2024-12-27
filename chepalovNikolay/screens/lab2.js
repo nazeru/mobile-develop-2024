@@ -1,7 +1,10 @@
+// Lab2.js
 import React, { useEffect, useState, useMemo } from 'react';
 import { View, Text, ActivityIndicator, FlatList, StyleSheet } from 'react-native';
+import { useTheme } from '../ThemeContext'; // Import the theme context
 
 const Lab2 = () => {
+  const { isDarkTheme } = useTheme(); // Get the current theme
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -25,29 +28,29 @@ const Lab2 = () => {
     fetchData();
   }, []);
 
-  // Используем useMemo для мемоизации данных о ценах
+  // Use useMemo to memoize the price data
   const processedData = useMemo(() => {
-    if (!data) return null; // Проверяем, есть ли данные
+    if (!data) return null; // Check if data exists
     return {
       updated: data.time.updated,
       rates: data.bpi,
     };
-  }, [data]); // Зависимость от `data`
+  }, [data]); // Dependency on `data`
 
   if (loading) return <ActivityIndicator size="large" color="#0000ff" />;
   if (error) return <Text>Error: {error.message}</Text>;
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Current Bitcoin Prices</Text>
-      <Text>Last updated: {processedData.updated}</Text>
+    <View style={[styles.container, { backgroundColor: isDarkTheme ? '#333' : '#fff' }]}>
+      <Text style={[styles.title, { color: isDarkTheme ? '#fff' : '#000' }]}>Current Bitcoin Prices</Text>
+      <Text style={{ color: isDarkTheme ? '#fff' : '#000' }}>Last updated: {processedData.updated}</Text>
       <FlatList
         data={Object.entries(processedData.rates)}
         keyExtractor={([currency]) => currency}
         renderItem={({ item }) => {
           const [currency, info] = item;
           return (
-            <Text style={styles.item}>
+            <Text style={[styles.item, { color: isDarkTheme ? '#fff' : '#000' }]}>
               {info.code}: {info.rate}
             </Text>
           );

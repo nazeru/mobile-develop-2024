@@ -1,7 +1,10 @@
+// JokeScreen.js
 import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator, Button, StyleSheet } from 'react-native';
+import { useTheme } from '../ThemeContext';
 
 const JokeScreen = () => {
+  const { isDarkTheme } = useTheme(); // Get the current theme
   const [joke, setJoke] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -24,15 +27,15 @@ const JokeScreen = () => {
   };
 
   useEffect(() => {
-    fetchJoke(); // Загружаем шутку при первом монтировании компонента
+    fetchJoke(); // Fetch joke on component mount
   }, []);
 
   if (loading) return <ActivityIndicator size="large" color="#0000ff" />;
   if (error) return <Text>Error: {error.message}</Text>;
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.joke}>{joke}</Text>
+    <View style={[styles.container, { backgroundColor: isDarkTheme ? '#333' : '#fff' }]}>
+      <Text style={[styles.joke, { color: isDarkTheme ? '#fff' : '#000' }]}>{joke}</Text>
       <Button title="Get Another Joke" onPress={fetchJoke} />
     </View>
   );
@@ -44,7 +47,6 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
   },
   joke: {
     fontSize: 24,
