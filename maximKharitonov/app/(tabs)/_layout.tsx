@@ -42,7 +42,7 @@ const TabLayout: React.FC = () => {
                 <Tabs.Screen 
                     name="WheatherScreen" 
                     options={{ 
-                        title: 'Погода',
+                        title: 'Фильмы',
                         headerShown: false, 
                         tabBarIcon: ({ color, size, focused }) => (
                             <MaterialIcons name="wb-sunny" size={size} color={focused ? 'orange' : color} />  

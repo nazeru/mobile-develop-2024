@@ -1,198 +1,232 @@
-// WeatherScreen.tsx
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useState, useMemo } from "react";
 import {
-    View,
-    Text,
-    StyleSheet,
-    ActivityIndicator,
-    TouchableOpacity,
-    Modal,
-    FlatList,
-} from 'react-native';
-import axios from 'axios';
-import { useAppContext } from '@/components/AppContext';
+  SafeAreaView,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Text,
+  FlatList,
+  Image,
+  StyleSheet,
+} from "react-native";
+import { useAppContext } from '@/components/AppContext'; 
 
-const API_KEY = '7c6b17f0cd7a80b5b2aaa1ba44838279';
+export default function MovieSearchScreen() {
+  const { isDarkTheme } = useAppContext(); // Используйте контекст для получения состояния темной темы
+  const [query, setQuery] = useState(""); // Запрос пользователя
+  const [movies, setMovies] = useState([]); // Данные о фильмах
+  const [loading, setLoading] = useState(false); // Статус загрузки
+  const [minYear, setMinYear] = useState("1800"); // Минимальный год
+  const [maxYear, setMaxYear] = useState("3000"); // Максимальный год
+  const [error, setError] = useState(""); // Ошибка
 
-const CITY_DATA = [
-    { name: 'Якутск,ru' },
-    { name: 'Москва,ru' },
-    { name: 'Санкт-Петербург,ru' },
-    { name: 'Новосибирск,ru' },
-    { name: 'Екатеринбург,ru' },
-    { name: 'Казань,ru' },
-    { name: 'Нижний Новгород,ru' },
-    { name: 'Челябинск,ru' },
-    { name: 'Омск,ru' },
-];
+  // Функция для получения данных о фильмах
+  const fetchMovies = async (searchQuery) => {
+    if (!searchQuery) return;
 
-const WeatherScreen: React.FC = () => {
-    const { currentCity, setCurrentCity, isDarkTheme } = useAppContext();
-    const [weatherData, setWeatherData] = useState<any>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [modalVisible, setModalVisible] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
+    setLoading(true);
+    setError("");
+    try {
+      const response = await fetch(
+        `https://imdb.iamidiotareyoutoo.com/search?q=${encodeURIComponent(
+          searchQuery
+        )}`
+      );
+      const data = await response.json();
+      if (data.ok && data.description) {
+        setMovies(data.description);
+      } else {
+        setMovies([]);
+      }
+    } catch (error) {
+      console.error("Ошибка при получении данных о фильмах:", error);
+      setError('Не удалось получить данные о фильмах. Попробуйте снова.');
+      setMovies([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    const fetchWeather = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${currentCity}&appid=${API_KEY}&units=metric`);
-            setWeatherData(response.data);
-        } catch (error) {
-            console.error('Error fetching weather data:', error);
-            setError('Не удалось загрузить данные о погоде.');
-        } finally {
-            setLoading(false);
-        }
-    };
+  
+  const getFilteredMovies = useMemo(() => {
+    return movies.filter((movie) => {
+      const year = parseInt(movie["#YEAR"]);
+      return year >= parseInt(minYear) && year <= parseInt(maxYear);
+    });
+  }, [movies, minYear, maxYear]);
 
-    useEffect(() => {
-        fetchWeather();
-    }, [currentCity]);
+  
+  const handleSearch = () => {
+    if (minYear && maxYear && parseInt(minYear) > parseInt(maxYear)) {
+      setError("Минимальный год не может быть больше максимального года.");
+      return;
+    }
+    fetchMovies(query);
+  };
 
-    const weatherDescription = useMemo(() => {
-        if (!weatherData) return '';
-        return weatherData.weather[0].description.charAt(0).toUpperCase() + weatherData.weather[0].description.slice(1); 
-    }, [weatherData]);
+  return (
+    <SafeAreaView style={[styles.container, isDarkTheme && styles.containerDark]}>
+      <TextInput
+        placeholder="Введите название фильма"
+        value={query}
+        onChangeText={setQuery}
+        placeholderTextColor={isDarkTheme ? '#aaa' : '#999'}
+        style={[styles.input, isDarkTheme && styles.inputDark]}
+      />
+      <View style={styles.yearContainer}>
+        <TextInput
+          placeholder="Мин. год"
+          value={minYear}
+          onChangeText={setMinYear}
+          keyboardType="numeric"
+          placeholderTextColor={isDarkTheme ? '#aaa' : '#999'}
+          style={[styles.yearInput, isDarkTheme && styles.inputDark]}
+        />
+        <TextInput
+          placeholder="Макс. год"
+          value={maxYear}
+          onChangeText={setMaxYear}
+          keyboardType="numeric"
+          placeholderTextColor={isDarkTheme ? '#aaa' : '#999'}
+          style={[styles.yearInput, isDarkTheme && styles.inputDark]}
+        />
+      </View>
+      <TouchableOpacity style={styles.button} onPress={handleSearch}>
+        <Text style={styles.buttonText}>Поиск</Text>
+      </TouchableOpacity>
 
-    const handleCityChange = (city: string) => {
-        setCurrentCity(city);
-        setModalVisible(false);
-    };
+      {loading ? (
+        <Text style={[styles.loadingText, isDarkTheme && styles.loadingTextDark]}>Загрузка...</Text>
+      ) : error ? (
+        <Text style={[styles.error, isDarkTheme && styles.errorDark]}>{error}</Text>
+      ) : getFilteredMovies.length === 0 ? (
+        <Text style={[styles.emptyText, isDarkTheme && styles.emptyTextDark]}>Фильмы не найдены по вашему запросу.</Text>
+      ) : (
+        <FlatList
+          style={styles.movieList}
+          data={getFilteredMovies}
+          keyExtractor={(item) => item["#IMDB_ID"]}
+          renderItem={({ item }) => (
+            <View style={styles.movieItem}>
+              <Image
+                source={{ uri: item["#IMG_POSTER"] }}
+                style={styles.poster}
+                resizeMode="cover"
+              />
+              <View style={styles.movieDetails}>
+                <Text style={[styles.title, isDarkTheme && styles.titleDark]}>{item["#TITLE"]}</Text>
+                <Text style={[styles.detailText, isDarkTheme && styles.detailTextDark]}>Год: {item["#YEAR"]}</Text>
+                <Text style={[styles.detailText, isDarkTheme && styles.detailTextDark]}>Актеры: {item["#ACTORS"]}</Text>
+              </View>
+            </View>
+          )}
+        />
+      )}
+    </SafeAreaView>
+  );
+}
 
-    return (
-        <View style={isDarkTheme ? styles.containerDark : styles.containerLight}>
-            {loading ? (
-                <ActivityIndicator size="large" color="#0000ff" />
-            ) : error ? (
-                <Text style={styles.error}>{error}</Text>
-            ) : (
-                <View style={styles.weatherContainer}>
-                    <Text style={[styles.title, isDarkTheme && styles.titleDark]}>{currentCity.split(',')[0]}</Text>
-                    <Text style={[styles.temperature, isDarkTheme && styles.temperatureDark]}>{`${weatherData.main.temp}°C`}</Text>
-                    <Text style={[styles.weather, isDarkTheme && styles.weatherDark]}>{weatherDescription}</Text>
-                    <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
-                        <Text style={styles.buttonText}>Сменить город</Text>
-                    </TouchableOpacity>
-                    <Modal visible={modalVisible} animationType="slide">
-                        <View style={isDarkTheme ? styles.modalContainerDark : styles.modalContainerLight}>
-                            <Text style={styles.modalTitle}>Выберите город</Text>
-                            <FlatList
-                                data={CITY_DATA}
-                                keyExtractor={(item) => item.name}
-                                renderItem={({ item }) => (
-                                    <TouchableOpacity onPress={() => handleCityChange(item.name)} style={styles.cityItem}>
-                                        <Text style={[styles.cityText, { color: isDarkTheme ? '#fff' : '#000' }]}>{item.name.split(',')[0]}</Text>
-                                    </TouchableOpacity>
-                                )}
-                            />
-                            <TouchableOpacity style={styles.button} onPress={() => setModalVisible(false)}>
-                                <Text style={styles.buttonText}>Закрыть</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </Modal>
-                </View>
-            )}
-        </View>
-    );
-};
 
 const styles = StyleSheet.create({
-    containerLight: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#f0f0f0',
-    },
-    containerDark: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#1e1e1e',
-    },
-    weatherContainer: {
-        alignItems: 'center', 
-        marginBottom: 30, 
-    },
-    title: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginBottom: 5,
-        color: '#000', 
-        textAlign: 'center',
-    },
-    temperature: {
-        fontSize: 48, 
-        fontWeight: 'bold',
-        marginBottom: 5,
-        color: '#000', 
-        textAlign: 'center',
-    },
-    weather: {
-        fontSize: 20, 
-        marginBottom: 20,
-        textAlign: 'center',
-        color: '#222',
-    },
-    error: {
-        color: 'red',
-        marginBottom: 20,
-        fontSize: 18,
-    },
-    modalContainerLight: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-    },
-    modalContainerDark: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#2b2b2b', 
-    },
-    modalTitle: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        color: '#000', 
-    },
-    cityItem: {
-        padding: 10,
-        width: '100%',
-        alignItems: 'center',
-    },
-    cityText: {
-        fontSize: 18,
-    },
-    button: {
-        backgroundColor: '#6200ee', 
-        borderRadius: 10, 
-        paddingVertical: 15,
-        paddingHorizontal: 30,
-        elevation: 5,
-        shadowColor: '#000', 
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        marginTop: 20, 
-    },
-    buttonText: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    titleDark: {
-        color: '#fff',
-    },
-    temperatureDark: {
-        color: '#fff',
-    },
-    weatherDark: {
-        color: '#fff',
-    },
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#fff', 
+  },
+  containerDark: {
+    backgroundColor: '#1e1e1e', 
+  },
+  input: {
+    height: 50,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    borderRadius: 10,
+    marginBottom: 12,
+    paddingHorizontal: 15,
+    fontSize: 16,
+  },
+  inputDark: {
+    borderColor: '#555', 
+    backgroundColor: '#333', 
+    color: '#fff', 
+  },
+  yearContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 12, 
+  },
+  yearInput: {
+    flex: 1,
+    height: 50,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    borderRadius: 10,
+    marginRight: 10,
+    paddingHorizontal: 15,
+    fontSize: 16,
+  },
+  button: {
+    backgroundColor: '#6200ee',
+    borderRadius: 10,
+    paddingVertical: 10, 
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    marginBottom: 20, 
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16, 
+    fontWeight: 'bold',
+  },
+  loadingText: {
+    fontSize: 18,
+  },
+  loadingTextDark: {
+    color: '#fff', 
+  },
+  error: {
+    color: 'red',
+    fontSize: 16,
+    marginVertical: 10,
+  },
+  errorDark: {
+    color: 'lightcoral', 
+  },
+  emptyText: {
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  emptyTextDark: {
+    color: '#fff', 
+  },
+  movieList: {
+    marginTop: 20,
+    flexGrow: 0,
+  },
+  movieItem: {
+    flexDirection: 'row',
+    marginBottom: 12,
+  },
+  poster: {
+    width: 100,
+    height: 150,
+    borderRadius: 5,
+  },
+  movieDetails: {
+    marginLeft: 10,
+    flex: 1,
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  titleDark: {
+    color: '#fff',
+  },
+  detailText: {
+    fontSize: 14,
+  },
+  detailTextDark: {
+    color: '#ccc',
+  },
 });
-
-export default WeatherScreen;
