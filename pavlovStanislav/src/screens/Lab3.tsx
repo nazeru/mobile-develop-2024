@@ -4,6 +4,8 @@ import BoldText from '../components/customs/text/BoldText'
 import MediumText from '../components/customs/text/MediumText'
 import SemiBoldText from '../components/customs/text/SemiBoldText'
 import {colors} from '../constants/colors.const'
+import Tooltip from '../components/customs/Tooltip'
+import Title from '../components/customs/Title'
 
 const styles = StyleSheet.create({
   container: {
@@ -77,7 +79,8 @@ const Lab3: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <BoldText style={{fontSize: 20}}>useMemo</BoldText>
+      <Title text="useMemo" />
+      <Tooltip />
       <View style={{flexDirection: 'row'}}>
         <View style={{margin: 10}}>
           <BoldText>Without memo</BoldText>
