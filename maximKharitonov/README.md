@@ -1,5 +1,7 @@
 # Welcome to your Expo app 👋
 
+https://www.figma.com/design/kUBfASpgpyeqz0ncwjyRjz/Haritonov-Maxim-IVT-21-1?node-id=0-1&t=Hoy0bByyZrlNj0YC-1
+
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
 ## Get started
