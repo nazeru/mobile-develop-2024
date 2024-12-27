@@ -4,12 +4,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import { StyleSheet } from "react-native";
-import Lab1Screen from "./screens/lab1";
-import Lab2Screen from "./screens/lab2";
-import Lab3Screen_1 from "./screens/lab3_1";
-import Lab3Screen_2 from "./screens/lab3_2";
 import { useCartStore } from './store';
 import "../global.css";
+
+import HomeScreen from "./screens/homeScreen";
+import CartScreen from "./screens/cartScreen";
+import SearchScreen from "./screens/searchScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -23,11 +23,14 @@ const App = () => {
             let iconName;
 
             switch (route.name) {
-              case "Главная":
+              case "home":
                 iconName = focused ? "home" : "home-outline";
                 break;
-              case 'Корзина':
+              case 'cart':
                 iconName = focused ? 'bag' : 'bag-outline';
+                break;
+              case 'search':
+                iconName = focused ? 'search' : 'search-outline';
                 break;
               default:
                 iconName = focused ? "home" : "home-outline";
@@ -62,32 +65,25 @@ const App = () => {
         })}
       >
         <Tab.Screen
-          name="Lab 3_1"
-          component={Lab3Screen_1}
+          name="home"
+          component={HomeScreen}
           options={{
-            title: "Lab 3_1",
+            title: "Главная",
           }}
         />
         <Tab.Screen
-          name="Корзина"
-          component={Lab3Screen_2}
+          name="search"
+          component={SearchScreen}
+          options={{
+            title: "Поиск",
+          }}
+        />
+        <Tab.Screen
+          name="cart"
+          component={CartScreen}
           options={{
             title: "Корзина",
             tabBarBadge: cart.length
-          }}
-        />
-        <Tab.Screen
-          name="Lab 2"
-          component={Lab2Screen}
-          options={{
-            title: "Lab 2",
-          }}
-        />
-        <Tab.Screen
-          name="Lab 1"
-          component={Lab1Screen}
-          options={{
-            title: "Lab 1",
           }}
         />
       </Tab.Navigator>
