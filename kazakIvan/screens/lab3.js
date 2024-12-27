@@ -10,6 +10,19 @@ import {
 import BackArrow from "../components/BackArrow";
 import { useTheme } from "../components/ThemeContext";
 
+const PokemonItem = React.memo(({ name, themeStyles }) => {
+  // Искусственная задержка
+  const delay = Date.now() + 100; // 100 мс 
+  while (Date.now() < delay) {
+  }
+
+  return (
+    <View style={[styles.pokemonContainer, themeStyles.pokemonContainer]}>
+      <Text style={[styles.pokemonText, themeStyles.text]}>{name}</Text>
+    </View>
+  );
+});
+
 export default function Lab2_3({ navigation }) {
   const [inputValue, setInputValue] = useState("");
   const [pokemons, setPokemons] = useState([]);
@@ -33,11 +46,16 @@ export default function Lab2_3({ navigation }) {
     return inputValue ? allPokemons.slice(0, count) : allPokemons;
   }, [inputValue, allPokemons]);
 
-  useEffect(() => {
+  const handleSearch = () => {
     setPokemons(filteredPokemons);
-  }, [filteredPokemons]);
+  };
 
   const themeStyles = darkTheme ? styles.darkTheme : styles.lightTheme;
+
+  const memoizedRenderItem = useMemo(
+    () => ({ item }) => <PokemonItem name={item.name} themeStyles={themeStyles} />,
+    [themeStyles]
+  );
 
   return (
     <View style={[styles.container, themeStyles.container]}>
@@ -53,7 +71,7 @@ export default function Lab2_3({ navigation }) {
         />
         <TouchableOpacity
           style={[styles.searchButton, themeStyles.searchButton]}
-          onPress={() => setPokemons(filteredPokemons)}
+          onPress={handleSearch}
         >
           <Text style={[styles.searchButtonText, themeStyles.text]}>
             Search
@@ -62,13 +80,7 @@ export default function Lab2_3({ navigation }) {
         <FlatList
           data={pokemons}
           keyExtractor={(item) => item.name}
-          renderItem={({ item }) => (
-            <View style={[styles.pokemonContainer, themeStyles.pokemonContainer]}>
-              <Text style={[styles.pokemonText, themeStyles.text]}>
-                {item.name}
-              </Text>
-            </View>
-          )}
+          renderItem={memoizedRenderItem}
         />
       </View>
     </View>
