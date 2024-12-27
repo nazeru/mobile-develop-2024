@@ -1,0 +1,604 @@
+[33mcommit 2db69dd82031944b1cc1c2c6937c313c0cd234f2[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Dmitriy Balakshin <75755699+nazeru@users.noreply.github.com>
+Date:   Thu Dec 26 20:05:03 2024 +0900
+
+    useMemo
+
+[33mcommit e71e06aa848b2160d044d8bf430af4b28810eca6[m
+Author: Dmitriy Balakshin <75755699+nazeru@users.noreply.github.com>
+Date:   Thu Dec 26 19:07:10 2024 +0900
+
+    lab1
+
+[33mcommit 08168dbcbafda36d28bb9c6687689412a0bcf03e[m
+Author: Dmitriy Balakshin <75755699+nazeru@users.noreply.github.com>
+Date:   Thu Dec 26 16:53:21 2024 +0900
+
+    init project
+
+[33mcommit 8a618731941054cdf702e5cfb56fca397266e6a4[m
+Merge: 7e112b8 5b38fe8
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 14:51:08 2024 +0300
+
+    Merge pull request #171 from L1ghtowo2803/main
+    
+    lab3 и lab4
+
+[33mcommit 7e112b821da4b08e7bfa9a0b727a6ea95bd7c30d[m
+Merge: 7e773f0 096ced2
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 14:49:21 2024 +0300
+
+    Merge pull request #173 from AisenSleptsov/main
+    
+    выполнил lab3
+
+[33mcommit 7e773f0507e599679c55a6547ea6abfb00643e37[m
+Merge: 8f49ec4 8905474
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 14:47:00 2024 +0300
+
+    Merge pull request #172 from AisenSleptsov/lab2.2
+    
+    выполнил lab2
+
+[33mcommit 5b38fe8b34f894fe5b62c61e1b8818eb3c96da81[m
+Author: L1ghtowo2803 <90662386+L1ghtowo2803@users.noreply.github.com>
+Date:   Thu Dec 19 20:43:43 2024 +0900
+
+    LAB4
+
+[33mcommit 3e8e9c28ef438ad3d535f734b41113136251b43e[m
+Author: L1ghtowo2803 <90662386+L1ghtowo2803@users.noreply.github.com>
+Date:   Thu Dec 19 20:40:52 2024 +0900
+
+    lab3
+
+[33mcommit 8f49ec4698483addbd8a015f5eefe262719ef735[m
+Merge: a476d68 c78c128
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 14:37:59 2024 +0300
+
+    Merge pull request #168 from GogolevAlexander/main
+    
+    сделал Lab4
+
+[33mcommit a476d6846492fa6da94db013c93e823a55062254[m
+Merge: c2fb7e9 65db5e1
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 14:37:37 2024 +0300
+
+    Merge pull request #169 from L1ghtowo2803/main
+    
+    добавил lab1
+
+[33mcommit c2fb7e95b8120c824f53787ac270a9d82e68e783[m
+Merge: b297e99 d2e922f
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 14:37:13 2024 +0300
+
+    Merge pull request #170 from Malyshkavlad/main
+    
+    Do 4Lab
+
+[33mcommit 65db5e133ef089c4bbd3d9c1772a57ddb371e4e4[m
+Author: L1ghtowo2803 <90662386+L1ghtowo2803@users.noreply.github.com>
+Date:   Thu Dec 19 20:36:01 2024 +0900
+
+    lab2
+
+[33mcommit d2e922fb07f36c46f7278dbad3ef1e92c102df47[m
+Author: Malyshkavlad <realforgotyou2002@mail.ru>
+Date:   Thu Dec 19 20:34:11 2024 +0900
+
+    Do 4Lab
+
+[33mcommit c78c128dcf0114e0904dc45fcfe3095a61e688be[m
+Author: GogolevAlexander <gogolevsasha031014@mail.ru>
+Date:   Thu Dec 19 20:33:27 2024 +0900
+
+    сделал Lab4
+
+[33mcommit f56b34160308b33231c6a45dfb59097cce93710d[m
+Author: L1ghtowo2803 <90662386+L1ghtowo2803@users.noreply.github.com>
+Date:   Thu Dec 19 20:32:39 2024 +0900
+
+    lab1
+
+[33mcommit b297e99d0ba0d6e2029afa22f8e654f843efc994[m
+Merge: 7ef16ca e3ed1f2
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 14:27:11 2024 +0300
+
+    Merge pull request #166 from Malyshkavlad/main
+    
+    Do Lab3
+
+[33mcommit e3ed1f2da8b46b738e236d0ce6e1f63f808a8f03[m
+Author: Malyshkavlad <realforgotyou2002@mail.ru>
+Date:   Thu Dec 19 20:25:59 2024 +0900
+
+    Do Lab3
+
+[33mcommit 7ef16ca7927834ceb3bcf8bbf528f0bf1e85b59a[m
+Merge: 83ba1e9 8cde56a
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 14:24:59 2024 +0300
+
+    Merge pull request #165 from L1ghtowo2803/main
+    
+    Добавил Lab0
+
+[33mcommit 83ba1e96b812ccd91b4201135769496f3753826b[m
+Merge: 9eac732 f90c3c3
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 14:22:53 2024 +0300
+
+    Merge pull request #164 from Malyshkavlad/main
+    
+    lab2
+
+[33mcommit 9eac732be3ca436db6c841c2dfd71dbd5886b5e7[m
+Merge: eb3718e 8bb06c8
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 14:22:30 2024 +0300
+
+    Merge pull request #163 from Nurgun2003/main
+    
+    Lab 4
+
+[33mcommit eb3718ef0aad059d8cb38c8108033986ce842c07[m
+Merge: 1a3bc7b 3c95c0d
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 14:22:07 2024 +0300
+
+    Merge pull request #162 from aalto95/feature/lab5
+    
+    Add Lab5
+
+[33mcommit 8cde56aad43e16f60021865b8167ad2dfdc596c5[m
+Merge: 2847e8a b5856fa
+Author: L1ghtowo2803 <90662386+L1ghtowo2803@users.noreply.github.com>
+Date:   Thu Dec 19 20:21:46 2024 +0900
+
+    Merge branch 'main' of https://github.com/L1ghtowo2803/mobile-develop-2024
+
+[33mcommit 2847e8ada95ea68712d8c77ba1acf499602a6a34[m
+Author: L1ghtowo2803 <90662386+L1ghtowo2803@users.noreply.github.com>
+Date:   Thu Dec 19 20:21:33 2024 +0900
+
+    Delete Cheese.png
+
+[33mcommit 1a3bc7bfeca76f9f4d7dacc922ff24f71d75bc37[m
+Merge: 3c36d76 0768022
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 14:20:53 2024 +0300
+
+    Merge pull request #160 from Nellmax27/main
+    
+    2 lab use memo
+
+[33mcommit b5856fa34b475687a9be6fc8c1a2f2e026d7a176[m
+Author: L1ghtowo2803 <90662386+L1ghtowo2803@users.noreply.github.com>
+Date:   Thu Dec 19 20:20:39 2024 +0900
+
+    Update README.md
+
+[33mcommit 8bb06c8a4d8580e7d90a3f4f348d12c7ba867a41[m
+Author: Nurgun2003 <90663118+Nurgun2003@users.noreply.github.com>
+Date:   Thu Dec 19 20:20:11 2024 +0900
+
+    Prettier Lab4
+
+[33mcommit 2ecc3468cca73f09266d163ae769bbff8fd5ef22[m
+Author: L1ghtowo2803 <90662386+L1ghtowo2803@users.noreply.github.com>
+Date:   Thu Dec 19 20:19:38 2024 +0900
+
+    lab0
+
+[33mcommit 3c95c0db5e17bb518056c1a23e71cea9f88c0a1c[m
+Author: aalto95 <43157835+aalto95@users.noreply.github.com>
+Date:   Thu Dec 19 20:18:36 2024 +0900
+
+    Add Lab5
+
+[33mcommit 3c36d76853504b7ad7a87b8266f9a8a59557b52e[m
+Merge: 27bb9db 62a6908
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 14:18:11 2024 +0300
+
+    Merge pull request #161 from shiesse/main
+    
+    prettier
+
+[33mcommit 62a69080208abcab70be53997d6dd3c19dd6198f[m
+Author: shiesse <138016456+shiesse@users.noreply.github.com>
+Date:   Thu Dec 19 20:16:59 2024 +0900
+
+    prettier
+
+[33mcommit 07680227854d63994b815bdb75c5a527fba30379[m
+Author: Maxim Kharitonov <Nellmax28@mail.ru>
+Date:   Thu Dec 19 20:16:33 2024 +0900
+
+    2 lab use memo
+    
+    Сделал экран с отображением погоды, используется API OpenWeatherMap.
+
+[33mcommit f90c3c3f9d30671db52d47a8f3deb08c40a29601[m
+Author: Malyshkavlad <realforgotyou2002@mail.ru>
+Date:   Thu Dec 19 20:12:03 2024 +0900
+
+    Do lab2
+
+[33mcommit 27bb9db9874a2904895d2b603cae72117e130e0b[m
+Merge: b3cdb9a 6965724
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 14:10:28 2024 +0300
+
+    Merge pull request #156 from aalto95/feature/lab4
+    
+    Lab4
+
+[33mcommit 55eeb0c01a5d75ca0a88f603850894a2ef9bbcf9[m
+Author: GogolevAlexander <gogolevsasha031014@mail.ru>
+Date:   Thu Dec 19 20:09:37 2024 +0900
+
+    сделал Lab4
+
+[33mcommit b3cdb9abd3137cbad6852484dbaf8f8273e5f634[m
+Merge: 6e9eb82 dfa34eb
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 14:09:33 2024 +0300
+
+    Merge pull request #155 from trghas/main
+    
+    Lab2
+
+[33mcommit 7eec6ccf6f878cc6240c606a9c5ab04c2e8d9580[m
+Author: shiesse <138016456+shiesse@users.noreply.github.com>
+Date:   Thu Dec 19 20:08:55 2024 +0900
+
+    Сделал верстку по фигме
+
+[33mcommit 6e9eb8222a270f27683a3cfe1557682b2dcb2806[m
+Merge: a95b4b6 c1eb13d
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 14:08:49 2024 +0300
+
+    Merge pull request #154 from aalto95/feature/lab3
+    
+    Lab3
+
+[33mcommit a95b4b6477143bf135a2bacd15319e05aefe2f60[m
+Merge: 90aa8a3 37cdf85
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 14:08:01 2024 +0300
+
+    Merge pull request #153 from GogolevAlexander/main
+    
+    сделал lab3
+
+[33mcommit 90aa8a3dd32c57ca86500415bb3409047ec35bde[m
+Merge: 76290f2 3252f9f
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 14:05:05 2024 +0300
+
+    Merge pull request #152 from AG1CE/main
+    
+    Lab3
+
+[33mcommit 76290f277bb6dd064c847359cba204a2a51b125d[m
+Merge: 2010eba 59e04ec
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 14:04:38 2024 +0300
+
+    Merge pull request #151 from Arghost2003/main
+    
+    Lab 3 useMemo
+
+[33mcommit 5524089bba522141be51e79b055dc4f3ec1ec1f2[m
+Author: Nurgun2003 <90663118+Nurgun2003@users.noreply.github.com>
+Date:   Thu Dec 19 20:00:13 2024 +0900
+
+    Lab4 (MobX)
+
+[33mcommit 2010eba9663329f1beb25521ca0b964dcf87a695[m
+Merge: c0ab960 5b35f38
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 13:58:58 2024 +0300
+
+    Merge pull request #147 from scmbr/main
+    
+    добавил lab4
+
+[33mcommit c0ab960497c19337b6511b94284eadbfa2e08e81[m
+Merge: 3e3fe39 f7c3f50
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 13:58:40 2024 +0300
+
+    Merge pull request #146 from Nellmax27/main
+    
+    2 lab "use state"
+
+[33mcommit 3e3fe3906401d74eb6694228b6a88b15655d1825[m
+Merge: 3d2d434 0c39ed2
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 13:57:55 2024 +0300
+
+    Merge pull request #145 from zuckr7/main
+    
+    Lab 6 (figmaToApp)
+
+[33mcommit 3d2d434fb1ba73a1016d01b2763cd0d5825ee0a9[m
+Merge: 687627e 79511ab
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 13:57:22 2024 +0300
+
+    Merge pull request #144 from Nurgun2003/main
+    
+    Lab 3
+
+[33mcommit dfa34ebc0b350e94aa75896175171b0bbc18fd3c[m
+Author: trghas <minhoooje@gmail.com>
+Date:   Thu Dec 19 19:56:08 2024 +0900
+
+    Lab2
+
+[33mcommit 687627e198242af802da02684115fe31ada5876c[m
+Merge: 8f743d1 0842c27
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 13:55:09 2024 +0300
+
+    Merge pull request #143 from Sivoziche/main
+    
+    lab1, project create
+
+[33mcommit 37cdf85fce2613366953a56bc17db481e9a4ab9f[m
+Author: GogolevAlexander <gogolevsasha031014@mail.ru>
+Date:   Thu Dec 19 19:54:13 2024 +0900
+
+    сделал lab3
+
+[33mcommit 8f743d131b90d6ade09ae61d2613986fa6647a63[m
+Merge: aa330e4 85e42f6
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 13:52:56 2024 +0300
+
+    Merge pull request #140 from GogolevAlexander/main
+    
+    сделал lab2
+
+[33mcommit aa330e4ce9d460800f7a886742150f46d7a6a1a6[m
+Merge: 3a7ab9e 05d473f
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 13:50:18 2024 +0300
+
+    Merge pull request #137 from AndreyPotapovv/main
+    
+    Добавил Лаба 4 и Figma в README
+
+[33mcommit 3a7ab9e30f2c200e522b72c0e5c5555465802db4[m
+Merge: d7a4d5c 11c33f8
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 13:41:27 2024 +0300
+
+    Merge pull request #133 from Arsenshmid/main
+    
+    nikiforovArsenLab6
+
+[33mcommit d7a4d5c71d8ec5577f445f214589b96d5ff7e5ff[m
+Merge: e5a4775 0b7bf37
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 13:40:47 2024 +0300
+
+    Merge pull request #135 from guratsuki/main
+    
+    bolshakovPetr_lab3_2
+
+[33mcommit 11c33f8d09190b59da1b64d2ec037370f464eb7c[m
+Author: Your Name <you@example.com>
+Date:   Thu Dec 19 19:40:44 2024 +0900
+
+    Добавил .vscode в .gitignore и удалил из отслеживания
+
+[33mcommit e5a477540899eccd4469d6304535e4e86047f6ef[m
+Merge: 91dd66b c40ad74
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 13:39:49 2024 +0300
+
+    Merge pull request #134 from j1satsuboi/main
+    
+    Lab5
+
+[33mcommit 59e04ec59ca4881c383f27792db54e423b87f17a[m
+Author: Arghost2003 <arilin200009@gmail.com>
+Date:   Thu Dec 19 19:38:16 2024 +0900
+
+    Lab 3 useMemo
+    
+    WeatherAPI
+
+[33mcommit 5b35f38ca1d972bb66c99869d7d70903151e0545[m
+Author: scmbr <romvasily@mail.ru>
+Date:   Thu Dec 19 19:38:12 2024 +0900
+
+    удалил ненужное
+
+[33mcommit 3252f9ffe5ee40a79352b38ce2cf0412ef60c65b[m
+Author: AG1CE <144991640+AG1CE@users.noreply.github.com>
+Date:   Thu Dec 19 19:34:53 2024 +0900
+
+    Lab3
+
+[33mcommit 91dd66bd2ffb4d3744410bb3210fbc21f392f6f3[m
+Merge: 327b961 fb195a5
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 13:34:16 2024 +0300
+
+    Merge pull request #132 from DandM290319/nikulinMaksim
+    
+    created README.md, added Figma lab-5 link
+
+[33mcommit 327b9617623c0451f13acde37f170688f7f6006c[m
+Merge: 34dfcc1 200ef28
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 13:33:22 2024 +0300
+
+    Merge pull request #131 from innk88/main2
+    
+    lab3
+
+[33mcommit 34dfcc14ebe699e5fdd565cda88d3fb2ad659059[m
+Merge: ad03c79 49517bb
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 13:32:26 2024 +0300
+
+    Merge pull request #130 from shiesse/main
+    
+    lab5
+
+[33mcommit ad03c79a94841c8d7af511fd0233fa5da542d39d[m
+Merge: 2ac2681 06f0dd1
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 13:31:49 2024 +0300
+
+    Merge pull request #129 from MariaBaisheva/main
+    
+    Обновила лабораторную №3
+
+[33mcommit 2ac2681d042de911743724eb3cf4536eff5f7d62[m
+Merge: 03a490a 7c33f5e
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 13:27:01 2024 +0300
+
+    Merge pull request #126 from AG1CE/main
+    
+    Create lab2.js
+
+[33mcommit 03a490a090c31f6a3225735a10fd88e133f16706[m
+Merge: d073336 0288255
+Author: arri1 <ewws@mail.ru>
+Date:   Thu Dec 19 13:24:44 2024 +0300
+
+    Merge pull request #127 from Ruslan32145/main
+    
+    Лабораторная 4 + исправление лаб 3
+
+[33mcommit 3065c35879e3e51a766544a7a19da56b1dde4479[m
+Author: Malyshkavlad <realforgotyou2002@mail.ru>
+Date:   Thu Dec 19 16:45:41 2024 +0900
+
+    LAB2
+
+[33mcommit 737107ab0a24515d94321032bcb2622c2c3a56a9[m
+Author: scmbr <romvasily@mail.ru>
+Date:   Thu Dec 19 00:07:53 2024 +0900
+
+    добавил lab4
+
+[33mcommit 05d473f1092c25ece515c77c7efe38470599929f[m
+Author: Andrey Potapov <90584170+AndreyPotapovv@users.noreply.github.com>
+Date:   Wed Dec 18 23:27:48 2024 +0900
+
+    Лаба 4. Смена темы
+
+[33mcommit acb631e7bb4d44894405373dfe62bdc09d65f041[m
+Author: Arghost2003 <arilin200009@gmail.com>
+Date:   Wed Dec 18 19:21:17 2024 +0900
+
+    aa
+    
+    aa
+
+[33mcommit f7c3f50e90b4772da9f1bef42070cc1800c64ae0[m
+Author: Maxim Kharitonov <Nellmax28@mail.ru>
+Date:   Wed Dec 18 18:49:47 2024 +0900
+
+    2 lab "use state"
+    
+    Добавлен функционал счетчика и кнопки сброса
+
+[33mcommit 0c39ed26026e5752a4a2254fd8b878abf0669d5e[m
+Author: zuckr7 <realslimshady30@gmail.com>
+Date:   Wed Dec 18 00:38:56 2024 +0900
+
+    prettier
+
+[33mcommit 0207f735eabd2f836944d21fdfd80d030e6f8751[m
+Author: zuckr7 <realslimshady30@gmail.com>
+Date:   Wed Dec 18 00:33:24 2024 +0900
+
+    FigmaToApp
+
+[33mcommit 9c0e160e517a4286231682a3b47182abd312d028[m
+Author: Arghost2003 <arilin200009@gmail.com>
+Date:   Mon Dec 16 20:27:23 2024 +0900
+
+    Lab 3-4
+    
+    Сделал лабораторные работы 3-4
+
+[33mcommit 79511ab09af32a393129474c45c4b25792c09438[m
+Author: Nurgun2003 <90663118+Nurgun2003@users.noreply.github.com>
+Date:   Thu Dec 12 17:26:02 2024 +0900
+
+    Lab3
+
+[33mcommit 0842c27ee7ed0cac6c4f8ed8221b565e66ae18e8[m
+Author: Sivoziche <118076242+Sivoziche@users.noreply.github.com>
+Date:   Thu Dec 12 00:32:10 2024 +0900
+
+    Revert "deleted other"
+    
+    This reverts commit e1b05f65d8a71e27d225c2c7c179e45d9efdbf66.
+
+[33mcommit e1b05f65d8a71e27d225c2c7c179e45d9efdbf66[m
+Author: Sivoziche <118076242+Sivoziche@users.noreply.github.com>
+Date:   Thu Dec 12 00:04:55 2024 +0900
+
+    deleted other
+
+[33mcommit ec53af57f6a41b3e82849f3f6bb4bf4e7c7fddb8[m
+Author: Sivoziche <118076242+Sivoziche@users.noreply.github.com>
+Date:   Thu Dec 12 00:02:33 2024 +0900
+
+    initial commit
+    
+    lab1, create project
+
+[33mcommit 0b7bf37b5f3ca9a834062728a7f49c5a7375d8b7[m
+Author: Petr Bolshakov <bolspetr230@gmail.com>
+Date:   Wed Dec 11 23:44:49 2024 +0900
+
+    prettier
+
+[33mcommit 9602cf567149c698a78cd598dbe2e6da8ffc92fa[m
+Merge: ba2dbbf 7a6738b
+Author: Petr Bolshakov <bolspetr230@gmail.com>
+Date:   Wed Dec 11 23:41:51 2024 +0900
+
+    lab4 added
+
+[33mcommit ba2dbbf8811bb46229f6220adf44c82ba37110b0[m
+Author: Petr Bolshakov <bolspetr230@gmail.com>
+Date:   Wed Dec 11 23:34:05 2024 +0900
+
+    lab4 added
+
+[33mcommit 096ced2c52c7d429c68a8553fb014132d5e4cd8c[m
+Author: Aisen Sleptsov <aisenviperr@mail.ru>
+Date:   Fri Dec 6 23:27:18 2024 +0900
+
+    выполнил lab3
+    
+    Компонент который отображает случайную страну, загруженную из API, с индикатором загрузки и кнопкой для обновления данных
+
+[33mcommit 8905474e92f4fb39c3178a00799313ef381ab916[m
+Author: Aisen Sleptsov <aisenviperr@mail.ru>
+Date:   Fri Dec 6 21:04:17 2024 +0900
+
+    выполнил lab2
+    
+    Компонент меняет фон на случайный цвет при нажатии
