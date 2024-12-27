@@ -3,12 +3,16 @@ import {StyleSheet, TextInput, TouchableOpacity, View} from 'react-native'
 import BoldText from '../components/customs/text/BoldText'
 import {colors} from '../constants/colors.const'
 import {useSomeStore} from '../stores/store'
+import Tooltip from '../components/customs/Tooltip'
+import Title from '../components/customs/Title'
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-end',
+    alignItems: 'center',
     padding: 16,
+    backgroundColor: colors.white,
   },
   controls: {
     flexDirection: 'row',
@@ -43,6 +47,8 @@ const Lab4: React.FC = () => {
 
   return (
     <View style={[styles.container]}>
+      <Title text="State Management" />
+      <Tooltip />
       <View style={styles.controls}>
         <TextInput
           style={styles.input}

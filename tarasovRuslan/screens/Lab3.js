@@ -16,20 +16,42 @@ const Lab3 = () => {
     ]);
 
     const [key, setKey] = useState(0);
+    const [sortTime, setSortTime] = useState(null);
+    const [timeWithoutMemo, setTimeWithoutMemo] = useState(null);
 
     const sortedItems = useMemo(() => {
-        console.log('Сортируем список...');
-        return [...items].sort((a, b) => {
+        const start = Date.now();  // Начало замера времени
+        const sorted = [...items].sort((a, b) => {
             if (sortOrder === 'asc') {
                 return a.localeCompare(b);
             } else {
                 return b.localeCompare(a);
             }
         });
+        const end = Date.now();  // Конец замера времени
+        setSortTime(end - start);
+        return sorted;
     }, [sortOrder, items]);
 
+    const sortedItemsWithoutMemo = () => {
+        const start = Date.now();
+        const sorted = [...items].sort((a, b) => {
+            if (sortOrder === 'asc') {
+                return a.localeCompare(b);
+            } else {
+                return b.localeCompare(a);
+            }
+        });
+        const end = Date.now();
+        setTimeWithoutMemo(end - start);
+        return sorted;
+    };
+
     useEffect(() => {
-        setKey(prevKey => prevKey + 1);
+        setKey((prevKey) => prevKey + 1);
+        
+        sortedItemsWithoutMemo();
+
     }, [sortOrder]);
 
     return (
@@ -40,6 +62,10 @@ const Lab3 = () => {
                     <Button title="По возрастанию" onPress={() => dispatch(setSortOrder('asc'))} />
                     <Button title="По убыванию" onPress={() => dispatch(setSortOrder('desc'))} />
                 </View>
+                
+                <Text>Время сортировки с useMemo: {sortTime} мс</Text>
+                <Text>Время сортировки без useMemo: {timeWithoutMemo} мс</Text>
+
                 <FlatList
                     data={sortedItems}
                     keyExtractor={(item, index) => `${item}-${index}`}

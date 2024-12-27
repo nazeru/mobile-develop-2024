@@ -1,21 +1,39 @@
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { ThemeProvider, useTheme } from "./ThemeContext.js";
+import Lab1 from "./layouts/lab1";
+import Lab2 from "./layouts/lab2";
+import Lab3 from "./layouts/lab3";
 
 const Tab = createBottomTabNavigator();
 
-import Lab2 from "./layouts/lab2";
-import Lab3 from "./layouts/lab3";
-// import Lab4 from "./layouts/lab4";
-import { NavigationContainer } from "@react-navigation/native";
-const colors = ["black", "red", "yellow"];
+const AppTabs = () => {
+  const { isDarkTheme } = useTheme();
+
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: {
+          backgroundColor: isDarkTheme ? "#333" : "#fff",
+        },
+        tabBarActiveTintColor: isDarkTheme ? "#fff" : "#000",
+        tabBarInactiveTintColor: isDarkTheme ? "#aaa" : "#555",
+      }}
+    >
+      <Tab.Screen name="Lab1" component={Lab1} />
+      <Tab.Screen name="Lab2" component={Lab2} />
+      <Tab.Screen name="Lab3" component={Lab3} />
+    </Tab.Navigator>
+  );
+};
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="Lab2" component={Lab2} />
-        <Tab.Screen name="Lab3" component={Lab3} />
-        {/* <Tab.Screen name="Lab4" component={Lab4} /> */}
-      </Tab.Navigator>
-    </NavigationContainer>
+    <ThemeProvider>
+      <NavigationContainer>
+        <AppTabs />
+      </NavigationContainer>
+    </ThemeProvider>
   );
 }

@@ -2,7 +2,6 @@ import React, { useState, useMemo } from "react";
 import {
   SafeAreaView,
   TextInput,
-  Button,
   View,
   Text,
   FlatList,
@@ -27,7 +26,6 @@ export default function MovieSearchScreen() {
           searchQuery
         )}`
       );
-
       const data = await response.json();
       if (data.ok && data.description) {
         setMovies(data.description);
@@ -45,7 +43,6 @@ export default function MovieSearchScreen() {
     }
   };
 
-  //позволяет избежать повторной фильтрации списка фильмов каждый раз, когда происходит ререндер компонента (например, из-за ввода текста или изменения состояния), если сами фильмы или диапазон годов не менялись.
   const getFilteredMovies = useMemo(() => {
     console.log(1);
     return movies.filter((movie) => {
@@ -60,29 +57,26 @@ export default function MovieSearchScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, padding: 20 }}>
-      <TextInput
-        placeholder="Movie name"
-        value={query}
-        onChangeText={setQuery}
-        style={styles.searchBar}
-      />
       <View style={styles.searchBlock}>
-        <Text> Release year</Text>
         <TextInput
-          placeholder="Минимальный год"
+          value={query}
+          onChangeText={setQuery}
+          style={styles.searchBarName}
+        />
+        <TextInput
           value={minYear}
           onChangeText={setMinYear}
           keyboardType="numeric"
-          style={styles.searchBar}
+          style={styles.searchBarYear}
         />
 
         <Pressable style={styles.button} onPress={handleSearch}>
-          <Text>Search</Text>
+          <Text style={styles.btnText}>Поиск</Text>
         </Pressable>
       </View>
 
       {loading ? (
-        <Text>Loading</Text>
+        <Text>Загрузка</Text>
       ) : (
         <FlatList
           data={getFilteredMovies}
@@ -96,9 +90,8 @@ export default function MovieSearchScreen() {
               />
               <View style={styles.movieDetails}>
                 <Text style={styles.title}>{item["#TITLE"]}</Text>
-                <Text>Release year: {item["#YEAR"]}</Text>
-                <Text>Actors: {item["#ACTORS"]}</Text>
-                <Text>Rank: {item["#RANK"]}</Text>
+                <Text style={styles.desc}>Год выхода: {item["#YEAR"]}</Text>
+                <Text style={styles.desc}>Оценка: {item["#RANK"]}</Text>
               </View>
             </View>
           )}
@@ -109,22 +102,48 @@ export default function MovieSearchScreen() {
 }
 
 const styles = StyleSheet.create({
-  searchBar: {
+  searchBarName: {
     borderWidth: 1,
-    padding: 10,
-    marginBottom: 20,
+    width: 345,
+    height: 29,
+    borderRadius: 3,
+  },
+  searchBarYear: {
+    borderWidth: 1,
+    width: 140,
+    height: 29,
+    borderRadius: 3,
+  },
+  searchBlock: {
+    display: "flex",
+    alignItems: "left",
+    gap: 14,
+  },
+  button: {
+    backgroundColor: "#2A4758",
+    color: "white",
+    borderRadius: 10,
+    width: 140,
+    height: 29,
+  },
+  btnText: {
+    color: "#DCEEFA",
+    fontFamily: "Inter",
+    fontSize: 12,
+    textAlign: "center",
+    verticalAlign: "middle",
+    lineHeight: 29,
+    fontWeight: "300",
   },
   movieItem: {
     flexDirection: "row",
     marginVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "lightgray",
     paddingBottom: 10,
   },
   poster: {
-    width: 100,
+    width: 110,
     height: 150,
-    marginRight: 10,
+    marginRight: 24,
     borderRadius: 10,
   },
   movieDetails: {
@@ -132,18 +151,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    fontWeight: "bold",
+    color: "#2A4758",
   },
-  button: {
-    backgroundColor: "green",
-    color: "white",
-    textAlign: "center",
-    padding: 10,
-    borderRadius: 10,
-  },
-  searchBlock: {
-    display: "flex",
-    alignItems: "center",
-    gap: 15,
+  desc: {
+    fontSize: 11,
+    color: "#2A4758",
   },
 });

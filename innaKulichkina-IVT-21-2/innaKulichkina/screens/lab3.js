@@ -1,46 +1,56 @@
 import React, { useState, useMemo } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity  } from 'react-native';
+import { useTheme } from '../ThemeContext'; 
 
 const calculateFactorial = (n) => {
   console.log('Вычисляем факториал...');
-  if (n < 0) return 'Нет значения'; // Отрицательные числа не имеют факториала
+  if (n < 0) return 'Нет значения';
   return n === 0 ? 1 : n * calculateFactorial(n - 1);
 };
 
 const Lab3 = () => {
-  const [input, setInput] = useState(''); // Текст из TextInput
-  const [number, setNumber] = useState(0); // Преобразованное число
+    const { isDarkMode, toggleTheme } = useTheme();
+    const [input, setInput] = useState('');
+    const [number, setNumber] = useState(0); 
+    const factorial = useMemo(() => calculateFactorial(number), [number]);
 
-  // Оптимизация вычислений с помощью useMemo
-  const factorial = useMemo(() => calculateFactorial(number), [number]);
+    const handleChange = (text) => {
+        setInput(text);
+        const parsedNumber = parseInt(text, 10);
+        if (!isNaN(parsedNumber)) {
+        setNumber(parsedNumber);
+        } else {
+        setNumber(0); 
+        }
+    };
 
-  const handleChange = (text) => {
-    setInput(text);
-    const parsedNumber = parseInt(text, 10);
-    if (!isNaN(parsedNumber)) {
-      setNumber(parsedNumber);
-    } else {
-      setNumber(0); // Если текст не число, устанавливаем 0
-    }
-  };
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Факториал</Text>
-      <TextInput
-        style={styles.input}
-        keyboardType="numeric"
-        placeholder="Введите число"
-        value={input}
-        onChangeText={handleChange}
-      />
-      <Text style={styles.result}>
-        {input === ''
-          ? 'Введите число'
-          : `Факториал числа ${number}: ${factorial}`}
-      </Text>
-    </View>
-  );
+    return (
+        <View
+        style={[
+        styles.container,
+        { backgroundColor: isDarkMode ? '#333' : '#fff' },
+        ]}
+        >
+        <Text style={styles.title}>Факториал</Text>
+        <TextInput
+            style={styles.input}
+            keyboardType="numeric"
+            placeholder="Введите число"
+            value={input}
+            onChangeText={handleChange}
+        />
+        <Text style={styles.result}>
+            {input === ''
+            ? 'Введите число'
+            : `Факториал числа ${number}: ${factorial}`}
+        </Text>
+        <TouchableOpacity style={styles.themeButton} onPress={toggleTheme}>
+        <Text style={styles.emojiText}>
+          {isDarkMode ? '🌞' : '🌙'} 
+        </Text>
+      </TouchableOpacity>
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({
@@ -50,6 +60,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#f8f9fa',
     padding: 20,
+    position: 'relative',
   },
   title: {
     fontSize: 24,
@@ -72,6 +83,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#495057',
     textAlign: 'center',
+  },
+  themeButton: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    backgroundColor: 'transparent',
+    padding: 10,
+  },
+  emojiText: {
+    fontSize: 30,
   },
 });
 

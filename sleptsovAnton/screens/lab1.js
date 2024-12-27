@@ -27,14 +27,14 @@ const Lab1 = () => {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: "#000000",
+        backgroundColor: "#white",
         alignItems: "center",
         justifyContent: "center",
       }}
     >
       <Text
         style={{
-          color: "white",
+          color: "black",
           fontSize: 30,
         }}
       >
@@ -42,7 +42,7 @@ const Lab1 = () => {
       </Text>
       <Text
         style={{
-          color: "white",
+          color: "black",
           marginTop: 30,
           fontSize: 20,
         }}
@@ -51,7 +51,7 @@ const Lab1 = () => {
       </Text>
       <Text
         style={{
-          color: "white",
+          color: "black",
           marginTop: 30,
           fontSize: 20,
         }}
@@ -63,7 +63,7 @@ const Lab1 = () => {
           setSeconds(5);
         }}
         style={{
-          backgroundColor: "white",
+          backgroundColor: "black",
           padding: 10,
           borderRadius: 10,
           marginTop: 30,
@@ -71,7 +71,7 @@ const Lab1 = () => {
       >
         <Text
           style={{
-            color: "black",
+            color: "white",
           }}
         >
           Restart timer
@@ -82,7 +82,7 @@ const Lab1 = () => {
           setClicks(clicks + 1);
         }}
         style={{
-          backgroundColor: "white",
+          backgroundColor: "black",
           padding: 100,
           borderRadius: 120,
           marginTop: 30,
@@ -90,7 +90,7 @@ const Lab1 = () => {
       >
         <Text
           style={{
-            color: "black",
+            color: "white",
           }}
         >
           Click!
@@ -98,7 +98,7 @@ const Lab1 = () => {
       </TouchableOpacity>
       <Text
         style={{
-          color: "white",
+          color: "black",
           marginTop: 30,
           fontSize: 20,
         }}

@@ -1,3 +1,4 @@
+import React from 'react';
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
 import { changeColor, changeShape } from '../store';
@@ -5,7 +6,7 @@ import { changeColor, changeShape } from '../store';
 const colors = ["black", "red", "yellow"];
 const shapes = ["square", "circle", "triangle"];
 
-const Lab1 = () => {
+const Lab1 = ({ navigation }) => {
   const dispatch = useDispatch();
   const colorIndex = useSelector((state) => state.app.colorIndex);
   const shapeIndex = useSelector((state) => state.app.shapeIndex);
@@ -48,6 +49,18 @@ const Lab1 = () => {
           }}
         >
           <Text style={{ color: "white" }}>Измени мой цвет и фигуру!</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Settings')}
+          style={{
+            backgroundColor: "blue",
+            padding: 10,
+            borderRadius: 10,
+            marginTop: 20,
+          }}
+        >
+          <Text style={{ color: "white" }}>Поменять самостоятельно</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

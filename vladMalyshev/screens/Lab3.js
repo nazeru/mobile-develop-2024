@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import {
   View,
   Text,
@@ -6,9 +6,11 @@ import {
   FlatList,
   Button,
   StyleSheet,
+  Switch,
 } from "react-native";
 
 const Lab3 = () => {
+  const [onMemo, setOnMemo] = useState(true);
   const [filterText, setFilterText] = useState("");
   const [newName, setNewName] = useState("");
   const [names, setNames] = useState([
@@ -23,12 +25,27 @@ const Lab3 = () => {
     "Ivy",
     "Jack",
   ]);
+  const leng = 100000000;
+  const bigFunc = () => {
+    for (let i = 0; i < leng; i++) {}
+  };
+  const bigFuncMemo = useCallback(() => {
+    for (let i = 0; i < leng; i++) {}
+    return 0;
+  }, []);
 
   const filteredNames = useMemo(() => {
+    bigFuncMemo();
     return names.filter((name) =>
-      name.toLowerCase().includes(filterText.toLowerCase())
+      name.toLowerCase().includes(filterText.toLowerCase()),
     );
   }, [filterText, names]);
+  const filteredNamesWithoutMemo = () => {
+    bigFunc();
+    return names.filter((name) =>
+      name.toLowerCase().includes(filterText.toLowerCase()),
+    );
+  };
 
   const addName = () => {
     if (newName.trim()) {
@@ -39,11 +56,19 @@ const Lab3 = () => {
 
   return (
     <View style={styles.container}>
+      {/* Верхняя полоса с текстом */}
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Лабораторная 3</Text>
+      </View>
+      <Switch value={onMemo} onChange={() => setOnMemo(!onMemo)} />
+
+      {/* Основное содержимое */}
       <Text style={styles.title}>Фильтр имен</Text>
       <TextInput
         style={styles.input}
         placeholder="Введите имя для фильтрации"
         onChangeText={setFilterText}
+        value={filterText}
       />
       <TextInput
         style={styles.input}
@@ -53,7 +78,7 @@ const Lab3 = () => {
       />
       <Button title="Добавить имя" onPress={addName} />
       <FlatList
-        data={filteredNames}
+        data={onMemo ? filteredNames : filteredNamesWithoutMemo()}
         keyExtractor={(item) => item}
         renderItem={({ item }) => (
           <View style={styles.itemContainer}>
@@ -68,15 +93,26 @@ const Lab3 = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    gap: 4,
+    backgroundColor: "#f5f5f5",
+  },
+  header: {
+    backgroundColor: "#007AFF",
+    height: 60,
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
-    backgroundColor: "#f5f5f5", // Фоновый цвет для всего контейнера
+  },
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
   },
   title: {
     fontSize: 24,
     marginBottom: 20,
-    fontWeight: "bold", // Жирный шрифт для заголовка
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: 10, // Чтобы заголовок не был слишком близко к верхней полосе
   },
   input: {
     height: 40,
@@ -85,21 +121,22 @@ const styles = StyleSheet.create({
     width: "100%",
     marginBottom: 20,
     paddingHorizontal: 10,
-    borderRadius: 5, // Закругленные углы для полей ввода
+    borderRadius: 5,
+    backgroundColor: "#ffffff",
   },
   itemContainer: {
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderWidth: 1,
-    borderColor: "#ccc", // Цвет границы элемента списка
-    borderRadius: 5, // Закругленные углы для элемента списка
-    backgroundColor: "#fff", // Белый фон для элемента списка
-    marginBottom: 10, // Отступ между элементами списка
-    shadowColor: "#000", // Тень для элемента списка
-    shadowOffset: { width: 0, height: 1 }, // Смещение тени
-    shadowOpacity: 0.2, // Прозрачность тени
-    shadowRadius: 1.5, // Радиус размытия тени
-    elevation: 2, // Эффект тени для Android
+    borderColor: "#ccc",
+    borderRadius: 5,
+    backgroundColor: "#ffffff",
+    marginBottom: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.5,
+    elevation: 2,
   },
   item: {
     fontSize: 18,

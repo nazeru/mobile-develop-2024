@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { showMessage } from "react-native-flash-message";
 import {
   StyleSheet,
   Text,
   View,
   FlatList,
-  Button,
   TextInput,
+  TouchableOpacity,
 } from "react-native";
-
+import { MaterialIcons } from "@expo/vector-icons";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 const Lab1 = () => {
   const [users, setUsers] = useState([]);
   const [newUserName, setNewUserName] = useState("");
@@ -18,15 +18,11 @@ const Lab1 = () => {
     const staticUsers = [
       { id: 1, name: "Ivan Ivanov", email: "ivan@gmail.com" },
       { id: 2, name: "Kirill Kirillin", email: "kirill@gmail.com" },
-      { id: 3, name: "Sergey Sergeev", email: "sergey@gmail.com" },
-      { id: 4, name: "Petr Petrov", email: "petr@gmail.com" },
     ];
 
     setUsers(staticUsers);
   }, []);
-  useEffect(() => {
-    console.log("Лист юзер изменился!");
-  }, [users]);
+
   const deleteUser = (id) => {
     setUsers(users.filter((user) => user.id !== id));
   };
@@ -52,9 +48,13 @@ const Lab1 = () => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.userContainer}>
-            <Text style={styles.userName}>{item.name}</Text>
-            <Text>{item.email}</Text>
-            <Button title="Удалить" onPress={() => deleteUser(item.id)} />
+            <View style={styles.userInfo}>
+              <Text style={styles.userName}>{item.name}</Text>
+              <Text style={styles.userEmail}>{item.email}</Text>
+            </View>
+            <TouchableOpacity onPress={() => deleteUser(item.id)}>
+              <Icon name="close-circle" size={30} color="#ff4d4d" />
+            </TouchableOpacity>
           </View>
         )}
       />
@@ -72,7 +72,9 @@ const Lab1 = () => {
           value={newUserEmail}
           onChangeText={setNewUserEmail}
         />
-        <Button title="Добавить пользователя" onPress={addUser} />
+        <TouchableOpacity style={styles.addButton} onPress={addUser}>
+          <Text style={styles.addButtonText}>ДОБАВИТЬ ПОЛЬЗОВАТЕЛЯ</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -80,30 +82,31 @@ const Lab1 = () => {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 30,
     flex: 1,
     padding: 20,
     backgroundColor: "#fff",
   },
   userContainer: {
-    padding: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 15,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
-    marginBottom: 10,
+  },
+  userInfo: {
+    flex: 1,
   },
   userName: {
     fontSize: 18,
     fontWeight: "bold",
   },
-  loadingText: {
-    textAlign: "center",
-    marginTop: 20,
-    fontSize: 18,
+  userEmail: {
+    color: "#555",
   },
   inputContainer: {
     marginTop: 20,
-    borderTopWidth: 1,
-    borderTopColor: "#ccc",
-    paddingTop: 20,
   },
   input: {
     height: 40,
@@ -112,6 +115,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 10,
     borderRadius: 5,
+  },
+  addButton: {
+    backgroundColor: "#007BFF",
+    paddingVertical: 10,
+    alignItems: "center",
+    borderRadius: 5,
+  },
+  addButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
   },
 });
 

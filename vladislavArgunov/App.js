@@ -1,32 +1,74 @@
-import { useState } from "react";
-import { StyleSheet, TextInput, Button, Text, View } from "react-native";
+import React from "react";
+import { Button } from "react-native";
+import {
+  createBottomTabNavigator,
+  TransitionPresets,
+} from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
-export default function App() {
-  const [number, setNumber] = useState(0);
+import Lab1 from "./screens/lab1";
+import Lab2 from "./screens/lab2";
+import Lab3 from "./screens/lab3";
+import { ThemeProvider } from "./ContextAPI/themeContext";
+import { DarkTheme, DefaultTheme } from "@react-navigation/native";
+import { useTheme } from "./ContextAPI/themeContext";
+
+const Tab = createBottomTabNavigator();
+
+function AppContent() {
+  const { isDarkTheme, toggleTheme } = useTheme();
+  const navigationTheme = isDarkTheme ? DarkTheme : DefaultTheme;
+  const inactiveTintColor = isDarkTheme ? "darkgray" : "gray";
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.defaultStyle}>{number}</Text>
-      <Text style={styles.defaultStyle}>Нажимай</Text>
-      <View style={styles.defaultStyle}>
-        <Button title="на меня" onPress={() => setNumber(number + 1)} />
-      </View>
-      <View style={styles.defaultStyle}>
-        <Button title="не сюда" onPress={() => setNumber(-9999)} />
-      </View>
-    </View>
+    <NavigationContainer theme={navigationTheme}>
+      <Tab.Navigator
+        screenOptions={() => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+            iconName = focused ? "terminal" : "terminal-outline";
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: "tomato",
+          tabBarInactiveTintColor: inactiveTintColor,
+        })}
+      >
+        <Tab.Screen
+          name="Lab 1"
+          component={Lab1}
+          options={{
+            TransitionPresets: TransitionPresets.ShiftTransition,
+          }}
+        />
+        <Tab.Screen
+          name="Lab 2"
+          component={Lab2}
+          options={{
+            TransitionPresets: TransitionPresets.ShiftTransition,
+          }}
+        />
+        <Tab.Screen
+          name="Lab 3"
+          component={Lab3}
+          options={{
+            TransitionPresets: TransitionPresets.ShiftTransition,
+          }}
+        />
+      </Tab.Navigator>
+      <Button
+        title="Сменить тему"
+        onPress={toggleTheme}
+        color={isDarkTheme ? "gray" : "#2296f3"}
+      />
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  defaultStyle: {
-    fontSize: 20,
-    marginTop: 20,
-  },
-});
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
+  );
+}

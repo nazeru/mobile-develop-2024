@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   View,
   TextInput,
-  Button,
   FlatList,
   Text,
   StyleSheet,
@@ -12,7 +11,6 @@ import { useShopList } from "../../hooks/useShopList";
 
 export default function Lab4_1() {
   const [title, setTitle] = useState("");
-  const [newTitle, setNewTitle] = useState("");
   const goods = useShopList((state) => state.goods);
   const addProduct = useShopList((state) => state.addProduct);
   const deleteProduct = useShopList((state) => state.deleteProduct);
@@ -29,7 +27,7 @@ export default function Lab4_1() {
       <View style={styles.addBlock}>
         <TextInput style={styles.input} value={title} onChangeText={setTitle} />
         <Pressable style={styles.button} onPress={handleAddProduct}>
-          <Text style={styles.buttonText}>Add</Text>
+          <Text style={styles.btnText}>Добавить</Text>
         </Pressable>
       </View>
 
@@ -39,14 +37,16 @@ export default function Lab4_1() {
         renderItem={({ item }) => (
           <View style={styles.productContainer}>
             <View style={{ flex: 1 }}>
-              <Text>{item.name}</Text>
-              <Text>Status: {item.completed ? "Bought" : "In progress"}</Text>
+              <Text style={styles.text}>{item.name}</Text>
+              <Text style={styles.textDesc}>
+                Статус: {item.completed ? "Куплен" : "В прогрессе"}
+              </Text>
             </View>
             <Pressable
-              style={styles.button}
+              style={styles.deleteBtn}
               onPress={() => deleteProduct(item.id)}
             >
-              <Text style={styles.buttonText}>Delete</Text>
+              <Text style={styles.btnText}>Удалить</Text>
             </Pressable>
           </View>
         )}
@@ -62,31 +62,63 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 30,
-    width: 250,
+    borderRadius: 12,
+    width: 345,
+    height: 29,
   },
   productContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 10,
+
+    marginTop: 16,
+    borderWidth: 1,
+    borderColor: "#2A4758",
+    borderRadius: 8,
+    height: 74,
+    width: 345,
   },
   button: {
     backgroundColor: "#2A4758",
-    borderWidth: 1,
-    width: 150,
-    height: 50,
-    padding: 10,
-    borderRadius: 20,
+    borderRadius: 12,
+    width: 149,
+    height: 29,
+    marginBottom: 16,
+    marginRight: 8,
   },
-  buttonText: {
+  btnText: {
+    color: "#DCEEFA",
+    fontFamily: "Inter",
+    fontSize: 11,
     textAlign: "center",
+    verticalAlign: "middle",
+    lineHeight: 29,
+    fontWeight: "300",
   },
   addBlock: {
     display: "flex",
     alignItems: "center",
     gap: 15,
+  },
+  deleteBtn: {
+    backgroundColor: "#2A4758",
+    borderRadius: 15,
+    width: 85,
+    height: 29,
+    marginBottom: 16,
+    marginRight: 8,
+    marginTop: 23,
+  },
+  text: {
+    fontFamily: "Inter",
+    fontSize: 12,
+    marginLeft: 17,
+    marginBottom: 6,
+    color: "#2A4758",
+    marginTop: 19,
+  },
+  textDesc: {
+    fontFamily: "Inter",
+    fontSize: 10,
+    marginLeft: 17,
+    color: "#2A4758",
   },
 });
