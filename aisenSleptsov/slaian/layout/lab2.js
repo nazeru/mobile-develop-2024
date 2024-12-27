@@ -6,11 +6,16 @@ import {
   Button,
   ActivityIndicator,
 } from "react-native";
+import { useTheme } from "../themeContext";
 
 const Lab2 = () => {
   const [country, setCountry] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const { isDarkTheme } = useTheme();
+  const themeStyles = isDarkTheme
+    ? styles.darkContainer
+    : styles.lightContainer;
+  const textStyles = isDarkTheme ? styles.darkText : styles.lightText;
   const getCountry = async () => {
     setLoading(true);
     try {
@@ -27,12 +32,12 @@ const Lab2 = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Random Country:</Text>
+    <View style={[styles.container, themeStyles]}>
+      <Text style={[styles.title, textStyles]}>Random Country:</Text>
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
-        <Text style={styles.text}>{country}</Text>
+        <Text style={[styles.title, textStyles]}>{country}</Text>
       )}
       <Button title="Get Country" onPress={getCountry} />
     </View>
@@ -40,20 +45,22 @@ const Lab2 = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f5f5f5",
+  darkContainer: {
+    backgroundColor: "#333",
+  },
+  lightContainer: {
+    backgroundColor: "#fff",
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 20,
   },
-  text: {
-    fontSize: 18,
-    marginVertical: 15,
+  darkText: {
+    color: "#fff",
+  },
+  lightText: {
+    color: "#000",
   },
 });
 
