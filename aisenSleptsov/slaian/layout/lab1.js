@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   Text,
@@ -6,19 +6,20 @@ import {
   View,
   StyleSheet,
 } from "react-native";
-import { ThemeProvider, useTheme } from "../themeContext";
+import { useTheme } from "../themeContext";
 
-const colors = ["black", "red", "yellow", "green", "gray", "blue"];
+const colors = ["red", "yellow", "green", "gray", "blue"];
 
 const Lab1 = () => {
-  const [backgroundColor, setBackgroundColor] = useState(colors[0]);
+  const { isDarkTheme } = useTheme();
 
-  const { isDarkTheme, toggleTheme } = useTheme();
+  const [backgroundColor, setBackgroundColor] = useState(
+    isDarkTheme ? "#333" : "#fff"
+  );
 
-  const themeStyles = isDarkTheme
-    ? styles.darkContainer
-    : styles.lightContainer;
-  const textStyles = isDarkTheme ? styles.darkText : styles.lightText;
+  useEffect(() => {
+    setBackgroundColor(isDarkTheme ? "#333" : "#fff");
+  }, [isDarkTheme]);
 
   const getRandomColor = () => {
     let newColor;
@@ -33,44 +34,74 @@ const Lab1 = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, themeStyles]}>
+    <SafeAreaView style={[styles.container, { backgroundColor }]}>
       <View style={styles.innerContainer}>
-        <TouchableOpacity
-          onPress={changeColor}
-          style={[styles.header, textStyles]}
-        >
-          <Text style={[styles.header, textStyles]}>Нажми!</Text>
-        </TouchableOpacity>
+        <Text style={[styles.headerText, isDarkTheme && styles.darkText]}>
+          Change background color
+        </Text>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            onPress={changeColor}
+            style={styles.button}
+          ></TouchableOpacity>
+          <Text
+            style={[
+              styles.buttonText,
+              isDarkTheme ? styles.whiteText : styles.blackText,
+              styles.clickMeText,
+            ]}
+          >
+            Click me!
+          </Text>
+        </View>
       </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  darkContainer: {
+  container: {
     flex: 1,
-    backgroundColor: "#333",
-  },
-  lightContainer: {
-    flex: 1,
-    backgroundColor: "#fff",
   },
   innerContainer: {
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    paddingTop: 20,
+  },
+  buttonContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
+  headerText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
   button: {
-    backgroundColor: "white",
-    padding: 20,
-    borderRadius: 10,
+    backgroundColor: "#6FA670",
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  clickMeText: {
     marginTop: 10,
+  },
+  blackText: {
+    color: "#000",
+  },
+  whiteText: {
+    color: "#fff",
   },
   darkText: {
     color: "#fff",
-  },
-  lightText: {
-    color: "#000",
   },
 });
 
