@@ -4,9 +4,10 @@ import {
   Text,
   StyleSheet,
   ActivityIndicator,
-  Button,
+  TouchableOpacity,
 } from "react-native";
 import { useTheme } from "../ThemeContext";
+
 const CurrencyRates = () => {
   const [rates, setRates] = useState<{ [key: string]: number }>({});
   const [loading, setLoading] = useState(true);
@@ -14,6 +15,12 @@ const CurrencyRates = () => {
 
   const chosenCurrency = ["USD", "EUR", "CNY"];
   const { isDarkTheme } = useTheme();
+
+  const currencySymbols: { [key: string]: string } = {
+    USD: "$",
+    EUR: "€",
+    CNY: "¥",
+  };
 
   const fetchCurrencyRates = async () => {
     try {
@@ -68,20 +75,21 @@ const CurrencyRates = () => {
 
   return (
     <View style={[styles.container, themeStyles]}>
-      <Text style={[styles.title, textStyles]}>КУРСЫ ВАЛЮТ:</Text>
+      <Text style={[styles.title, textStyles]}>Курс валют</Text>
       {Object.entries(rates).map(([currency, rate]) => (
         <Text key={currency} style={[styles.rate, textStyles]}>
-          1 {currency} = {rate.toFixed(2)} RUB
+          {currencySymbols[currency]} {currency} {rate.toFixed(2)} RUB
         </Text>
       ))}
-      <Button title="Обновить" onPress={fetchCurrencyRates} />
+      <TouchableOpacity style={styles.button} onPress={fetchCurrencyRates}>
+        <Text style={styles.buttonText}>обновить</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
@@ -93,10 +101,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   title: {
-    fontSize: 24,
+    marginTop: 50,
+    marginBottom: 210,
+    alignContent: "center",
+    fontSize: 36,
     fontWeight: "bold",
   },
   rate: {
+    fontWeight: "bold",
+    marginBottom: 40,
+
     fontSize: 25,
   },
   error: {
@@ -113,6 +127,21 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 16,
     color: "green",
+  },
+  button: {
+    backgroundColor: "#D9D9D9",
+    borderColor: "#008B8B",
+    borderWidth: 2,
+    borderRadius: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 50,
+    marginTop: 215,
+  },
+  buttonText: {
+    color: "black",
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 
