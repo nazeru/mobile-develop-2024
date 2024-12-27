@@ -1,7 +1,10 @@
+// screens/UniversityList.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, Picker, FlatList, ActivityIndicator, Alert, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Picker, FlatList, ActivityIndicator, Alert, StyleSheet, TouchableOpacity, Linking } from 'react-native';
+import { useTheme } from '../context/ThemeContext'; // Импортируем контекст темы
 
 const UniversityList = () => {
+  const { isDarkTheme } = useTheme(); // Получаем состояние темы
   const [universities, setUniversities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -43,9 +46,9 @@ const UniversityList = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Universities</Text>
-      <Text style={styles.label}>Choose a country:</Text>
+    <View style={[styles.container, isDarkTheme ? styles.darkContainer : styles.lightContainer]}>
+      <Text style={[styles.title, isDarkTheme ? styles.darkText : styles.lightText]}>Universities</Text>
+      <Text style={[styles.label, isDarkTheme ? styles.darkText : styles.lightText]}>Choose a country:</Text>
       <Picker
         selectedValue={country}
         style={styles.picker}
@@ -61,7 +64,9 @@ const UniversityList = () => {
         keyExtractor={(item) => item.alpha_two_code}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => Linking.openURL(item.web_pages[0])}>
-            <Text style={styles.universityName}>{item.name}</Text>
+            <Text style={[styles.universityName, isDarkTheme ? styles.darkText : styles.lightText]}>
+              {item.name}
+            </Text>
           </TouchableOpacity>
         )}
       />
@@ -73,12 +78,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#ffffff',
+  },
+  darkContainer: {
+    backgroundColor: '#333', // Фон для темной темы
+  },
+  lightContainer: {
+    backgroundColor: '#ffffff', // Фон для светлой темы
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
+  },
+  darkText: {
+    color: '#ffffff', // Цвет текста для темной темы
+  },
+  lightText: {
+    color: '#000000', // Цвет текста для светлой темы
   },
   label: {
     fontSize: 16,
