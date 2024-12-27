@@ -1,29 +1,28 @@
 import React from "react";
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { StyleSheet, View } from 'react-native';
-
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Lab1 from "./layouts/lab1";
+import Lab2 from "./layouts/lab2-3";
 
 const Tab = createBottomTabNavigator();
 
 const AppTabs = () => {
+  const { isDarkTheme } = useTheme();
+
   return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="Lab1" component={Lab1} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <Tab.Navigator>
+      <Tab.Screen name="Lab1" component={Lab1} />
+      <Tab.Screen name="Lab2" component={Lab2} />
+    </Tab.Navigator>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-export default AppTabs;
+export default function App() {
+  return (
+    <ThemeProvider>
+      <NavigationContainer>
+        <AppTabs />
+      </NavigationContainer>
+    </ThemeProvider>
+  );
+}
