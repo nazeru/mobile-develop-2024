@@ -1,9 +1,11 @@
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { useState } from "react";
+import { useTheme } from "../ThemeContext.js";
 
 const colors = ["black", "red", "yellow", "green", "gray", "blue"];
 
 const Lab1 = () => {
+  const { isDarkTheme, toggleTheme } = useTheme();
   const [figureColor, setFigureColor] = useState(colors[0]); // Цвет фигуры
 
   const getRandomNumber = (max) => {
@@ -11,10 +13,10 @@ const Lab1 = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container,{backgroundColor: isDarkTheme ? "#404040" : "#D9D9D9",}]}>
       <Text style={styles.title}>Фигура</Text>
 
-      <View style={[styles.figure, { backgroundColor: figureColor }]} />
+      <View style={[styles.figure, { backgroundColor: figureColor}]} />
 
       <TouchableOpacity
         onPress={() => {
@@ -26,7 +28,7 @@ const Lab1 = () => {
         <Text style={styles.buttonText}>Поменять цвет фигуры</Text>
       </TouchableOpacity>
 
-      <View style={styles.navigation}>
+      <View style={[styles.navigation]}>
         <TouchableOpacity style={styles.navButton}>
           <Text style={styles.navButtonText}>1</Text>
         </TouchableOpacity>
@@ -44,7 +46,6 @@ const Lab1 = () => {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: "#D9D9D9", // Серый фон как в макете
     justifyContent: "space-between",
     alignItems: "center",
     paddingVertical: 20,
@@ -55,9 +56,9 @@ const styles = {
     marginTop: 10,
   },
   figure: {
-    width: 200,
-    height: 300,
-    borderRadius: 30,
+    width: 300,
+    height: 400,
+    borderRadius: 60,
     backgroundColor: "red", // Начальный цвет фигуры
   },
   button: {

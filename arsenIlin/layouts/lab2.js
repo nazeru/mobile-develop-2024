@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, TextInput, StyleSheet } from "react-native";
+import { SafeAreaView, Text, TextInput, StyleSheet, View } from "react-native";
 import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import { useTheme } from "../ThemeContext.js";
@@ -6,12 +6,11 @@ import { useTheme } from "../ThemeContext.js";
 const Lab2 = () => {
   const [city, setCity] = useState("");
   const [weatherData, setWeatherData] = useState(null);
-  const [textMessage, setTextMessage] = useState("");
 
   const { isDarkTheme } = useTheme();
 
   const getWeatherData = async () => {
-    const apiKey = "b93df7f5926c4d62b8a103312241912"; // Замените на ваш ключ API
+    const apiKey = "d50c6c38d41a4f4892e112610242612"; // Замените на ваш ключ API
     const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&lang=ru`;
 
     try {
@@ -19,11 +18,9 @@ const Lab2 = () => {
       if (response.data && response.data.location) {
         setWeatherData(response.data);
       } else {
-        setTextMessage("Город не найден");
         setWeatherData(null);
       }
     } catch (error) {
-      setTextMessage("Ошибка при получении данных");
       setWeatherData(null);
     }
   };
@@ -34,58 +31,31 @@ const Lab2 = () => {
     }
   }, [city]);
 
-  // Используем useMemo для вычисления текстового сообщения о погоде
   const weatherMessage = useMemo(() => {
     if (weatherData) {
-      return (
-        `Погода в: ${weatherData.location.name}\n` +
-        `Температура: ${weatherData.current.temp_c}°C\n` +
-        `Ощущается как: ${weatherData.current.feelslike_c}°C\n` +
-        `Состояние: ${weatherData.current.condition.text}\n` +
-        `Скорость ветра: ${weatherData.current.wind_kph} км/ч\n` +
-        `Влажность: ${weatherData.current.humidity}%`
-      );
+      return {
+        info: `Погода в\nТемпература\nОщущается как\nСостояние\nСкорость ветра\nСкорость ветра\nВлажность`,
+        test: `${weatherData.location.name}\n${weatherData.current.temp_c}°C\n ${weatherData.current.feelslike_c}°C\n ${weatherData.current.condition.text}\n${weatherData.current.wind_kph} км/ч\n${weatherData.current.humidity}%`,
+      };
     }
-    return "";
+    return { info: "Информация отсутствует", test: "" };
   }, [weatherData]);
 
-  // Обновляем текст сообщения
-  useEffect(() => {
-    if (weatherMessage) {
-      setTextMessage(weatherMessage);
-    }
-  }, [weatherMessage]);
-
   return (
-    <SafeAreaView
-      style={[
-        styles.container,
-        { backgroundColor: isDarkTheme ? "#121212" : "#FFFFFF" },
-      ]}
-    >
-      <Text style={[styles.title, { color: isDarkTheme ? "#FFFFFF" : "#000000" }]}>
-        Погода
-      </Text>
-      <Text style={[styles.label, { color: isDarkTheme ? "#B0B0B0" : "#333333" }]}>
-        Введите название вашего города:
-      </Text>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>Погода</Text>
       <TextInput
-        style={[
-          styles.input,
-          {
-            backgroundColor: isDarkTheme ? "#1E1E1E" : "#F5F5F5",
-            color: isDarkTheme ? "#FFFFFF" : "#000000",
-            borderColor: isDarkTheme ? "#333333" : "#CCCCCC",
-          },
-        ]}
-        placeholder="Введите город"
-        placeholderTextColor={isDarkTheme ? "#888888" : "#AAAAAA"}
+        style={styles.input}
+        placeholder="Введите название города"
+        placeholderTextColor="#AAAAAA"
         value={city}
         onChangeText={setCity}
       />
-      <Text style={[styles.result, { color: isDarkTheme ? "#FFFFFF" : "#000000" }]}>
-        {textMessage}
-      </Text>
+      <View style={[styles.card, {backgroundColor: isDarkTheme ? "#404040" : "#8C8C8C"}]}>
+        <Text style={[styles.cardInfo, {color: isDarkTheme ? "#ffffff" : "#000000"}]}>{weatherMessage.info}</Text>
+        <Text style={styles.separator}>:</Text>
+        <Text style={[styles.cardTest,{color: isDarkTheme ? "#ffffff" : "#000000"}]}>{weatherMessage.test}</Text>
+      </View>
     </SafeAreaView>
   );
 };
@@ -95,27 +65,52 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#F5F5F5",
   },
   title: {
     fontSize: 30,
     fontWeight: "bold",
-  },
-  label: {
-    marginTop: 30,
-    fontSize: 20,
+    textAlign: "center",
+    color: "#000000",
   },
   input: {
+    width: 300,
     height: 40,
     borderWidth: 1,
-    marginTop: 20,
-    paddingHorizontal: 10,
-    width: "80%",
+    borderColor: "#CCCCCC",
     borderRadius: 5,
+    paddingHorizontal: 10,
+    marginVertical: 20,
+    backgroundColor: "#FFFFFF",
+    color: "#000000",
   },
-  result: {
-    marginTop: 30,
-    fontSize: 20,
-    textAlign: "center",
+  card: {
+    width: 364,
+    height: 436,
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 20,
+    padding: 10,
+    flexDirection: "row",
+  },
+  cardInfo: {
+    flex: 1,
+    textAlign: "left",
+    fontSize: 16,
+    paddingHorizontal: 10,
+  },
+  separator: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#000000",
+    marginHorizontal: 10,
+  },
+  cardTest: {
+    flex: 1,
+    textAlign: "left",
+    fontSize: 16,
+    paddingHorizontal: 10,
   },
 });
 

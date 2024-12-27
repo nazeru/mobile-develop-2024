@@ -9,7 +9,7 @@ const ThemeToggle = () => {
     <View
       style={[
         styles.container,
-        { backgroundColor: isDarkTheme ? "#404040" : "#D9D9D9" },
+        { backgroundColor: isDarkTheme ? "#404040" : "#8C8C8C" },
       ]}
     >
       <Text style={{ color: isDarkTheme ? "white" : "black", marginBottom: 20 }}>
