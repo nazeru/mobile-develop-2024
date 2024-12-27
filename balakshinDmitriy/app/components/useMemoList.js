@@ -43,7 +43,7 @@ const expensiveComputation = (items) => {
   for (let i = 0; i < 10000; i++) {
     computedItems = items.map(item => ({
       ...item,
-      computedName: item.name.split('').reverse().join(''),
+      computedName: item.name.split('').reverse().reverse().join(''),
     }));
   }
   return computedItems;
