@@ -1,0 +1,1 @@
+**Figma**:  https://www.figma.com/design/SwKbY759oe4zUsg05lXg70/Balakshin-Dmitriy-IVT-21-2?node-id=0-1&t=8d5XdYo2RTmQRo7G-1
