@@ -6,15 +6,12 @@ import { BlurView } from "expo-blur";
 import { StyleSheet } from "react-native";
 import Lab1Screen from "./screens/lab1";
 import Lab2Screen from "./screens/lab2";
-import Lab3Screen_1 from "./screens/lab3_1";
-import Lab3Screen_2 from "./screens/lab3_2";
-import { useCartStore } from './store';
 import "../global.css";
 
 const Tab = createBottomTabNavigator();
 
 const App = () => {
-  const cart = useCartStore((state) => state.cart);
+  
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -25,9 +22,6 @@ const App = () => {
             switch (route.name) {
               case "Главная":
                 iconName = focused ? "home" : "home-outline";
-                break;
-              case 'Корзина':
-                iconName = focused ? 'bag' : 'bag-outline';
                 break;
               default:
                 iconName = focused ? "home" : "home-outline";
